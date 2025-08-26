@@ -5,7 +5,100 @@
  * gcc game.c -o game $(pkg-config allegro-5 allegro_font-5 allegro_primitives-5 allegro_audio-5 allegro_acodec-5 allegro_image-5 --libs --cflags)
  * ./game
  */
-// settings
+// 그려보는 코드
+
+/*
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_primitives.h>
+#include <stdio.h>
+#include <stdbool.h>
+
+void must_init(bool test, const char* description) {
+    if (test) return;
+    printf("couldn't initialize %s\n", description);
+    exit(1);
+}
+
+int main() {
+    must_init(al_init(), "allegro");
+
+    must_init(al_install_mouse(), "mouse");
+
+    must_init(al_init_primitives_addon(), "primitives");
+
+    ALLEGRO_DISPLAY* disp = al_create_display(800, 600);
+    must_init(disp, "display");
+
+    ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
+    must_init(queue, "queue");
+
+    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
+    must_init(timer, "timer");
+
+    al_register_event_source(queue, al_get_display_event_source(disp));
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_mouse_event_source());
+
+    bool done = false;
+    bool redraw = true;
+    bool drawing = false;   // 드래그 중인지 여부
+    int last_x = -1, last_y = -1;
+
+    al_start_timer(timer);
+
+    while (!done) {
+        ALLEGRO_EVENT event;
+        al_wait_for_event(queue, &event);
+
+        switch (event.type) {
+        case ALLEGRO_EVENT_TIMER:
+            redraw = true;
+            break;
+
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+            if (event.mouse.button == 1) { // 좌클릭
+                drawing = true;
+                last_x = event.mouse.x;
+                last_y = event.mouse.y;
+            }
+            break;
+
+        case ALLEGRO_EVENT_MOUSE_AXES:
+            if (drawing) {
+                // 선 그리기
+                al_draw_line(last_x, last_y,
+                    event.mouse.x, event.mouse.y,
+                    al_map_rgb(255, 255, 255), 2);
+                last_x = event.mouse.x;
+                last_y = event.mouse.y;
+            }
+            break;
+
+        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+            if (event.mouse.button == 1) { // 좌클릭 뗌
+                drawing = false;
+            }
+            break;
+
+        case ALLEGRO_EVENT_DISPLAY_CLOSE:
+            done = true;
+            break;
+        }
+
+        if (redraw && al_is_event_queue_empty(queue)) {
+            al_flip_display();
+            redraw = false;
+        }
+    }
+
+    al_destroy_display(disp);
+    al_destroy_event_queue(queue);
+    al_destroy_timer(timer);
+
+    return 0;
+}
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
