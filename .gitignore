@@ -1,34 +1,77 @@
-# Prerequisites
-*.d
+# Visual Studio 2022 관련
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
 
-# Object files
+## Visual Studio files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vcxproj.filters
+*.vcxproj.user
+*.vcproj.user
+
+## Visual Studio cache/options directory
+.vs/
+
+## MSTest test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+## Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
+
+## Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# C/C++ 컴파일 관련
+## Object files
 *.o
-*.ko
 *.obj
+*.ko
 *.elf
 
-# Linker output
+## Linker output
 *.ilk
 *.map
 *.exp
 
-# Precompiled Headers
+## Precompiled Headers
 *.gch
 *.pch
 
-# Libraries
+## Libraries
 *.lib
 *.a
 *.la
 *.lo
 
-# Shared objects (inc. Windows DLLs)
+## Shared objects (inc. Windows DLLs)
 *.dll
 *.so
 *.so.*
 *.dylib
 
-# Executables
+## Executables
 *.exe
 *.out
 *.app
@@ -36,20 +79,29 @@
 *.x86_64
 *.hex
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Allegro 관련
+## Allegro 라이브러리 (로컬 설치 가정)
+allegro/
+Allegro/
+## Allegro 설정 파일 (개인별 설정)
+allegro.cfg
+*.cfg
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# 임베디드/MCU 관련
+## 펌웨어 바이너리
+*.bin
+*.hex
+*.elf
+*.map
+*.lst
+*.s19
+*.srec
 
-# debug information files
-*.dwo
+## 디버깅 파일
+*.axf
+*.d
+
+# 개발 도구 관련
+## IntelliSense
+*.VC.db
+*.VC.
