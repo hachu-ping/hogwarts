@@ -5,7 +5,8 @@
  * gcc game.c -o game $(pkg-config allegro-5 allegro_font-5 allegro_primitives-5 allegro_audio-5 allegro_acodec-5 allegro_image-5 --libs --cflags)
  * ./game
  */
-//세팅하고 있습니다.
+//hello its me
+//again
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
