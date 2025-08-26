@@ -19,4 +19,21 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="explode1.flac">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="explode2.flac">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="shot.flac">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="spritesheet.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
