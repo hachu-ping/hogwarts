@@ -21,9 +21,6 @@ bld/
 *.user
 *.userosscache
 *.sln.docstates
-*.vcxproj.filters
-*.vcxproj.user
-*.vcproj.user
 
 ## Visual Studio cache/options directory
 .vs/
