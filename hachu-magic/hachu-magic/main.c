@@ -20,8 +20,8 @@ int main() {
     ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
     must_init(background, "background-image");
    
-    al_draw_bitmap(background, 0, 0, 0);
-    //al_draw_scaled_bitmap(background, 0, 0, 900, 600, 0, 0, 800, 600, 0);
+    //al_draw_bitmap(background, 0, 0, 0);
+    al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 800, 600, 0);
  
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
 
