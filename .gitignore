@@ -77,12 +77,34 @@ dlldata.c
 *.hex
 
 # Allegro 관련
-## Allegro 라이브러리 (로컬 설치 가정)
+## Allegro 라이브러리 폴더들
 allegro/
 Allegro/
-## Allegro 설정 파일 (개인별 설정)
+allegro-*/
+Allegro-*/
+*allegro*/
+*Allegro*/
+
+## Allegro 라이브러리 파일들
+liballegro*
+allegro*.lib
+allegro*.dll
+allegro*.a
+allegro*.so
+
+## Allegro 개발 파일들
+allegro*.h
+allegro-config*
+
+## Allegro 설정 파일들
 allegro.cfg
+allegro.ini
 *.cfg
+*.ini
+
+## Allegro 빌드 관련
+allegro_build/
+allegro-build/
 
 # 임베디드/MCU 관련
 ## 펌웨어 바이너리
