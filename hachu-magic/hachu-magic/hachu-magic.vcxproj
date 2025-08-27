@@ -135,6 +135,7 @@
     <ClCompile Include="example.c" />
     <ClCompile Include="initializer.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="sprites.c" />
     <ClCompile Include="utils.c" />
     <ClCompile Include="magic.c" />
   </ItemGroup>
@@ -148,6 +149,7 @@
     <ClInclude Include="cat.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="initializer.h" />
+    <ClInclude Include="sprites.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="magic.h" />
   </ItemGroup>
