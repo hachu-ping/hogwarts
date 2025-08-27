@@ -1,38 +1,40 @@
-ï»¿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
 
+#include "cat.h"
 #include "initializer.h"
 #include "utils.h"
 
+extern cat_t g_cat;
+int g_frames = 0;
 
 int main() {
-    // ì•Œë ˆê·¸ë¡œ ì´ˆê¸°í™”
+    // ¾Ë·¹±×·Î ÃÊ±âÈ­
     init_allegro();
 
-    // ì—ë“œì˜¨ ì´ˆê¸°í™”
+    // ¿¡µå¿Â ÃÊ±âÈ­
     init_addons();
     install_driver();
 
-    // ë¦¬ì†ŒìŠ¤ ì´ˆê¸°í™”
+    // ¸®¼Ò½º ÃÊ±âÈ­
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
 
-    // ì´ë²¤íŠ¸ í ë“±ë¡
+    // ÀÌº¥Æ® Å¥ µî·Ï
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
 
-    // load placeholder image
-    ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
-    must_init(background, "background-image");
-   
-    al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 800, 600, 0);
+    // µ¥ÀÌÅÍ ÃÊ±âÈ­
+    DEBUG_init_cat();
+    init_sprites();
+
  
-    // ê²Œì„ ì‹œì‘
+    // °ÔÀÓ ½ÃÀÛ
     al_start_timer(timer);
 
     bool is_done = false;
@@ -40,7 +42,7 @@ int main() {
 
 
     while (!is_done) {
-
+        g_frames += 1;
         ALLEGRO_EVENT event;
 
         al_wait_for_event(queue, &event);
@@ -48,24 +50,24 @@ int main() {
         switch (event.type) {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
-            // ì°½ ì¢…ë£Œ
+            // Ã¢ Á¾·á
             is_done = true;
             break;
 
         case ALLEGRO_EVENT_TIMER:
-            // ë§¤ í”„ë ˆì„ë§ˆë‹¤ ì²˜ë¦¬í•©ë‹ˆë‹¤.
+            // ¸Å ÇÁ·¹ÀÓ¸¶´Ù Ã³¸®ÇÕ´Ï´Ù.
 
-            // *** ê²Œì„ ìƒíƒœ ì—…ë°ì´íŠ¸
+            // *** °ÔÀÓ »óÅÂ ¾÷µ¥ÀÌÆ®
 
-            // - ì  ìƒì„±
+            // - Àû »ı¼º
 
-            // - ë§ˆë²• íƒ„í™˜ ì´ë™
+            // - ¸¶¹ı ÅºÈ¯ ÀÌµ¿
 
-            // - ì  ì´ë™
+            // - Àû ÀÌµ¿
 
-            // - ì -ë§ˆë²• ì¶©ëŒ ì²˜ë¦¬
+            // - Àû-¸¶¹ı Ãæµ¹ Ã³¸®
 
-            // - ì -ê³ ì–‘ì´ ì¶©ëŒ ì²˜ë¦¬
+            // - Àû-°í¾çÀÌ Ãæµ¹ Ã³¸®
 
             should_redraw = true;
             break;
@@ -74,19 +76,24 @@ int main() {
             break;
         }
  
-        // *** ê²Œì„ í™”ë©´ ì—…ë°ì´íŠ¸
-        // ê°’ ìˆ˜ì • ì‚¬í•­ì´ ìˆì„ ë•Œ + event ì²˜ë¦¬ê°€ ì™„ë£Œë˜ì—ˆì„ ë•Œ ê²Œì„ í™”ë©´ ì—…ë°ì´íŠ¸
+        // *** °ÔÀÓ È­¸é ¾÷µ¥ÀÌÆ®
+        // °ª ¼öÁ¤ »çÇ×ÀÌ ÀÖÀ» ¶§ + event Ã³¸®°¡ ¿Ï·áµÇ¾úÀ» ¶§ °ÔÀÓ È­¸é ¾÷µ¥ÀÌÆ®
         if (should_redraw && al_is_event_queue_empty(queue)) {
 
-            // ë°°ê²½ ê·¸ë¦¬ê¸°
+            // ¹è°æ ±×¸®±â
+            draw_background();
 
-            // ì  ê·¸ë¦¬ê¸°
+            // Àû ±×¸®±â
+            draw_enemies();
 
-            // íŒŒí‹°í´ (FX) ê·¸ë¦¬ê¸°
+            // ÆÄÆ¼Å¬ (FX) ±×¸®±â
+            draw_fxs();
 
-            // ìºë¦­í„° ê·¸ë¦¬ê¸°
+            // Ä³¸¯ÅÍ ±×¸®±â
+            draw_cat();
 
-            // ë§ˆë²• íƒ„í™˜ ê·¸ë¦¬ê¸°
+            // ¸¶¹ı ÅºÈ¯ ±×¸®±â
+            draw_magics();
 
             al_flip_display();
             should_redraw = false;

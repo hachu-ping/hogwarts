@@ -28,10 +28,6 @@ void install_driver(void)
 	must_init(al_install_keyboard(), "keyboard");
 }
 
-void init_sprites(void)
-{
-}
-
 ALLEGRO_DISPLAY* init_display(const int width, const int height)
 {
 	ALLEGRO_DISPLAY* temp = al_create_display(width, height);
