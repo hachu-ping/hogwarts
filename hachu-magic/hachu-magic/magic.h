@@ -5,31 +5,31 @@
 
 typedef struct _magic {
 	// TODO: change into enum (char)
-	// type of magic (pattern?)
+	// 마법의 종류 (패턴)
 	char type;
 
-	// current magic x position (center of magic)
+	// 현재 마법 탄환의 x좌표 (중앙 좌표)
 	int pos_x;
 
-	// current magic y position (center of magic)
+	// 현재 마법 탄환의 y좌표 (중앙 좌표)
 	int pos_y;
 
-	// magic width size
+	// 마법 탄환의 가로 길이
 	int size_w;
 
-	// magic height size
+	// 마법 탄환의 세로 길이
 	int size_h;
 
-	// magic movement velocity
+	// 마법 탄환의 이동속도
 	float velocity;
 
-	// target's pointer. (cast into enemy_t* when use)
+	// 타겟(적)의 주소값. 사용 시 (enemy_t* 로 캐스팅하여 사용)
 	void* target_ptr;
 
 } magic_t;
 
 /**
- * Initialize magic list's values.
+ * 디버깅을 위한 마법탄환 목록 초기화
  */
 void DEBUG_init_magic(void);
 

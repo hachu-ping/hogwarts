@@ -1,63 +1,102 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_audio.h>
-#include <allegro5/allegro_acodec.h>
-#include <allegro5/allegro_image.h>
+
+#include "initializer.h"
+#include "utils.h"
+
 
 int main() {
-    must_init(al_init(), "allegro");
+    // 알레그로 초기화
+    init_allegro();
 
-    // initialize addon for load png image
-    al_init_image_addon();
+    // 에드온 초기화
+    init_addons();
+    install_driver();
 
-    ALLEGRO_DISPLAY* disp = al_create_display(800, 600);
-    must_init(disp, "display");
+    // 리소스 초기화
+    ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
+    ALLEGRO_DISPLAY* disp = init_display(1400, 800);
+    ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
+
+
+    // 이벤트 큐 등록
+    al_register_event_source(queue, al_get_display_event_source(disp));
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_keyboard_event_source());
+
 
     // load placeholder image
     ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
     must_init(background, "background-image");
    
-    //al_draw_bitmap(background, 0, 0, 0);
     al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 800, 600, 0);
  
-    ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
+    // 게임 시작
+    al_start_timer(timer);
 
-    must_init(queue, "queue");
+    bool is_done = false;
+    bool should_redraw = false;
 
 
-
-    al_register_event_source(queue, al_get_display_event_source(disp));
-    //al_register_event_source(queue, al_get_timer_event_source(timer));
-    //al_register_event_source(queue, al_get_mouse_event_source());
-
-    bool done = false;
-
-    while (!done) {
-        al_flip_display();
+    while (!is_done) {
 
         ALLEGRO_EVENT event;
+
         al_wait_for_event(queue, &event);
 
         switch (event.type) {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
-            done = true;
+            // 창 종료
+            is_done = true;
+            break;
+
+        case ALLEGRO_EVENT_TIMER:
+            // 매 프레임마다 처리합니다.
+
+            // *** 게임 상태 업데이트
+
+            // - 적 생성
+
+            // - 마법 탄환 이동
+
+            // - 적 이동
+
+            // - 적-마법 충돌 처리
+
+            // - 적-고양이 충돌 처리
+
+            should_redraw = true;
+            break;
+
+        default:
             break;
         }
+ 
+        // *** 게임 화면 업데이트
+        // 값 수정 사항이 있을 때 + event 처리가 완료되었을 때 게임 화면 업데이트
+        if (should_redraw && al_is_event_queue_empty(queue)) {
 
-        // use if you need conditional redraw
-        // if (redraw && al_is_event_queue_empty(queue)) {
-        //    al_flip_display();
-        //    redraw = false;
-        // }
+            // 배경 그리기
+
+            // 적 그리기
+
+            // 파티클 (FX) 그리기
+
+            // 캐릭터 그리기
+
+            // 마법 탄환 그리기
+
+            al_flip_display();
+            should_redraw = false;
+        }
+
     }
 
+    al_destroy_timer(timer);
     al_destroy_display(disp);
-    //al_destroy_event_queue(queue);
-    //al_destroy_timer(timer);
+    al_destroy_event_queue(queue);
 
     return 0;
 }
