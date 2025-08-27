@@ -1,10 +1,14 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
 
 #include "initializer.h"
 #include "utils.h"
 
+
+#include <allegro5/keycodes.h>
+
+// ----------------------------------------------------------------------------------------------------------------------------------------
 
 int main() {
     // 알레그로 초기화
@@ -30,7 +34,8 @@ int main() {
     ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
     must_init(background, "background-image");
    
-    al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 800, 600, 0);
+    //al_draw_bitmap(background, 0, 0, 0);
+    al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 1400, 800, 0); // 이미지 크기 배경으로 맞추기
  
     // 게임 시작
     al_start_timer(timer);
@@ -44,6 +49,9 @@ int main() {
         ALLEGRO_EVENT event;
 
         al_wait_for_event(queue, &event);
+
+        keyboard_update(&event);  // 키 상태 갱신
+
 
         switch (event.type) {
 
@@ -100,3 +108,4 @@ int main() {
 
     return 0;
 }
+
