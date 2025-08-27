@@ -1,9 +1,9 @@
 
 #include "cat.h"
 
-CAT_T g_cat;
+cat_t g_cat;
 
-void init_cat() 
+void DEBUG_init_cat(void) 
 {
 	// TODO: Modify to valid values
 	g_cat.size_w = 200;
