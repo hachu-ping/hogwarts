@@ -18,17 +18,15 @@
  * @return void / ���� 0�̶�� ���α׷� ����
  */
 void must_init(bool, const char*);
-
-#endif /* __UTILS_H__ */
 void keyboard_update(ALLEGRO_EVENT*);
-void magic_attack(int , int , int );
+void magic_attack(int, int, int);
 void cat_init();
 void cat_update();
 void cat_draw();
 
 
+#endif /* __UTILS_H__ */
 
-#endif
 
 
 /**

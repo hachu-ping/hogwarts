@@ -5,6 +5,7 @@
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
 
+#include "utils.h"
 
 void must_init(bool test, const char* description) {
     if (test) return;

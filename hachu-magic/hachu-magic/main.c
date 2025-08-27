@@ -21,6 +21,8 @@ int main() {
     // 에드온 초기화
     init_addons();
     install_driver();
+    memset(key, 0, sizeof(key));
+    cat_init();
 
     // 리소스 초기화
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
@@ -78,6 +80,7 @@ int main() {
             // - 적-마법 충돌 처리
 
             // - 적-고양이 충돌 처리
+            cat_update();
 
             should_redraw = true;
             break;
@@ -98,7 +101,7 @@ int main() {
             // 파티클 (FX) 그리기
 
             // 캐릭터 그리기
-
+            cat_draw();
             // 마법 탄환 그리기
 
             al_flip_display();
