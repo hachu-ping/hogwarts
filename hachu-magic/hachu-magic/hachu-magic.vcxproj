@@ -133,7 +133,7 @@
     <ClCompile Include="cat.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="example.c" />
-    <ClCompile Include="game_manager.c" />
+    <ClCompile Include="initializer.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="utils.c" />
     <ClCompile Include="magic.c" />
@@ -147,7 +147,7 @@
   <ItemGroup>
     <ClInclude Include="cat.h" />
     <ClInclude Include="enemy.h" />
-    <ClInclude Include="game_manager.h" />
+    <ClInclude Include="initializer.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="magic.h" />
   </ItemGroup>

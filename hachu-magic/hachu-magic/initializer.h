@@ -1,5 +1,5 @@
-#ifndef __GAME_MANAGER_H__
-#define __GAME_MANAGER_H__
+#ifndef __initializer_H__
+#define __initializer_H__
 
 #include <allegro5/allegro5.h>
 #include <stdbool.h>
@@ -53,7 +53,7 @@ ALLEGRO_TIMER* init_timer(const double speed_secs);
  */
 ALLEGRO_EVENT_QUEUE* init_event_queue(void);
 
-#endif /* __GAME_MANAGER_H__ */
+#endif /* __initializer_H__ */
 
  
 /**

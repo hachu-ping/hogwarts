@@ -6,7 +6,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
-#include "game_manager.h"
+#include "initializer.h"
 #include "utils.h"
 
 void init_allegro(void)

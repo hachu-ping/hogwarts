@@ -7,7 +7,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
-#include "game_manager.h"
+#include "initializer.h"
 #include "utils.h"
 
 
@@ -18,20 +18,17 @@ int main() {
     // 에드온 초기화
     init_addons();
     install_driver();
-    printf("RESOURCE INITIALZ\n");
 
     // 리소스 초기화
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
-    printf("RESOURCE INITIALZ\n");
 
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
-    printf("RESOURCE INITIALZ\n");
 
     // load placeholder image
     ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
