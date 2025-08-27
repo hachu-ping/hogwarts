@@ -2,25 +2,25 @@
 #define __CAT_H__
 
 typedef struct _cat {
-	// current cat x position (center of cat)
+	// 현재 x좌표 (중앙 좌표)
 	int pos_x;
 
-	// current cat y position (center of cat)
+	// 현재 y좌표 (중앙 좌표)
 	int pos_y;
 
-	// cat width size
+	// 가로 길이
 	int size_w;
 
-	// cat height size
+	// 세로 길이
 	int size_h;
 
-	// time between every attacks (1.0 == 1 sec)
+	// 공격 쿨타임 (1.0 == 1 sec)
 	float attack_delay;
 
 } cat_t;
 
 /**
- * Initialize cat's values.
+ * 디버깅을 위한 고양이 값 초기화
  */
 void DEBUG_init_cat(void);
 

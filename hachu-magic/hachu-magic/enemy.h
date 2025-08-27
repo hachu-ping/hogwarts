@@ -5,47 +5,47 @@
 
 typedef struct _enemy {
 	// TODO: change into enum (char)
-	// type of enemy
+	// 적의 종류
 	int type;
 
-	// current enemy x position (center of enemy)
+	// 현재 x좌표 (중앙 좌표)
 	int pos_x;
 
-	// current enemy y position (center of enemy)
+	// 현재 y좌표 (중앙 좌표)
 	int pos_y;
 
-	// enemy width size
+	// 가로 길이
 	int size_w;
 
-	// enemy height size
+	// 세로 길이
 	int size_h;
 
-	// enemy movement velocity
+	// 이동속도
 	float velocity;
 
-	// enemy's max life count == length of pattern
+	// 적의 최대 체력 == 패턴의 길이와 동일함
 	int life;
-	// enemy's received attack count == left life
+
+	// 적이 현재 받은 피해량 == 최대 체력 - 남은 체력
 	int received_attack_count;
 
 	// TODO: change char type into enum
-	// enemy's pattern array. pattern consist of magic_types(arrow)
+	// 적의 패턴 배열. 배열 요소는 패턴(방향키)으로 구성된다.
 	char pattern[15];
 	
-	// current first pattern == pattern[received_attack_count]
+	// 현재 남은 첫 번째 패턴 == pattern[received_attack_count]
 	char current_pattern;
 
-	// is enemy valid
+	// 적이 유효한 상태인가
 	bool used;
 
-	// enemy doesn't be target of attack when is_invincible is true
+	// 적이 무적인 상태인가
 	bool is_invincible;
 
-	// 
 } enemy_t;
 
 /**
- * Initialize enemy list's values.
+ * 디버깅을 위한 적 리스트 초기화
  */
 void DEBUG_init_enemy(void);
 
