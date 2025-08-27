@@ -24,6 +24,7 @@ void keyboard_init()
 
 void keyboard_update(ALLEGRO_EVENT* event)
 {
+
     switch (event->type)
     {
     case ALLEGRO_EVENT_TIMER:
@@ -32,9 +33,11 @@ void keyboard_update(ALLEGRO_EVENT* event)
         break;
 
     case ALLEGRO_EVENT_KEY_DOWN:
+        // printf("DEBUG -- \n");
         key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
         break;
     case ALLEGRO_EVENT_KEY_UP:
+        // printf("DEBUG -- 2\n");
         key[event->keyboard.keycode] &= ~KEY_DOWN;
         break;
     }

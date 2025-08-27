@@ -8,6 +8,8 @@
 
 #include <allegro5/keycodes.h>
 
+#include "utils.h"
+
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
 int main() {
@@ -80,6 +82,11 @@ int main() {
 
         default:
             break;
+
+            case ALLEGRO_KEY_DOWN
+                :
+                    printf("DEBUG HELLO\n");
+                    break;
         }
  
         // *** 게임 화면 업데이트
