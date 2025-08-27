@@ -133,9 +133,9 @@
     <ClCompile Include="cat.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="example.c" />
-    <ClCompile Include="game_manager.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="utils.c" />
+    <ClCompile Include="magic.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -147,6 +147,7 @@
     <ClInclude Include="cat.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="magic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
