@@ -143,6 +143,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\cat_sprite.png" />
     <Image Include="placeholder.jpeg" />
   </ItemGroup>
   <ItemGroup>
