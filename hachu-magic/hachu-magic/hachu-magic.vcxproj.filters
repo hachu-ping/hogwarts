@@ -18,22 +18,33 @@
     <ClCompile Include="game.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="explode1.flac">
-      <Filter>리소스 파일</Filter>
-    </None>
-    <None Include="explode2.flac">
-      <Filter>리소스 파일</Filter>
-    </None>
-    <None Include="shot.flac">
-      <Filter>리소스 파일</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="spritesheet.png">
+    <Image Include="placeholder.jpeg">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="..\..\..\..\Users\조은서\Desktop\blue.jpeg">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Users\조은서\Desktop\green.jpeg">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Users\조은서\Downloads\mouse.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

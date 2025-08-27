@@ -907,29 +907,29 @@ int main()
 
     audio_init();
 
-    must_init(al_init_image_addon(), "image");
+    must_init(al_init_image_addon(), "image"); //png랑 jpeg를 사용할 수 있게하는 확장자?
     sprites_init();
 
     hud_init();
 
-    must_init(al_init_primitives_addon(), "primitives");
+    must_init(al_init_primitives_addon(), "primitives");  //선그리기? 깉은거 같음
 
     must_init(al_install_audio(), "audio");
     must_init(al_init_acodec_addon(), "audio codecs");
-    must_init(al_reserve_samples(16), "reserve samples");
+    must_init(al_reserve_samples(16), "reserve samples");  //오디오 키는것
 
-    al_register_event_source(queue, al_get_keyboard_event_source());
-    al_register_event_source(queue, al_get_display_event_source(disp));
-    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_keyboard_event_source());  //키보드 입력을 넣겠다
+    al_register_event_source(queue, al_get_display_event_source(disp));  //창닫기를 넣겠다
+    al_register_event_source(queue, al_get_timer_event_source(timer));    //
 
-    keyboard_init();
+    keyboard_init();    //init이 다 초기화임. 
     fx_init();
     shots_init();
     ship_init();
     aliens_init();
     stars_init();
 
-    frames = 0;
+    frames = 0;      //프레임 몇바퀴 돌았는지
     score = 0;
 
     bool done = false;

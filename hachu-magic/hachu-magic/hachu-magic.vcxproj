@@ -141,6 +141,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Users\조은서\Desktop\blue.jpeg" />
+    <Image Include="..\..\..\..\Users\조은서\Desktop\green.jpeg" />
+    <Image Include="..\..\..\..\Users\조은서\Downloads\mouse.png" />
     <Image Include="placeholder.jpeg" />
   </ItemGroup>
   <ItemGroup>
