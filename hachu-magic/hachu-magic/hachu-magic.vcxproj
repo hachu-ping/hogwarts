@@ -130,7 +130,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="game.c" />
+    <ClCompile Include="cat.c" />
+    <ClCompile Include="enemy.c" />
+    <ClCompile Include="example.c" />
+    <ClCompile Include="game_manager.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
@@ -141,6 +144,8 @@
     <Image Include="placeholder.jpeg" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cat.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
