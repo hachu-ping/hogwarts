@@ -7,32 +7,40 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
+#include "game_manager.h"
+#include "utils.h"
+
+
 int main() {
-    must_init(al_init(), "allegro");
+    // 알레그로 초기화
+    init_allegro();
 
-    // initialize addon for load png image
-    al_init_image_addon();
+    // 에드온 초기화
+    init_addons();
+    install_driver();
+    printf("RESOURCE INITIALZ\n");
 
-    ALLEGRO_DISPLAY* disp = al_create_display(800, 600);
-    must_init(disp, "display");
+    // 리소스 초기화
+    ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
+    ALLEGRO_DISPLAY* disp = init_display(1400, 800);
+    ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
+
+    printf("RESOURCE INITIALZ\n");
+
+    al_register_event_source(queue, al_get_display_event_source(disp));
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_keyboard_event_source());
+
+    printf("RESOURCE INITIALZ\n");
 
     // load placeholder image
     ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
     must_init(background, "background-image");
    
-    //al_draw_bitmap(background, 0, 0, 0);
     al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 800, 600, 0);
  
-    ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
 
-    must_init(queue, "queue");
-
-
-
-    al_register_event_source(queue, al_get_display_event_source(disp));
-    //al_register_event_source(queue, al_get_timer_event_source(timer));
-    //al_register_event_source(queue, al_get_mouse_event_source());
-
+    printf("RESOURCE INITIALZ\n");
     bool done = false;
 
     while (!done) {
