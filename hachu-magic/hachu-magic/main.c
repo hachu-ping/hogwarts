@@ -10,7 +10,9 @@
 
 #include "utils.h"
 
+
 // ----------------------------------------------------------------------------------------------------------------------------------------
+extern unsigned char key[ALLEGRO_KEY_MAX];
 
 int main() {
     // 알레그로 초기화
@@ -83,10 +85,6 @@ int main() {
         default:
             break;
 
-            case ALLEGRO_KEY_DOWN
-                :
-                    printf("DEBUG HELLO\n");
-                    break;
         }
  
         // *** 게임 화면 업데이트

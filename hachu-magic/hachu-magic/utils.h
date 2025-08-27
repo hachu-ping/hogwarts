@@ -5,6 +5,12 @@
 
 #include <stdbool.h>
 
+
+#include <allegro5/keycodes.h>
+#include <allegro5/allegro_primitives.h>
+
+
+
 /**
  * ù ��° ���ڷ� ���޵� ���� ��ȿ���� �˻��մϴ�. ���� �ش� ���� false (0) �̶�� description �� ����ϰ� ���α׷��� �����մϴ�.
  * @param test: ��ȿ�� �˻� ���
@@ -15,6 +21,11 @@ void must_init(bool, const char*);
 
 #endif /* __UTILS_H__ */
 void keyboard_update(ALLEGRO_EVENT*);
+void magic_attack(int , int , int );
+void cat_init();
+void cat_update();
+void cat_draw();
+
 
 
 #endif
