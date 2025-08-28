@@ -99,7 +99,7 @@ void disp_post_draw()
 
 #define KEY_SEEN     1
 #define KEY_DOWN     2
-unsigned char key[ALLEGRO_KEY_MAX];
+unsigned char g_key[ALLEGRO_KEY_MAX];
 
 void keyboard_init()
 {
@@ -112,14 +112,14 @@ void keyboard_update(ALLEGRO_EVENT* event)
     {
     case ALLEGRO_EVENT_TIMER:
         for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
-            key[i] &= ~KEY_SEEN;
+            g_key[i] &= ~KEY_SEEN;
         break;
 
     case ALLEGRO_EVENT_KEY_DOWN:
-        key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
+        g_key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
         break;
     case ALLEGRO_EVENT_KEY_UP:
-        key[event->keyboard.keycode] &= ~KEY_DOWN;
+        g_key[event->keyboard.keycode] &= ~KEY_DOWN;
         break;
     }
 }
@@ -279,7 +279,7 @@ typedef struct FX
     int x, y;
     int frame;
     bool spark;
-    bool used;
+    bool is_spawned;
 } FX;
 
 #define FX_N 128
@@ -288,7 +288,7 @@ FX fx[FX_N];
 void fx_init()
 {
     for (int i = 0; i < FX_N; i++)
-        fx[i].used = false;
+        fx[i].is_spawned = false;
 }
 
 void fx_add(bool spark, int x, int y)
@@ -298,14 +298,14 @@ void fx_add(bool spark, int x, int y)
 
     for (int i = 0; i < FX_N; i++)
     {
-        if (fx[i].used)
+        if (fx[i].is_spawned)
             continue;
 
         fx[i].x = x;
         fx[i].y = y;
         fx[i].frame = 0;
         fx[i].spark = spark;
-        fx[i].used = true;
+        fx[i].is_spawned = true;
         return;
     }
 }
@@ -314,7 +314,7 @@ void fx_update()
 {
     for (int i = 0; i < FX_N; i++)
     {
-        if (!fx[i].used)
+        if (!fx[i].is_spawned)
             continue;
 
         fx[i].frame++;
@@ -322,7 +322,7 @@ void fx_update()
         if ((!fx[i].spark && (fx[i].frame == (EXPLOSION_FRAMES * 2)))
             || (fx[i].spark && (fx[i].frame == (SPARKS_FRAMES * 2)))
             )
-            fx[i].used = false;
+            fx[i].is_spawned = false;
     }
 }
 
@@ -330,7 +330,7 @@ void fx_draw()
 {
     for (int i = 0; i < FX_N; i++)
     {
-        if (!fx[i].used)
+        if (!fx[i].is_spawned)
             continue;
 
         int frame_display = fx[i].frame / 2;
@@ -354,7 +354,7 @@ typedef struct SHOT
     int x, y, dx, dy;
     int frame;
     bool ship;
-    bool used;
+    bool is_spawned;
 } SHOT;
 
 #define SHOTS_N 128
@@ -363,7 +363,7 @@ SHOT shots[SHOTS_N];
 void shots_init()
 {
     for (int i = 0; i < SHOTS_N; i++)
-        shots[i].used = false;
+        shots[i].is_spawned = false;
 }
 
 bool shots_add(bool ship, bool straight, int x, int y)
@@ -379,7 +379,7 @@ bool shots_add(bool ship, bool straight, int x, int y)
 
     for (int i = 0; i < SHOTS_N; i++)
     {
-        if (shots[i].used)
+        if (shots[i].is_spawned)
             continue;
 
         shots[i].ship = ship;
@@ -414,7 +414,7 @@ bool shots_add(bool ship, bool straight, int x, int y)
         }
 
         shots[i].frame = 0;
-        shots[i].used = true;
+        shots[i].is_spawned = true;
 
         return true;
     }
@@ -425,7 +425,7 @@ void shots_update()
 {
     for (int i = 0; i < SHOTS_N; i++)
     {
-        if (!shots[i].used)
+        if (!shots[i].is_spawned)
             continue;
 
         if (shots[i].ship)
@@ -434,7 +434,7 @@ void shots_update()
 
             if (shots[i].y < -SHIP_SHOT_H)
             {
-                shots[i].used = false;
+                shots[i].is_spawned = false;
                 continue;
             }
         }
@@ -448,7 +448,7 @@ void shots_update()
                 || (shots[i].y < -ALIEN_SHOT_H)
                 || (shots[i].y > BUFFER_H)
                 ) {
-                shots[i].used = false;
+                shots[i].is_spawned = false;
                 continue;
             }
         }
@@ -461,7 +461,7 @@ bool shots_collide(bool ship, int x, int y, int w, int h)
 {
     for (int i = 0; i < SHOTS_N; i++)
     {
-        if (!shots[i].used)
+        if (!shots[i].is_spawned)
             continue;
 
         // don't collide with one's own shots
@@ -483,7 +483,7 @@ bool shots_collide(bool ship, int x, int y, int w, int h)
         if (collide(x, y, x + w, y + h, shots[i].x, shots[i].y, shots[i].x + sw, shots[i].y + sh))
         {
             fx_add(true, shots[i].x + (sw / 2), shots[i].y + (sh / 2));
-            shots[i].used = false;
+            shots[i].is_spawned = false;
             return true;
         }
     }
@@ -495,7 +495,7 @@ void shots_draw()
 {
     for (int i = 0; i < SHOTS_N; i++)
     {
-        if (!shots[i].used)
+        if (!shots[i].is_spawned)
             continue;
 
         int frame_display = (shots[i].frame / 2) % 2;
@@ -552,13 +552,13 @@ void ship_update()
         return;
     }
 
-    if (key[ALLEGRO_KEY_LEFT])
+    if (g_key[ALLEGRO_KEY_LEFT])
         ship.x -= SHIP_SPEED;
-    if (key[ALLEGRO_KEY_RIGHT])
+    if (g_key[ALLEGRO_KEY_RIGHT])
         ship.x += SHIP_SPEED;
-    if (key[ALLEGRO_KEY_UP])
+    if (g_key[ALLEGRO_KEY_UP])
         ship.y -= SHIP_SPEED;
-    if (key[ALLEGRO_KEY_DOWN])
+    if (g_key[ALLEGRO_KEY_DOWN])
         ship.y += SHIP_SPEED;
 
     if (ship.x < 0)
@@ -592,7 +592,7 @@ void ship_update()
 
     if (ship.shot_timer)
         ship.shot_timer--;
-    else if (key[ALLEGRO_KEY_X])
+    else if (g_key[ALLEGRO_KEY_X])
     {
         int x = ship.x + (SHIP_W / 2);
         if (shots_add(true, false, x, ship.y))
@@ -630,7 +630,7 @@ typedef struct ALIEN
     int shot_timer;
     int blink;
     int life;
-    bool used;
+    bool is_spawned;
 } ALIEN;
 
 #define ALIENS_N 16
@@ -639,7 +639,7 @@ ALIEN aliens[ALIENS_N];
 void aliens_init()
 {
     for (int i = 0; i < ALIENS_N; i++)
-        aliens[i].used = false;
+        aliens[i].is_spawned = false;
 }
 
 void aliens_update()
@@ -653,9 +653,9 @@ void aliens_update()
 
     for (int i = 0; i < ALIENS_N; i++)
     {
-        if (!aliens[i].used)
+        if (!aliens[i].is_spawned)
         {
-            // if this alien is unused, should it spawn?
+            // if this alien is unis_spawned, should it spawn?
             if (new_quota > 0)
             {
                 new_x += between(40, 80);
@@ -668,7 +668,7 @@ void aliens_update()
                 aliens[i].type = between(0, ALIEN_TYPE_N);
                 aliens[i].shot_timer = between(1, 99);
                 aliens[i].blink = 0;
-                aliens[i].used = true;
+                aliens[i].is_spawned = true;
 
                 switch (aliens[i].type)
                 {
@@ -707,7 +707,7 @@ void aliens_update()
 
         if (aliens[i].y >= BUFFER_H)
         {
-            aliens[i].used = false;
+            aliens[i].is_spawned = false;
             continue;
         }
 
@@ -745,7 +745,7 @@ void aliens_update()
                 break;
             }
 
-            aliens[i].used = false;
+            aliens[i].is_spawned = false;
             continue;
         }
 
@@ -778,7 +778,7 @@ void aliens_draw()
 {
     for (int i = 0; i < ALIENS_N; i++)
     {
-        if (!aliens[i].used)
+        if (!aliens[i].is_spawned)
             continue;
         if (aliens[i].blink > 2)
             continue;
@@ -952,7 +952,7 @@ int main()
             aliens_update();
             hud_update();
 
-            if (key[ALLEGRO_KEY_ESCAPE])
+            if (g_key[ALLEGRO_KEY_ESCAPE])
                 done = true;
 
             redraw = true;

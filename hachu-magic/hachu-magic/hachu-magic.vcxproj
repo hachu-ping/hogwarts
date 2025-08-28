@@ -133,22 +133,30 @@
     <ClCompile Include="cat.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="example.c" />
+    <ClCompile Include="game_manager.c" />
+    <ClCompile Include="game_system.c" />
+    <ClCompile Include="initializer.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="sprites.c" />
     <ClCompile Include="utils.c" />
+    <ClCompile Include="magic.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Users\조은서\Desktop\blue.jpeg" />
-    <Image Include="..\..\..\..\Users\조은서\Desktop\green.jpeg" />
-    <Image Include="..\..\..\..\Users\조은서\Downloads\mouse.png" />
+    <Image Include="assets\cat_sprite.png" />
     <Image Include="placeholder.jpeg" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cat.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="game_manager.h" />
+    <ClInclude Include="game_system.h" />
+    <ClInclude Include="initializer.h" />
+    <ClInclude Include="sprites.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="magic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

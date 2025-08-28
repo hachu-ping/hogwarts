@@ -1,3 +1,7 @@
+
+#include <allegro5/allegro5.h>
+#include <allegro5/keycodes.h>
+#include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 
 #include "utils.h"
