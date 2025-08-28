@@ -122,27 +122,23 @@ void draw_cat(void)
 
 void draw_enemies(void)
 {
-    // TODO: Sprite로 변경하기
-    // 테스트용: 적을 사각형으로 표시 (50x50 크기)
-    ALLEGRO_COLOR enemy_color = al_map_rgb(0, 255, 0);  // 빨간색
+    int bitmap_size_w;
+    int bitmap_size_h;
 
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t temp = g_enemy_list[i];
-        if(temp.is_spawned)
-            al_draw_filled_rectangle(temp.pos_x, temp.pos_y, temp.pos_x + temp.size_w, temp.pos_y + temp.size_h, enemy_color);
+        if (temp.is_spawned) {
+            al_draw_bitmap(g_sprites.enemies[temp.type][g_frames / 16 % ENEMY_FRAME_NUMBER], temp.pos_x, temp.pos_y,0);
+        }
     }
 }
 
 void draw_magics(void)
 {
-    // TODO: Sprite로 변경하기
-    // 테스트용: 마법을 사각형으로 표시 (50x50 크기)
-    ALLEGRO_COLOR magic_color = al_map_rgb(0, 0, 255);  // 빨간색
-
     for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
         magic_t temp = g_magic_list[i];
         if (temp.is_spawned)
-            al_draw_filled_rectangle(temp.pos_x, temp.pos_y, temp.pos_x + temp.size_w, temp.pos_y + temp.size_h, magic_color);
+            al_draw_bitmap(g_sprites.magics[temp.type][g_frames / 16 % MAGIC_FRAME_NUMBER], temp.pos_x, temp.pos_y, 0);
     }
 }
 

@@ -13,7 +13,7 @@
 #include "sprites.h"
 #include "utils.h"
 
-#define __DEBUG_MODE__ 0
+#define __DEBUG_MODE__ true
 
 extern unsigned char g_key[ALLEGRO_KEY_MAX];
 
