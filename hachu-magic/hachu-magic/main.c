@@ -2,9 +2,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <math.h>
+#include <time.h>
 #include <allegro5/allegro5.h>
 
 #include "cat.h"
+#include "enemy.h"
 #include "initializer.h"
 #include "sprites.h"
 #include "utils.h"
@@ -69,10 +73,12 @@ int main() {
             update_cat();
 
             // - 利 积己
+            spawn_wave();
 
             // - 付过 藕券 捞悼
             move_magic();
             // - 利 捞悼
+            move_enemy();
 
             // - 利-付过 面倒 贸府
             collide_magic();

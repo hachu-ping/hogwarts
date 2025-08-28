@@ -105,7 +105,6 @@ void refresh_screen(void)
     draw_fxs();
 
     al_flip_display();
-
 }
 
 

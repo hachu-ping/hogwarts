@@ -58,6 +58,12 @@ typedef struct _enemy {
  */
 void init_enemy(void);
 
+void spawn_enemy(void);
+
+bool is_enemy_cleared(void);
+
+
+
 #endif /* __ENEMY_H__ */
 
 
