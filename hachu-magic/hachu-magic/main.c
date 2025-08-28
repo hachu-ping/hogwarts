@@ -4,9 +4,11 @@
 
 #include "cat.h"
 #include "initializer.h"
+#include "sprites.h"
 #include "utils.h"
 
-extern cat_t g_cat;
+#include <allegro5/keycodes.h>
+
 int g_frames = 0;
 
 int main() {
@@ -16,6 +18,9 @@ int main() {
     // 에드온 초기화
     init_addons();
     install_driver();
+
+    // 데이터 초기화
+    init_data();
 
     // 리소스 초기화
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
@@ -28,12 +33,7 @@ int main() {
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
-
-    // 데이터 초기화
-    DEBUG_init_cat();
-    init_sprites();
-
- 
+   
     // 게임 시작
     al_start_timer(timer);
 
@@ -47,6 +47,9 @@ int main() {
 
         al_wait_for_event(queue, &event);
 
+        keyboard_update(&event);  // 키 상태 갱신
+
+
         switch (event.type) {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
@@ -58,6 +61,8 @@ int main() {
             // 매 프레임마다 처리합니다.
 
             // *** 게임 상태 업데이트
+            // - 고양이 액션 (입력 처리)
+            update_cat();
 
             // - 적 생성
 
@@ -74,28 +79,15 @@ int main() {
 
         default:
             break;
+
         }
  
         // *** 게임 화면 업데이트
         // 값 수정 사항이 있을 때 + event 처리가 완료되었을 때 게임 화면 업데이트
         if (should_redraw && al_is_event_queue_empty(queue)) {
 
-            // 배경 그리기
-            draw_background();
+            refresh_screen();
 
-            // 적 그리기
-            draw_enemies();
-
-            // 파티클 (FX) 그리기
-            draw_fxs();
-
-            // 캐릭터 그리기
-            draw_cat();
-
-            // 마법 탄환 그리기
-            draw_magics();
-
-            al_flip_display();
             should_redraw = false;
         }
 
@@ -107,3 +99,4 @@ int main() {
 
     return 0;
 }
+

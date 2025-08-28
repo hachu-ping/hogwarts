@@ -17,11 +17,26 @@ typedef struct _cat {
 	// 공격 쿨타임 (1.0 == 1 sec)
 	float attack_delay;
 
+	// 마지막으로 공격한 시간
+	double last_attack_time;
+
 } cat_t;
 
 /**
  * 디버깅을 위한 고양이 값 초기화
  */
 void DEBUG_init_cat(void);
+
+/**
+ * 고양이에 초기값을 넣어줍니다.
+ */
+void init_cat(void);
+
+void magic_attack(int, int, int);
+
+/**
+ * 고양이의 상태값을 변경합니다.
+ */
+void update_cat();
 
 #endif /* __CAT_H__ */

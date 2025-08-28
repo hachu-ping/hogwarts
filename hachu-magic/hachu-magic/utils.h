@@ -1,7 +1,11 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#include <allegro5/allegro5.h>
+#include <allegro5/keycodes.h>
+#include <allegro5/allegro_primitives.h>
 #include <stdbool.h>
+
 
 /**
  * 첫 번째 인자로 전달된 값의 유효성을 검사합니다. 만약 해당 값이 false (0) 이라면 description 을 출력하고 프로그램을 종료합니다.
@@ -12,6 +16,7 @@
 void must_init(bool, const char*);
 
 #endif /* __UTILS_H__ */
+
 
 
 /**

@@ -19,7 +19,6 @@ static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 
 #define BACKGROUND_NUMBER 3
 
-
 typedef struct SPRITES
 {
     ALLEGRO_BITMAP* _sheet;
@@ -53,6 +52,15 @@ typedef struct SPRITES
 void init_sprites(void);
 
 /**
+ * draw 함수들을 활용해 화면을 새로 그리고, 창에 표시합니다.
+ * 화면을 그리는 순서는 다음과 같습니다.
+ * 
+ * background -> enemy -> cat -> magic -> FX
+ */
+void refresh_screen(void);
+
+
+/**
  * 주인공 고양이를 화면에 그립니다.
  * 주인공 고양이의 현재 상태에 따라 다른 이미지를 보여줍니다. 
  */
@@ -66,11 +74,13 @@ void draw_background(void);
 
 /**
  * 현재 활성화된 마법을 화면에 그립니다.
+ * 마법은 g_magics 에서 현재 is_spawned 인 값만 그립니다.
  */
 void draw_magics(void);
 
 /**
  * 현재 활성화된 적을 화면에 그립니다.
+ * 적은 g_enemies 에서 현재 is_spawned 인 값만 그립니다.
  */
 void draw_enemies(void);
 

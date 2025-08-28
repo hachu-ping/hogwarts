@@ -6,8 +6,16 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
+#include "cat.h"
+#include "enemy.h"
 #include "initializer.h"
+#include "magic.h"
+#include "sprites.h"
 #include "utils.h"
+
+#define __DEBUG_MODE__ 0
+
+extern unsigned char g_key[ALLEGRO_KEY_MAX];
 
 void init_allegro(void)
 {
@@ -48,5 +56,22 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void)
 	ALLEGRO_EVENT_QUEUE* temp = al_create_event_queue();
 	must_init(temp, "queue");
 	return temp;
+}
+
+void init_data(void)
+{
+	memset(g_key, 0, sizeof(g_key));
+
+	init_sprites();
+
+#if __DEBUG_MODE__
+	DEBUG_init_cat();
+	DEBUG_init_enemy();
+	DEBUG_init_magic();
+#else
+	init_cat();
+	init_enemy();
+	init_magic();
+#endif	
 }
 
