@@ -4,46 +4,41 @@
 
 #include "initializer.h"
 #include "utils.h"
-
+#include "cat.h"
 
 #include <allegro5/keycodes.h>
 
-#include "utils.h"
-
-
-// ----------------------------------------------------------------------------------------------------------------------------------------
-extern unsigned char key[ALLEGRO_KEY_MAX];
 
 int main() {
-    // ì•Œë ˆê·¸ë¡œ ì´ˆê¸°í™”
+    // ¾Ë·¹±×·Î ÃÊ±âÈ­
     init_allegro();
 
-    // ì—ë“œì˜¨ ì´ˆê¸°í™”
+    // ¿¡µå¿Â ÃÊ±âÈ­
     init_addons();
     install_driver();
-    memset(key, 0, sizeof(key));
-    cat_init();
 
-    // ë¦¬ì†ŒìŠ¤ ì´ˆê¸°í™”
+    // µ¥ÀÌÅÍ ÃÊ±âÈ­
+    init_data();
+
+    // ¸®¼Ò½º ÃÊ±âÈ­
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
 
-    // ì´ë²¤íŠ¸ í ë“±ë¡
+    // ÀÌº¥Æ® Å¥ µî·Ï
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
-
 
     // load placeholder image
     ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
     must_init(background, "background-image");
    
     //al_draw_bitmap(background, 0, 0, 0);
-    al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 1400, 800, 0); // ì´ë¯¸ì§€ í¬ê¸° ë°°ê²½ìœ¼ë¡œ ë§ì¶”ê¸°
+    al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 1400, 800, 0); // ÀÌ¹ÌÁö Å©±â ¹è°æÀ¸·Î ¸ÂÃß±â
  
-    // ê²Œì„ ì‹œì‘
+    // °ÔÀÓ ½ÃÀÛ
     al_start_timer(timer);
 
     bool is_done = false;
@@ -56,31 +51,32 @@ int main() {
 
         al_wait_for_event(queue, &event);
 
-        keyboard_update(&event);  // í‚¤ ìƒíƒœ ê°±ì‹ 
+        keyboard_update(&event);  // Å° »óÅÂ °»½Å
 
 
         switch (event.type) {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
-            // ì°½ ì¢…ë£Œ
+            // Ã¢ Á¾·á
             is_done = true;
             break;
 
         case ALLEGRO_EVENT_TIMER:
-            // ë§¤ í”„ë ˆì„ë§ˆë‹¤ ì²˜ë¦¬í•©ë‹ˆë‹¤.
+            // ¸Å ÇÁ·¹ÀÓ¸¶´Ù Ã³¸®ÇÕ´Ï´Ù.
 
-            // *** ê²Œì„ ìƒíƒœ ì—…ë°ì´íŠ¸
+            // *** °ÔÀÓ »óÅÂ ¾÷µ¥ÀÌÆ®
+            // - °í¾çÀÌ ¾×¼Ç (ÀÔ·Â Ã³¸®)
+            update_cat();
 
-            // - ì  ìƒì„±
+            // - Àû »ı¼º
 
-            // - ë§ˆë²• íƒ„í™˜ ì´ë™
+            // - ¸¶¹ı ÅºÈ¯ ÀÌµ¿
 
-            // - ì  ì´ë™
+            // - Àû ÀÌµ¿
 
-            // - ì -ë§ˆë²• ì¶©ëŒ ì²˜ë¦¬
+            // - Àû-¸¶¹ı Ãæµ¹ Ã³¸®
 
-            // - ì -ê³ ì–‘ì´ ì¶©ëŒ ì²˜ë¦¬
-            cat_update();
+            // - Àû-°í¾çÀÌ Ãæµ¹ Ã³¸®
 
             should_redraw = true;
             break;
@@ -90,19 +86,19 @@ int main() {
 
         }
  
-        // *** ê²Œì„ í™”ë©´ ì—…ë°ì´íŠ¸
-        // ê°’ ìˆ˜ì • ì‚¬í•­ì´ ìˆì„ ë•Œ + event ì²˜ë¦¬ê°€ ì™„ë£Œë˜ì—ˆì„ ë•Œ ê²Œì„ í™”ë©´ ì—…ë°ì´íŠ¸
+        // *** °ÔÀÓ È­¸é ¾÷µ¥ÀÌÆ®
+        // °ª ¼öÁ¤ »çÇ×ÀÌ ÀÖÀ» ¶§ + event Ã³¸®°¡ ¿Ï·áµÇ¾úÀ» ¶§ °ÔÀÓ È­¸é ¾÷µ¥ÀÌÆ®
         if (should_redraw && al_is_event_queue_empty(queue)) {
 
-            // ë°°ê²½ ê·¸ë¦¬ê¸°
+            // ¹è°æ ±×¸®±â
 
-            // ì  ê·¸ë¦¬ê¸°
+            // Àû ±×¸®±â
 
-            // íŒŒí‹°í´ (FX) ê·¸ë¦¬ê¸°
+            // ÆÄÆ¼Å¬ (FX) ±×¸®±â
 
-            // ìºë¦­í„° ê·¸ë¦¬ê¸°
-            cat_draw();
-            // ë§ˆë²• íƒ„í™˜ ê·¸ë¦¬ê¸°
+            // Ä³¸¯ÅÍ ±×¸®±â
+            draw_cat();
+            // ¸¶¹ı ÅºÈ¯ ±×¸®±â
 
             al_flip_display();
             should_redraw = false;

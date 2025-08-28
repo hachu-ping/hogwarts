@@ -6,8 +6,11 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
+#include "cat.h"
 #include "initializer.h"
 #include "utils.h"
+
+extern unsigned char key[ALLEGRO_KEY_MAX];
 
 void init_allegro(void)
 {
@@ -26,10 +29,6 @@ void init_addons(void)
 void install_driver(void)
 {
 	must_init(al_install_keyboard(), "keyboard");
-}
-
-void init_sprites(void)
-{
 }
 
 ALLEGRO_DISPLAY* init_display(const int width, const int height)
@@ -52,5 +51,12 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void)
 	ALLEGRO_EVENT_QUEUE* temp = al_create_event_queue();
 	must_init(temp, "queue");
 	return temp;
+}
+
+void init_data(void)
+{
+	memset(key, 0, sizeof(key));
+
+	init_cat();
 }
 
