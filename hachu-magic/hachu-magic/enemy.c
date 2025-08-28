@@ -1,18 +1,16 @@
+
+
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "enemy.h"
+#include "utils.h"
+#include "cat.h"
 // TODO: define max enemy number
 #define MAX_ENEMY 15
 enemy_t g_enemy_list[MAX_ENEMY];
 
-typedef enum {
-	DIR_NONE = 0,
-	DIR_LEFT = 1,
-	DIR_RIGHT = 2,
-	DIR_UP = 3,
-	DIR_DOWN = 4
-} Direction;
 
 void DEBUG_init_enemy(void) {
     for (int i = 0; i < 5; i++) {
@@ -134,3 +132,4 @@ void DEBUG_init_enemy(void) {
 	}
 }
 */
+

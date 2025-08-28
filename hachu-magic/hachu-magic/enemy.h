@@ -1,3 +1,5 @@
+
+
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
 
@@ -50,3 +52,5 @@ typedef struct _enemy {
  void DEBUG_init_enemy(void);
 
 #endif /* __ENEMY_H__ */
+
+

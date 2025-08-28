@@ -11,19 +11,29 @@
 
 
 
-/**
- * ù ��° ���ڷ� ���޵� ���� ��ȿ���� �˻��մϴ�. ���� �ش� ���� false (0) �̶�� description �� ����ϰ� ���α׷��� �����մϴ�.
- * @param test: ��ȿ�� �˻� ���
- * @param description : ����� ���� ��ȿ���� �ʴٸ� (0�̶��) �ش� �޽����� ���
- * @return void / ���� 0�̶�� ���α׷� ����
- */
+
+
 void must_init(bool, const char*);
 void keyboard_update(ALLEGRO_EVENT*);
-void magic_attack(int, int, int);
-void cat_init();
-void cat_update();
-void cat_draw();
+void handle_input_and_create_magic(int);
 
+/*
+void create_magic(int, int, int, int, float, char, enemy_t*);
+void init_cat();
+void update_cat();
+void draw_cat();
+*/
+
+
+typedef enum {
+    DIR_NONE = 0,
+    DIR_LEFT = 1,
+    DIR_RIGHT = 2,
+    DIR_UP = 3,
+    DIR_DOWN = 4
+} Direction;
+
+Direction keycode_to_direction(int);
 
 #endif /* __UTILS_H__ */
 
@@ -34,3 +44,4 @@ void cat_draw();
  * @param somebool a boolean argument.
  * @return The test results
  */
+

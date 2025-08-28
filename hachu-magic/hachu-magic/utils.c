@@ -1,3 +1,5 @@
+
+
 #include <stdio.h>
 
 
@@ -53,52 +55,30 @@ void keyboard_update(ALLEGRO_EVENT* event)
     }
 }
 
+Direction keycode_to_direction(int keycode)
+{
+    switch (keycode) {
+    case ALLEGRO_KEY_LEFT: return DIR_LEFT;
+    case ALLEGRO_KEY_RIGHT: return DIR_RIGHT;
+    case ALLEGRO_KEY_UP: return DIR_UP;
+    case ALLEGRO_KEY_DOWN: return DIR_DOWN;
+    default: return DIR_NONE;
+    }
+}
+/*
+
+
 typedef struct {
-    int x, y;  // 위치
-    int w, h;  // 크기
+    int pos_x, pos_y;  // 위치
+    int size_w, size_h;  // 크기
     double last_attack_time;  // 공격 쿨타임 체크용 (초 단위 Allegro 시간)
 } CAT;
-;
+
 
 CAT cat;
-/*
-void magic_attack(int x, int y, int dir)
-{
-    // 콘솔에 입력 방향 출력 (테스트용)
-    
-    switch (dir)
-    {
-    case ALLEGRO_KEY_LEFT:
-        printf("Magic attack: LEFT\n");
-        break;
-    case ALLEGRO_KEY_RIGHT:
-        printf("Magic attack: RIGHT\n");
-        break;
-    case ALLEGRO_KEY_UP:
-        printf("Magic attack: UP\n");
-        break;
-    case ALLEGRO_KEY_DOWN:
-        printf("Magic attack: DOWN\n");
-        break;
-    default:
-        printf("Magic attack: NONE\n");
-        break;
-    }
-    
-    
-    // TODO: 나중에 마법 발사 로직 추가
-}
-*/
-/*
-#include "enemy.h"
-#include "magic.h"
 
-extern enemy_t g_enemy_list[MAX_ENEMY];
 
-// 외부에 정의된 전역 마법 배열
-extern magic_t g_magic_list[MAX_MAGIC];
-
-*/
+// 위치 옮겨야 함
 typedef enum {
     DIR_NONE = 0,
     DIR_LEFT = 1,
@@ -117,6 +97,7 @@ Direction keycode_to_direction(int keycode)
     default: return DIR_NONE;
     }
 }
+
 
 
 
@@ -144,6 +125,9 @@ void create_magic(int x, int y, int size_w, int size_h, float velocity, char typ
     //  모든 슬롯이 꽉 찼을 경우
     printf("[MAGIC] 생성 실패! 사용 가능한 마법 슬롯이 없습니다.\n");
 }
+
+
+
 #define MAX_ENEMY 15
 extern enemy_t g_enemy_list[MAX_ENEMY];
 
@@ -153,7 +137,7 @@ extern enemy_t g_enemy_list[MAX_ENEMY];
 
 // 외부 전역 변수들
 extern CAT cat;
-extern enemy_t enemy_list[MAX_ENEMY];
+extern enemy_t g_enemy_list[MAX_ENEMY];
 
 void handle_input_and_create_magic(int input_dir)
 
@@ -181,7 +165,7 @@ void handle_input_and_create_magic(int input_dir)
                 printf("[MAGIC-LOGIC] 적 #%d: 패턴 일치 (%d)\n", i, input_dir);
 
                 // 5. 마법 생성 (반환값 없이 호출만)
-                create_magic(cat.x, cat.y, 20, 20, 10.0f, input_dir, e);
+                create_magic(cat.pos_x, cat.pos_y, 20, 20, 10.0f, input_dir, e);
 
                 // 6. 패턴 한 단계 진도 증가
                 e->received_attack_count++;
@@ -199,19 +183,21 @@ void handle_input_and_create_magic(int input_dir)
 
 void cat_init()
 {
-    cat.x = 700;  // 중앙
-    cat.y = 400;
-    cat.w = 150;    // 고양이 너비
-    cat.h = 150;    // 고양이 높이
+    cat.pos_x = 700;  // 중앙
+    cat.pos_y = 400;
+    cat.size_w = 150;    // 고양이 너비
+    cat.size_h = 150;    // 고양이 높이
 
     cat.last_attack_time = al_get_time();  // 현재 시간으로 초기화  // 초기화: 공격 가능 상태로 만듦
     //printf("cat_init() 함수 도착\n");
 }
 
+
+
 void cat_update()
 {
     // TODO 
-    /*
+    
     // 라운드마다 고양이 위치 고정
     switch (current_round)
     {
@@ -232,7 +218,7 @@ void cat_update()
         cat.y = 400;
         break;
     }
-    */
+    
     //printf("cat_update() 함수 도착\n");
     double now = al_get_time();
 
@@ -289,9 +275,10 @@ void cat_draw()
     // 테스트용: 고양이를 사각형으로 표시 (50x50 크기)
     ALLEGRO_COLOR cat_color = al_map_rgb(255, 0, 0);  // 빨간색
 
-    al_draw_filled_rectangle(cat.x, cat.y, cat.x + cat.w, cat.y + cat.h, cat_color);
+    al_draw_filled_rectangle(cat.pos_x, cat.pos_y, cat.pos_x + cat.size_w, cat.pos_y + cat.size_h, cat_color);
 }
 
+*/
 
 
 

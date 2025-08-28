@@ -1,3 +1,5 @@
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
@@ -5,6 +7,8 @@
 #include "initializer.h"
 #include "utils.h"
 #include "enemy.h"
+#include "magic.h"
+#include "cat.h"
 
 
 #include <allegro5/keycodes.h>
@@ -24,7 +28,7 @@ int main() {
     init_addons();
     install_driver();
     memset(key, 0, sizeof(key));
-    cat_init();
+    init_cat();
     DEBUG_init_enemy();
 
     // 리소스 초기화
@@ -83,7 +87,7 @@ int main() {
             // - 적-마법 충돌 처리
 
             // - 적-고양이 충돌 처리
-            cat_update();
+            update_cat();
 
             should_redraw = true;
             break;
@@ -104,7 +108,7 @@ int main() {
             // 파티클 (FX) 그리기
 
             // 캐릭터 그리기
-            cat_draw();
+            draw_cat();
             // 마법 탄환 그리기
 
             al_flip_display();
@@ -119,4 +123,5 @@ int main() {
 
     return 0;
 }
+
 

@@ -1,3 +1,5 @@
+
+
 #include "enemy.h"
 #include "magic.h"
 
@@ -7,9 +9,22 @@ extern enemy_t g_enemy_list[MAX_ENEMY];
 #define MAX_MAGIC 20
 magic_t g_magic_list[MAX_MAGIC];
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 void DEBUG_init_magic(void) {
 	// for debugging
-	extern enemy_t g_enemy_list[MAX_ENEMY];
+
 
 	for (int i = 0; i < 5; i++) {
 		g_magic_list[i].type = 0;
