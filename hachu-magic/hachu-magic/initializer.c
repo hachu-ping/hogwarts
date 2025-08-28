@@ -13,7 +13,9 @@
 #include "sprites.h"
 #include "utils.h"
 
-extern unsigned char key[ALLEGRO_KEY_MAX];
+#define __DEBUG_MODE__ 1
+
+extern unsigned char g_key[ALLEGRO_KEY_MAX];
 
 void init_allegro(void)
 {
@@ -58,12 +60,18 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void)
 
 void init_data(void)
 {
-	memset(key, 0, sizeof(key));
+	memset(g_key, 0, sizeof(g_key));
 
 	init_sprites();
 
-	init_cat();
+#if __DEBUG_MODE__
+	DEBUG_init_cat();
 	DEBUG_init_enemy();
 	DEBUG_init_magic();
+#else
+	init_cat();
+	init_enemy();
+	init_magic();
+#endif	
 }
 

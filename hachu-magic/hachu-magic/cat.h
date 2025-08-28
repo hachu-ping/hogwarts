@@ -25,11 +25,18 @@ typedef struct _cat {
 /**
  * 디버깅을 위한 고양이 값 초기화
  */
+void DEBUG_init_cat(void);
+
+/**
+ * 고양이에 초기값을 넣어줍니다.
+ */
 void init_cat(void);
 
 void magic_attack(int, int, int);
-void init_cat();
+
+/**
+ * 고양이의 상태값을 변경합니다.
+ */
 void update_cat();
-void draw_cat();
 
 #endif /* __CAT_H__ */

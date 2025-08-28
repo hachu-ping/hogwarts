@@ -7,9 +7,23 @@
 
 cat_t g_cat;
 
-extern unsigned char key[ALLEGRO_KEY_MAX];
+extern unsigned char g_key[ALLEGRO_KEY_MAX];
 
 
+void DEBUG_init_cat(void)
+{
+    g_cat.pos_x = 700;
+    g_cat.pos_y = 400;
+    g_cat.size_w = 150;
+    g_cat.size_h = 150;
+    g_cat.attack_delay = 0.2;
+
+    // 현재 시간으로 초기화  
+    // 초기화: 공격 가능 상태로 만듦
+    g_cat.last_attack_time = al_get_time();
+}
+
+//TODO: 스테이지마다 유효값 넣어주도록 변경
 void init_cat()
 {
     g_cat.pos_x = 700;
@@ -86,22 +100,22 @@ void update_cat()
         // 키가 눌린 상태고 이번 프레임에 처음 눌린 것"과 정확히 일치할 때만 true
     {
         // printf("now: %.2f, last_attack_time: %.2f, diff: %.2f\n", now, cat.last_attack_time, now - cat.last_attack_time);                                                   // (KEY_DOWN | KEY_SEEN)) 
-        int left = (key[ALLEGRO_KEY_LEFT] == KEY_DOWN) ? 1 : 0;          // 키가 눌린 상태이고, 이번 프레임에 처음 눌린 상태인가?
-        int right = (key[ALLEGRO_KEY_RIGHT] == KEY_DOWN) ? 1 : 0;
-        int up = (key[ALLEGRO_KEY_UP] == KEY_DOWN) ? 1 : 0;
-        int down = (key[ALLEGRO_KEY_DOWN] == KEY_DOWN) ? 1 : 0;
+        int left = (g_key[ALLEGRO_KEY_LEFT] == KEY_DOWN) ? 1 : 0;          // 키가 눌린 상태이고, 이번 프레임에 처음 눌린 상태인가?
+        int right = (g_key[ALLEGRO_KEY_RIGHT] == KEY_DOWN) ? 1 : 0;
+        int up = (g_key[ALLEGRO_KEY_UP] == KEY_DOWN) ? 1 : 0;
+        int down = (g_key[ALLEGRO_KEY_DOWN] == KEY_DOWN) ? 1 : 0;
 
         /*/
-        int left = (key[ALLEGRO_KEY_LEFT] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;          // 키가 눌린 상태이고, 이번 프레임에 처음 눌린 상태인가?
-        int right = (key[ALLEGRO_KEY_RIGHT] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;
-        int up = (key[ALLEGRO_KEY_UP] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;
-        int down = (key[ALLEGRO_KEY_DOWN] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;
+        int left = (g_key[ALLEGRO_KEY_LEFT] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;          // 키가 눌린 상태이고, 이번 프레임에 처음 눌린 상태인가?
+        int right = (g_key[ALLEGRO_KEY_RIGHT] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;
+        int up = (g_key[ALLEGRO_KEY_UP] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;
+        int down = (g_key[ALLEGRO_KEY_DOWN] == (KEY_DOWN | KEY_SEEN)) ? 1 : 0;
         */
         // 코드 문제 시작
-        // printf("LEFT key raw state: %d, %d\n\n", key[ALLEGRO_KEY_LEFT], left);
-        // printf("RIGHT key raw state: %d, %d\n\n", key[ALLEGRO_KEY_RIGHT], right);
-        // printf("UP key raw state: %d, %d\n\n", key[ALLEGRO_KEY_UP], up);
-        // printf("DOWN key raw state: %d, %d\n\n", key[ALLEGRO_KEY_DOWN], down);
+        // printf("LEFT key raw state: %d, %d\n\n", g_key[ALLEGRO_KEY_LEFT], left);
+        // printf("RIGHT key raw state: %d, %d\n\n", g_key[ALLEGRO_KEY_RIGHT], right);
+        // printf("UP key raw state: %d, %d\n\n", g_key[ALLEGRO_KEY_UP], up);
+        // printf("DOWN key raw state: %d, %d\n\n", g_key[ALLEGRO_KEY_DOWN], down);
         int total_pressed = left + right + up + down;
 
         // 오직 한 개 방향키만 눌렸을 때만 유효

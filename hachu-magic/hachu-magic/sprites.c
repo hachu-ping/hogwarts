@@ -96,7 +96,7 @@ void draw_enemies(void)
 
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t temp = g_enemies[i];
-        if(temp.used)
+        if(temp.is_spawned)
             al_draw_filled_rectangle(temp.pos_x, temp.pos_y, temp.pos_x + temp.size_w, temp.pos_y + temp.size_h, enemy_color);
     }
 }
@@ -109,7 +109,7 @@ void draw_magics(void)
 
     for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
         magic_t temp = g_magics[i];
-        if (temp.used)
+        if (temp.is_spawned)
             al_draw_filled_rectangle(temp.pos_x, temp.pos_y, temp.pos_x + temp.size_w, temp.pos_y + temp.size_h, magic_color);
     }
 }

@@ -7,7 +7,7 @@ enemy_t g_enemies[ENEMY_MAX_NUMBER];
 void DEBUG_init_enemy(void) {
 	for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
 		if (i > 5) {
-			g_enemies[i].used = 0;
+			g_enemies[i].is_spawned = 0;
 			continue;
 		}
 		g_enemies[i].type = 0;
@@ -20,7 +20,13 @@ void DEBUG_init_enemy(void) {
 		g_enemies[i].life = 4;
 		g_enemies[i].received_attack_count = 0;
 		g_enemies[i].current_pattern= '0';
-		g_enemies[i].used = 1;
+		g_enemies[i].is_spawned = 1;
 		g_enemies[i].velocity = 1.0;
+	}
+}
+
+void init_enemy(void) {
+	for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
+		g_enemies[i].is_spawned = 0;
 	}
 }
