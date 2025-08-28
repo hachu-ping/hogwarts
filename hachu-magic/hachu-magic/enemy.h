@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#define ENEMY_MAX_NUMBER 15
+
 typedef struct _enemy {
 	// TODO: change into enum (char)
 	// 적의 종류

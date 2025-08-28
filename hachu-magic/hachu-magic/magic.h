@@ -3,7 +3,12 @@
 
 #include <stdbool.h>
 
+#define MAGIC_MAX_NUMBER 15
+
 typedef struct _magic {
+	// 유효한 데이터인가
+	char used;
+
 	// TODO: change into enum (char)
 	// 마법의 종류 (패턴)
 	char type;

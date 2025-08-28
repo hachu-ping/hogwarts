@@ -7,7 +7,9 @@
 #include <allegro5/allegro_image.h>
 
 #include "cat.h"
+#include "enemy.h"
 #include "initializer.h"
+#include "magic.h"
 #include "utils.h"
 
 extern unsigned char key[ALLEGRO_KEY_MAX];
@@ -58,5 +60,7 @@ void init_data(void)
 	memset(key, 0, sizeof(key));
 
 	init_cat();
+	DEBUG_init_enemy();
+	DEBUG_init_magic();
 }
 
