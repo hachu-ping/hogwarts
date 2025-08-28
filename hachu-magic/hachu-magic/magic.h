@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+
+
 typedef struct _magic {
 	// TODO: change into enum (char)
 	// 마법의 종류 (패턴)

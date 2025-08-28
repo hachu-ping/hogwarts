@@ -4,15 +4,17 @@
 
 #include "initializer.h"
 #include "utils.h"
+#include "enemy.h"
 
 
 #include <allegro5/keycodes.h>
 
-#include "utils.h"
+
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------
 extern unsigned char key[ALLEGRO_KEY_MAX];
+
 
 int main() {
     // 알레그로 초기화
@@ -23,6 +25,7 @@ int main() {
     install_driver();
     memset(key, 0, sizeof(key));
     cat_init();
+    DEBUG_init_enemy();
 
     // 리소스 초기화
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);

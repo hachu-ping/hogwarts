@@ -47,6 +47,6 @@ typedef struct _enemy {
 /**
  * 디버깅을 위한 적 리스트 초기화
  */
-void DEBUG_init_enemy(void);
+ void DEBUG_init_enemy(void);
 
 #endif /* __ENEMY_H__ */

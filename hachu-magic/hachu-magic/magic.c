@@ -2,19 +2,22 @@
 #include "magic.h"
 
 // TODO: define max magic number
-magic_t magics[15];
+#define MAX_ENEMY 15
+extern enemy_t g_enemy_list[MAX_ENEMY];
+#define MAX_MAGIC 20
+magic_t g_magic_list[MAX_MAGIC];
 
 void DEBUG_init_magic(void) {
 	// for debugging
-	extern enemy_t enemies[15];
+	extern enemy_t g_enemy_list[MAX_ENEMY];
 
 	for (int i = 0; i < 5; i++) {
-		magics[i].type = 0;
-		magics[i].pos_x = 0;
-		magics[i].pos_y = 0;
-		magics[i].size_w = 0;
-		magics[i].size_h = 0;
-		magics[i].velocity = 1.0;
-		magics[i].target_ptr = &enemies[i];
+		g_magic_list[i].type = 0;
+		g_magic_list[i].pos_x = 0;
+		g_magic_list[i].pos_y = 0;
+		g_magic_list[i].size_w = 0;
+		g_magic_list[i].size_h = 0;
+		g_magic_list[i].velocity = 1.0;
+		g_magic_list[i].target_ptr = &g_enemy_list[i];
 	}
 }
