@@ -76,7 +76,7 @@ void DEBUG_init_enemy(void) {
 		g_enemy_list[i].size_w = 0;
 		g_enemy_list[i].size_h = 0;
 
-		// ???? ?ò÷ ???? (??? DIR_LEFT = 1)
+		// ???? ?Ã²Ã· ???? (??? DIR_LEFT = 1)
 		char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_LEFT, DIR_LEFT };
 		memcpy(g_enemy_list[i].pattern, pattern, sizeof(char) * 4);
 

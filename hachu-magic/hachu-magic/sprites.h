@@ -12,10 +12,25 @@
 static const int ENEMY_WIDTH[] = { 140, 180, 220, 320 };
 static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 
-#define ENEMY0_FRAME_NUMBER 2
-#define ENEMY1_FRAME_NUMBER 2
-#define ENEMY2_FRAME_NUMBER 2
-#define ENEMY3_FRAME_NUMBER 2
+#define ENEMY_TIME_NUMBER 4
+#define ENEMY_FRAME_NUMBER 2
+
+#define ARROW_WIDTH 80
+#define ARROW_HEIGHT 80
+#define ARROW_NUMBER 4
+
+#define MAGIC_WIDTH 100
+#define MAGIC_HEIGHT 100
+#define MAGIC_TYPE_NUMBER 4
+#define MAGIC_FRAME_NUMBER 3
+
+#define LIFE_WIDTH 80
+#define LIFE_HEIGHT 80
+
+#define EXPLOSION_WIDTH 100
+#define EXPLOSION_HEIGHT 100
+#define EXPLOSION_FRAME_NUMBER 4
+
 
 #define BACKGROUND_NUMBER 3
 
@@ -23,25 +38,28 @@ typedef struct SPRITES
 {
     ALLEGRO_BITMAP* _sheet;
     ALLEGRO_BITMAP* _cat_sheet;
+    ALLEGRO_BITMAP* _enemy_sheet;
+    ALLEGRO_BITMAP* _effect_sheet;
+
 
     // background
     ALLEGRO_BITMAP* background[BACKGROUND_NUMBER];
 
     // cat
     ALLEGRO_BITMAP* cat[CAT_FRAME_NUMBER];
-    ALLEGRO_BITMAP* life;
+
+    // arrow
+    ALLEGRO_BITMAP* arrows[ARROW_NUMBER];
 
     // magic
+    ALLEGRO_BITMAP* magics[MAGIC_TYPE_NUMBER][MAGIC_FRAME_NUMBER];
 
     // enemy
-    ALLEGRO_BITMAP* enemy0[ENEMY0_FRAME_NUMBER];
-    ALLEGRO_BITMAP* enemy1[ENEMY1_FRAME_NUMBER];
-    ALLEGRO_BITMAP* enemy2[ENEMY3_FRAME_NUMBER];
-    ALLEGRO_BITMAP* enemy3[ENEMY3_FRAME_NUMBER];
+    ALLEGRO_BITMAP* enemies[ENEMY_TIME_NUMBER][ENEMY_FRAME_NUMBER];
 
     // FX
-    //ALLEGRO_BITMAP* explosion[EXPLOSION_FRAMES];
-    //ALLEGRO_BITMAP* sparks[SPARKS_FRAMES];
+    ALLEGRO_BITMAP* explosion[EXPLOSION_FRAME_NUMBER];
+    ALLEGRO_BITMAP* life;
 
 } SPRITES;
 
