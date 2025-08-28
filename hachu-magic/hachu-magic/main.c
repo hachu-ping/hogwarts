@@ -9,6 +9,7 @@
 
 #include <allegro5/keycodes.h>
 
+int g_frames = 0;
 
 int main() {
     // 알레그로 초기화
@@ -41,7 +42,7 @@ int main() {
 
 
     while (!is_done) {
-
+        g_frames += 1;
         ALLEGRO_EVENT event;
 
         al_wait_for_event(queue, &event);

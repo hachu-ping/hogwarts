@@ -10,6 +10,7 @@
 #include "enemy.h"
 #include "initializer.h"
 #include "magic.h"
+#include "sprites.h"
 #include "utils.h"
 
 extern unsigned char key[ALLEGRO_KEY_MAX];
@@ -58,6 +59,8 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void)
 void init_data(void)
 {
 	memset(key, 0, sizeof(key));
+
+	init_sprites();
 
 	init_cat();
 	DEBUG_init_enemy();
