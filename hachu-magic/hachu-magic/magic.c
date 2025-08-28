@@ -5,6 +5,7 @@
 
 // TODO: define max magic number
 magic_t g_magic_list[MAGIC_MAX_NUMBER];
+extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
 
 void create_magic(int x, int y, int size_w, int size_h, float velocity, char type, enemy_t* target)
@@ -31,15 +32,13 @@ void create_magic(int x, int y, int size_w, int size_h, float velocity, char typ
 
 void DEBUG_init_magic(void) {
 	// for debugging
-	extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
 		g_magic_list[i].is_spawned = 0;
 	}
 
-
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-		if (i > 0) {
+		if (i > 3) {
 			g_magic_list[i].is_spawned = 0;
 			continue;
 		}
@@ -50,13 +49,20 @@ void DEBUG_init_magic(void) {
 		g_magic_list[i].pos_y = 540;
 		g_magic_list[i].size_w = 20;
 		g_magic_list[i].size_h = 20;
-		g_magic_list[i].velocity = 1.0;
-		g_magic_list[i].target_ptr = &g_enemy_list[i];
+		//g_magic_list[i].velocity = 2.0;
+		g_magic_list[0].velocity = 4.0;
+		g_magic_list[1].velocity = 3.0;
+		g_magic_list[2].velocity = 1.0;
+		g_magic_list[3].velocity = 0.9;
+		//g_magic_list[i].target_ptr = &g_enemy_list[i];
+		g_magic_list[i].target_ptr = &g_enemy_list[0];
 	}
+
 }
 
 //임시 -> 층돌 시스템
-bool is_collide_magic(magic_t* magic_ptr){
+bool is_collide_with_magic(magic_t* magic_ptr)
+{
 	magic_t* magic_ptr_bool = magic_ptr;
 	double ax1 = (magic_ptr_bool->pos_x);
 	double ay1= (magic_ptr_bool->pos_y);
@@ -73,25 +79,39 @@ bool is_collide_magic(magic_t* magic_ptr){
 	if (ay2 < by1) return false;
 
 	return true;
-
 }
 
 
 //충돌 처리 함수
-void collide_magic(void) {
+void collide_magic(void) 
+{
 	magic_t* magic_ptr = g_magic_list;
+
+	typedef enemy_t* ememy_pointer;
+	ememy_pointer target = (ememy_pointer)magic_ptr->target_ptr;
+
 	for (int i = 0; i < MAGIC_MAX_NUMBER; ++i, ++magic_ptr) {
 		if (!(magic_ptr->is_spawned)) { //생성된 마법에 대해서만 검사.
 			continue;
 		}
 		if (is_collide_magic(magic_ptr)) {
 			magic_ptr->is_spawned = 0;
-			(((enemy_t*)magic_ptr->target_ptr)->is_spawned) = 0;
+			if (target->received_attack_count < (target->life-1)) { //적의 총 생명보다 작을때 까지
+				target->received_attack_count += 1;
+				printf("%d %d\n", i, target->received_attack_count);
+			}
+			else {
+
+				// TODO: Enemy 죽을 때 함수 호출하기
+				(target->is_spawned) = 0;
+				printf("적 죽음 life = %d - %d", target->received_attack_count, target->life);
+			}
 		}
 	}
 }
 
-void init_magic(void){
+void init_magic(void)
+{
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
 		g_magic_list[i].is_spawned = 0;
 	}
