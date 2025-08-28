@@ -56,4 +56,15 @@ void DEBUG_init_enemy(void);
  */
 void init_enemy(void);
 
+/**
+ * 현재 활성화된 적들을 고양이를 향해 단위거리만큼 움직입니다.
+ */
+void move_enemy(void);
+
+void spawn_enemy(void);
+
+void spawn_wave(void);
+
+bool is_enemy_cleared(void);
+
 #endif /* __ENEMY_H__ */
