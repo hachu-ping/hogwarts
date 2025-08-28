@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
 
-#include "initializer.h"
-#include "utils.h"
 #include "cat.h"
+#include "initializer.h"
+#include "sprites.h"
+#include "utils.h"
 
 #include <allegro5/keycodes.h>
 
+int g_frames = 0;
 
 int main() {
     // 알레그로 초기화
@@ -31,13 +33,7 @@ int main() {
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
-    // load placeholder image
-    ALLEGRO_BITMAP* background = al_load_bitmap("placeholder.jpeg");
-    must_init(background, "background-image");
    
-    //al_draw_bitmap(background, 0, 0, 0);
-    al_draw_scaled_bitmap(background, 0, 0, 640, 437, 0, 0, 1400, 800, 0); // 이미지 크기 배경으로 맞추기
- 
     // 게임 시작
     al_start_timer(timer);
 
@@ -46,7 +42,7 @@ int main() {
 
 
     while (!is_done) {
-
+        g_frames += 1;
         ALLEGRO_EVENT event;
 
         al_wait_for_event(queue, &event);
@@ -90,17 +86,8 @@ int main() {
         // 값 수정 사항이 있을 때 + event 처리가 완료되었을 때 게임 화면 업데이트
         if (should_redraw && al_is_event_queue_empty(queue)) {
 
-            // 배경 그리기
+            refresh_screen();
 
-            // 적 그리기
-
-            // 파티클 (FX) 그리기
-
-            // 캐릭터 그리기
-            draw_cat();
-            // 마법 탄환 그리기
-
-            al_flip_display();
             should_redraw = false;
         }
 

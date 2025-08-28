@@ -9,7 +9,7 @@
 // --- keyboard ---
 
 
-unsigned char key[ALLEGRO_KEY_MAX];
+unsigned char g_key[ALLEGRO_KEY_MAX];
 
 void keyboard_update(ALLEGRO_EVENT* event)
 {
@@ -18,18 +18,18 @@ void keyboard_update(ALLEGRO_EVENT* event)
     {
     case ALLEGRO_EVENT_TIMER:
         for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
-            key[i] &= ~KEY_SEEN;
+            g_key[i] &= ~KEY_SEEN;
         break;
 
     case ALLEGRO_EVENT_KEY_DOWN:
 
         //printf("DEBUG -- Key 눌림: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
-        key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
+        g_key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
         printf("DEBUG -- Key 눌림: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
         break;
     case ALLEGRO_EVENT_KEY_UP:
         // printf("DEBUG -- Key 떼짐: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
-        key[event->keyboard.keycode] &= ~KEY_DOWN;
+        g_key[event->keyboard.keycode] &= ~KEY_DOWN;
         printf("DEBUG -- Key 떼짐: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
         break;
     }

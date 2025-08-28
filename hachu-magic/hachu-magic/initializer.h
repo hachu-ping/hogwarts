@@ -23,13 +23,6 @@ void init_addons(void);
 void install_driver(void);
 
 /**
- * 프로그램 실행에 필요한 스프라이트 이미지를 불러오고,
- * 이를 비트맵으로 분리합니다.
- * 로드 및 분리 실패 시 프로그램이 종료됩니다.
- */
-void init_sprites(void);
-
-/**
  * 프로그램 실행에 필요한 화면 관련 리소스를 생성 및 초기화합니다.
  * 생성 및 초기화 실패 시 프로그램이 종료됩니다.
  * @param int width: 프로그램 윈도우의 가로 길이
@@ -60,10 +53,3 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void);
 void init_data(void);
 
 #endif /* __initializer_H__ */
-
- 
-/**
- * A brief description. A more elaborate class description
- * @param somebool a boolean argument.
- * @return The test results
- */
