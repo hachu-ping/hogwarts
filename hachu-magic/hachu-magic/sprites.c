@@ -15,8 +15,8 @@
 
 
 extern cat_t g_cat;
-extern enemy_t g_enemies[ENEMY_MAX_NUMBER];
-extern magic_t g_magics[MAGIC_MAX_NUMBER];
+extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
+extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
 SPRITES g_sprites;
 
@@ -95,7 +95,7 @@ void draw_enemies(void)
     ALLEGRO_COLOR enemy_color = al_map_rgb(0, 255, 0);  // 說除儀
 
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
-        enemy_t temp = g_enemies[i];
+        enemy_t temp = g_enemy_list[i];
         if(temp.is_spawned)
             al_draw_filled_rectangle(temp.pos_x, temp.pos_y, temp.pos_x + temp.size_w, temp.pos_y + temp.size_h, enemy_color);
     }
@@ -108,7 +108,7 @@ void draw_magics(void)
     ALLEGRO_COLOR magic_color = al_map_rgb(0, 0, 255);  // 說除儀
 
     for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-        magic_t temp = g_magics[i];
+        magic_t temp = g_magic_list[i];
         if (temp.is_spawned)
             al_draw_filled_rectangle(temp.pos_x, temp.pos_y, temp.pos_x + temp.size_w, temp.pos_y + temp.size_h, magic_color);
     }
