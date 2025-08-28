@@ -11,8 +11,8 @@ void DEBUG_init_enemy(void) {
 			continue;
 		}
 		g_enemy_list[i].type = 0;
-		g_enemy_list[i].pos_x = 0;
-		g_enemy_list[i].pos_y= 0;
+		g_enemy_list[i].pos_x = 200;
+		g_enemy_list[i].pos_y= 200;
 		g_enemy_list[i].size_w = 40;
 		g_enemy_list[i].size_h = 40;
 		memcpy(g_enemy_list[i].pattern, "0123", sizeof(char) * 4);

@@ -55,7 +55,6 @@ static ALLEGRO_BITMAP* sprite_grab(ALLEGRO_BITMAP* sheet, int x, int y, int w, i
 
 void init_sprites(void)
 {
-
     g_sprites.background[0] = load_bitmap("placeholder.jpeg");
 
     g_sprites._cat_sheet = load_bitmap("assets/sprites/cat_sprite.png");
@@ -125,10 +124,22 @@ void draw_enemies(void)
     int bitmap_size_w;
     int bitmap_size_h;
 
+    // 적 
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
-        enemy_t temp = g_enemy_list[i];
-        if (temp.is_spawned) {
-            al_draw_bitmap(g_sprites.enemies[temp.type][g_frames / 16 % ENEMY_FRAME_NUMBER], temp.pos_x, temp.pos_y,0);
+        enemy_t enemy = g_enemy_list[i];
+        if (enemy.is_spawned) {
+            al_draw_bitmap(g_sprites.enemies[enemy.type][g_frames / 16 % ENEMY_FRAME_NUMBER], enemy.pos_x, enemy.pos_y,0);
+        }
+    }
+
+    // 적 머리위 패턴 (패턴 가려짐 방지 위해 로직 분리)
+    for (int i = 0; i < ENEMY_MAX_NUMBER; ++i) {
+        enemy_t enemy = g_enemy_list[i];
+        if (enemy.is_spawned) {
+            for (int ii = enemy.received_attack_count; ii < enemy.life; ++ii) {
+                double arrow_pos_x = -0.5 * (enemy.life - enemy.received_attack_count) + ii;
+                al_draw_bitmap(g_sprites.arrows[enemy.pattern[ii] - '0'], enemy.pos_x + arrow_pos_x * ARROW_WIDTH, enemy.pos_y - enemy.size_h / 2 - ARROW_HEIGHT /2 , 0);
+            }
         }
     }
 }
