@@ -14,8 +14,8 @@ void DEBUG_init_enemy(void) {
         g_enemy_list[i].type = 0;
         g_enemy_list[i].pos_x = 0;
         g_enemy_list[i].pos_y = 0;
-        g_enemy_list[i].size_w = 0;
-        g_enemy_list[i].size_h = 0;
+        g_enemy_list[i].size_w = 50;
+        g_enemy_list[i].size_h = 50;
 
         // ?? ?????? ??? ???? ????
         switch (i) {
@@ -59,12 +59,6 @@ void DEBUG_init_enemy(void) {
         // ???? ??? ???? ??????? (??????)
         g_enemy_list[i].current_pattern = g_enemy_list[i].pattern[0];
 
-        // ????? ???
-        printf("[DEBUG_INIT] ?? #%d ???? ??? (????: ", i);
-        for (int j = 0; j < g_enemy_list[i].life; j++) {
-            printf("%d ", g_enemy_list[i].pattern[j]);
-        }
-        printf(")\n");
     }
 }
 

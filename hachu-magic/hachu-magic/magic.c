@@ -94,7 +94,7 @@ void collide_magic(void)
 		if (!(magic_ptr->is_spawned)) { //생성된 마법에 대해서만 검사.
 			continue;
 		}
-		if (is_collide_magic(magic_ptr)) {
+		if (is_collide_with_magic(magic_ptr)) {
 			magic_ptr->is_spawned = 0;
 			if (target->received_attack_count < (target->life-1)) { //적의 총 생명보다 작을때 까지
 				target->received_attack_count += 1;
