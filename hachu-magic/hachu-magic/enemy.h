@@ -5,6 +5,8 @@
 
 #include <stdbool.h>
 
+#define ENEMY_MAX_NUMBER 15
+
 typedef struct _enemy {
 	// TODO: change into enum (char)
 	// 적의 종류
@@ -39,7 +41,7 @@ typedef struct _enemy {
 	char current_pattern;
 
 	// 적이 유효한 상태인가
-	bool used;
+	bool is_spawned;
 
 	// 적이 무적인 상태인가
 	bool is_invincible;
@@ -50,6 +52,11 @@ typedef struct _enemy {
  * 디버깅을 위한 적 리스트 초기화
  */
  void DEBUG_init_enemy(void);
+
+/**
+ * 적의 목록을 담는 enemies 리스트를 초기화합니다.
+ */
+void init_enemy(void);
 
 #endif /* __ENEMY_H__ */
 

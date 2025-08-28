@@ -1,9 +1,13 @@
 
+#include <allegro5/allegro5.h>
+#include <allegro5/keycodes.h>
+
 #include "cat.h"
 #include "enemy.h"
 #include "utils.h"
 #include "magic.h"
 #include <allegro5/keycodes.h>
+#include "game_system.h"
 
 #include <stdio.h>
 
@@ -12,13 +16,9 @@ cat_t g_cat;
 #define KEY_SEEN     1
 #define KEY_DOWN     2
 
-extern unsigned char key[ALLEGRO_KEY_MAX];
-
-#define MAX_ENEMY 15
-extern enemy_t g_enemy_list[MAX_ENEMY];
-
-#define MAX_MAGIC 20
-extern magic_t g_magic_list[MAX_MAGIC];
+extern unsigned char g_key[ALLEGRO_KEY_MAX];
+extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
+extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
 void init_cat()
 {
@@ -64,10 +64,10 @@ void update_cat()
         
     {
         // printf("now: %.2f, last_attack_time: %.2f, diff: %.2f\n", now, cat.last_attack_time, now - cat.last_attack_time);                                                   // (KEY_DOWN | KEY_SEEN)) 
-        int left = (key[ALLEGRO_KEY_LEFT] == KEY_DOWN) ? 1 : 0;          
-        int right = (key[ALLEGRO_KEY_RIGHT] == KEY_DOWN) ? 1 : 0;
-        int up = (key[ALLEGRO_KEY_UP] == KEY_DOWN ) ? 1 : 0;
-        int down = (key[ALLEGRO_KEY_DOWN] == KEY_DOWN) ? 1 : 0;
+        int left = (g_key[ALLEGRO_KEY_LEFT] == KEY_DOWN) ? 1 : 0;          
+        int right = (g_key[ALLEGRO_KEY_RIGHT] == KEY_DOWN) ? 1 : 0;
+        int up = (g_key[ALLEGRO_KEY_UP] == KEY_DOWN ) ? 1 : 0;
+        int down = (g_key[ALLEGRO_KEY_DOWN] == KEY_DOWN) ? 1 : 0;
 
         
         
@@ -90,19 +90,17 @@ void update_cat()
             Direction input_dir = keycode_to_direction(keycode);
             printf("input_dir(enum) = %d\n", input_dir);  // 1~4 출력 확인
 
-            handle_input_and_create_magic(input_dir);
+            handle_input(input_dir);
 
             // 마지막 공격 시간 갱신
             g_cat.last_attack_time = now;
         }
     }
 }
-void create_magic(int, int, int, int, float, char, enemy_t*);
-void handle_input_and_create_magic(int input_dir)
 
+void handle_input(int input_dir)
 {
-    
-    for (int i = 0; i < MAX_ENEMY; i++) {
+    for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t* e = &g_enemy_list[i];
 
         
@@ -110,9 +108,9 @@ void handle_input_and_create_magic(int input_dir)
         // 2. 무적이 아니며
         // 3. 아직 남은 패턴이 있고
         printf("[DEBUG] enemy[%d] used: %d, invincible: %d, received_attack_count: %d, life: %d\n",
-            i, e->used, e->is_invincible, e->received_attack_count, e->life);
+            i, e->is_spawned, e->is_invincible, e->received_attack_count, e->life);
 
-        if (e->used && !e->is_invincible && e->received_attack_count < e->life)
+        if (e->is_spawned && !e->is_invincible && e->received_attack_count < e->life)
         {
 
 
@@ -138,39 +136,10 @@ void handle_input_and_create_magic(int input_dir)
     }
 }
 
-void create_magic(int x, int y, int size_w, int size_h, float velocity, char type, enemy_t* target)
-{
-    for (int i = 0; i < MAX_MAGIC; i++) {
-        if (g_magic_list[i].velocity == 0) {  // 비어 있는 슬롯 발견
-            g_magic_list[i].pos_x = x;
-            g_magic_list[i].pos_y = y;
-            g_magic_list[i].size_w = size_w;
-            g_magic_list[i].size_h = size_h;
-            g_magic_list[i].velocity = velocity;
-            g_magic_list[i].type = type;
-            g_magic_list[i].target_ptr = (void*)target;
-
-            //  진행 상황 로그 출력
-            printf("[MAGIC] 슬롯 #%d에 마법 생성됨 (방향: %d, 속도: %.1f)\n", i, type, velocity);
-            return;
-        }
-    }
-
-    //  모든 슬롯이 꽉 찼을 경우
-    printf("[MAGIC] 생성 실패! 사용 가능한 마법 슬롯이 없습니다.\n");
-}
-
-void draw_cat()
-{
-    // 테스트용: 고양이를 사각형으로 표시 (50x50 크기)
-    ALLEGRO_COLOR cat_color = al_map_rgb(255, 0, 0);  // 빨간색
-
-    al_draw_filled_rectangle(g_cat.pos_x, g_cat.pos_y, g_cat.pos_x + g_cat.size_w, g_cat.pos_y + g_cat.size_h, cat_color);
-}
 
 
 
-/*
+
 void DEBUG_init_cat(void) 
 {
 	// TODO: Modify to valid values
@@ -180,5 +149,15 @@ void DEBUG_init_cat(void)
 	g_cat.pos_y = 500;
 	g_cat.last_attack_time = 0.2;
 }
-*/
 
+void init_cat()
+{
+    g_cat.pos_x = 700;
+    g_cat.pos_y = 400;
+    g_cat.size_w = 150;
+    g_cat.size_h = 150; 
+
+    // 현재 시간으로 초기화  
+    // 초기화: 공격 가능 상태로 만듦
+    g_cat.last_attack_time = al_get_time();
+}
