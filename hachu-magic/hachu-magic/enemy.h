@@ -1,3 +1,5 @@
+
+
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
 
@@ -11,13 +13,13 @@ typedef struct _enemy {
 	int type;
 
 	// 현재 x좌표 (중앙 좌표)
-	int pos_x;
+	double pos_x;
 
 	// 현재 y좌표 (중앙 좌표)
-	int pos_y;
+	double pos_y;
 
 	// 가로 길이
-	int size_w;
+	double size_w;
 
 	// 세로 길이
 	int size_h;
@@ -49,22 +51,19 @@ typedef struct _enemy {
 /**
  * 디버깅을 위한 적 리스트 초기화
  */
-void DEBUG_init_enemy(void);
+ void DEBUG_init_enemy(void);
 
 /**
  * 적의 목록을 담는 enemies 리스트를 초기화합니다.
  */
 void init_enemy(void);
 
-/**
- * 현재 활성화된 적들을 고양이를 향해 단위거리만큼 움직입니다.
- */
-void move_enemy(void);
-
 void spawn_enemy(void);
-
-void spawn_wave(void);
 
 bool is_enemy_cleared(void);
 
+
+
 #endif /* __ENEMY_H__ */
+
+

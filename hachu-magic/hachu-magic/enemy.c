@@ -1,4 +1,6 @@
 #include <string.h>
+#include <stdio.h>
+#include <math.h>
 
 #include "cat.h"
 #include "enemy.h"
@@ -47,6 +49,7 @@ void spawn_wave(void)
     if (!is_cleared) {
         return;
     }
+    current_wave += 1;
 
     if (stage_wave_max_number[current_stage] == current_wave) {
         current_wave = 0;
@@ -61,6 +64,7 @@ void spawn_wave(void)
     }
 
     for (int i = 0; i < stage_wave_spawn_enemy_number[current_stage]; i++) {
+        printf("%d %d\n", i, stage_wave_spawn_enemy_number[current_stage]);
         spawn_enemy();
     }
 }
@@ -119,14 +123,14 @@ void spawn_enemy(void)
 
     int index = 0;
     while (index < ENEMY_MAX_NUMBER) {
-        if (g_enemy_list[index].is_spawned) {
-            index += 1;
+        if (!g_enemy_list[index].is_spawned) {
+            break;;
         }
+        index += 1;
     }
 
     // ENEMY_MAX_NUMBER를 모두 사용하는 경우
     if (index >= ENEMY_MAX_NUMBER) {
-        printf("MAX\n");
         return;
     }
 
@@ -140,7 +144,8 @@ void spawn_enemy(void)
     memcpy(temp_enemy.pattern, "0123", sizeof(char) * 4);
     temp_enemy.current_pattern = '0';
 
-    temp_enemy.velocity = 1.0f + (rand() % 200) / 100.0f;
+    //temp_enemy.velocity = 1.0f + (rand() % 200) / 100.0f;
+    temp_enemy.velocity = 1;
    
     temp_enemy.is_spawned = 1;
     temp_enemy.is_invincible = 0;
@@ -156,11 +161,18 @@ void move_enemy()
         double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
+        printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
+
+
+        if (dist == 0) {
+            continue;
+        }
+
         g_enemy_list[i].pos_x += (dx / dist) * g_enemy_list[i].velocity;
         g_enemy_list[i].pos_y += (dy / dist) * g_enemy_list[i].velocity;
 
         if (dist < 10.0) {
-            g_enemy_list[i].is_spawned = false;
+            //g_enemy_list[i].is_spawned = false;
         }
     }
 }
@@ -170,7 +182,7 @@ bool is_enemy_cleared(void)
     bool is_cleared = true;
 
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
-        is_cleared = is_cleared && !g_enemy_list[i].is_spawned;
+        is_cleared = is_cleared && !(g_enemy_list[i].is_spawned);
     }
 
     return is_cleared;
