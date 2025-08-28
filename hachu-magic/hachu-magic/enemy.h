@@ -13,13 +13,13 @@ typedef struct _enemy {
 	int type;
 
 	// ÇöÀç xÁÂÇ¥ (Áß¾Ó ÁÂÇ¥)
-	int pos_x;
+	double pos_x;
 
 	// ÇöÀç yÁÂÇ¥ (Áß¾Ó ÁÂÇ¥)
-	int pos_y;
+	double pos_y;
 
 	// °¡·Î ±æÀÌ
-	int size_w;
+	double size_w;
 
 	// ¼¼·Î ±æÀÌ
 	int size_h;

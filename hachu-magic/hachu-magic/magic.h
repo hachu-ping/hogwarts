@@ -3,6 +3,7 @@
 #define __MAGIC_H__
 
 #include <stdbool.h>
+#include <math.h>
 
 #define MAGIC_MAX_NUMBER 15
 
@@ -15,10 +16,10 @@ typedef struct _magic {
 	char type;
 
 	// ���� ���� źȯ�� x��ǥ (�߾� ��ǥ)
-	int pos_x;
+	double pos_x;
 
 	// ���� ���� źȯ�� y��ǥ (�߾� ��ǥ)
-	int pos_y;
+	double pos_y;
 
 	// ���� źȯ�� ���� ����
 	int size_w;
@@ -43,5 +44,7 @@ void DEBUG_init_magic(void);
  * ������ ����� ��� magics ����Ʈ�� �ʱ�ȭ�մϴ�.
  */
 void init_magic(void);
+
+void move_magic(void);
 
 #endif /* __MAGIC_H__ */
