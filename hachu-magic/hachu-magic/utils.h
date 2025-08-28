@@ -1,17 +1,32 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#include <allegro5/allegro5.h>
+
 #include <stdbool.h>
 
+
+#include <allegro5/keycodes.h>
+#include <allegro5/allegro_primitives.h>
+
+
+
 /**
- * Ã¹ ¹øÂ° ÀÎÀÚ·Î Àü´ÞµÈ °ªÀÇ À¯È¿¼ºÀ» °Ë»çÇÕ´Ï´Ù. ¸¸¾à ÇØ´ç °ªÀÌ false (0) ÀÌ¶ó¸é description À» Ãâ·ÂÇÏ°í ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.
- * @param test: À¯È¿¼º °Ë»ç ´ë»ó
- * @param description : ´ë»óÀÇ °ªÀÌ À¯È¿ÇÏÁö ¾Ê´Ù¸é (0ÀÌ¶ó¸é) ÇØ´ç ¸Þ½ÃÁö¸¦ Ãâ·Â
- * @return void / °ªÀÌ 0ÀÌ¶ó¸é ÇÁ·Î±×·¥ Á¾·á
+ * Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Þµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Õ´Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ false (0) ï¿½Ì¶ï¿½ï¿½ description ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+ * @param test: ï¿½ï¿½È¿ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½
+ * @param description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù¸ï¿½ (0ï¿½Ì¶ï¿½ï¿½) ï¿½Ø´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+ * @return void / ï¿½ï¿½ï¿½ï¿½ 0ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½ ï¿½ï¿½ï¿½ï¿½
  */
 void must_init(bool, const char*);
+void keyboard_update(ALLEGRO_EVENT*);
+void magic_attack(int, int, int);
+void cat_init();
+void cat_update();
+void cat_draw();
+
 
 #endif /* __UTILS_H__ */
+
 
 
 /**
