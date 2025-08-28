@@ -14,6 +14,26 @@
  * @return void / 값이 0이라면 프로그램 종료
  */
 void must_init(bool, const char*);
+void keyboard_update(ALLEGRO_EVENT*);
+void handle_input_and_create_magic(int);
+
+/*
+void create_magic(int, int, int, int, float, char, enemy_t*);
+void init_cat();
+void update_cat();
+void draw_cat();
+*/
+
+
+typedef enum {
+    DIR_NONE = 0,
+    DIR_LEFT = 1,
+    DIR_RIGHT = 2,
+    DIR_UP = 3,
+    DIR_DOWN = 4
+} Direction;
+
+Direction keycode_to_direction(int);
 
 #endif /* __UTILS_H__ */
 
@@ -24,3 +44,4 @@ void must_init(bool, const char*);
  * @param somebool a boolean argument.
  * @return The test results
  */
+

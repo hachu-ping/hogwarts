@@ -1,3 +1,5 @@
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
@@ -6,6 +8,9 @@
 #include "initializer.h"
 #include "sprites.h"
 #include "utils.h"
+#include "enemy.h"
+#include "magic.h"
+#include "cat.h"
 
 #include <allegro5/keycodes.h>
 
@@ -48,7 +53,6 @@ int main() {
         al_wait_for_event(queue, &event);
 
         keyboard_update(&event);  // 키 상태 갱신
-
 
         switch (event.type) {
 
@@ -99,4 +103,5 @@ int main() {
 
     return 0;
 }
+
 

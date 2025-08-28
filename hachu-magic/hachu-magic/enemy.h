@@ -1,3 +1,5 @@
+
+
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
 
@@ -49,7 +51,7 @@ typedef struct _enemy {
 /**
  * 디버깅을 위한 적 리스트 초기화
  */
-void DEBUG_init_enemy(void);
+ void DEBUG_init_enemy(void);
 
 /**
  * 적의 목록을 담는 enemies 리스트를 초기화합니다.
@@ -57,3 +59,5 @@ void DEBUG_init_enemy(void);
 void init_enemy(void);
 
 #endif /* __ENEMY_H__ */
+
+
