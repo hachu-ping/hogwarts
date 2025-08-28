@@ -15,13 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="utils.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cat.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="example.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,6 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

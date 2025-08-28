@@ -133,7 +133,6 @@
     <ClCompile Include="cat.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="example.c" />
-    <ClCompile Include="game_manager.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
