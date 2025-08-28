@@ -149,15 +149,3 @@ void DEBUG_init_cat(void)
 	g_cat.pos_y = 500;
 	g_cat.last_attack_time = 0.2;
 }
-
-void init_cat()
-{
-    g_cat.pos_x = 700;
-    g_cat.pos_y = 400;
-    g_cat.size_w = 150;
-    g_cat.size_h = 150; 
-
-    // 현재 시간으로 초기화  
-    // 초기화: 공격 가능 상태로 만듦
-    g_cat.last_attack_time = al_get_time();
-}

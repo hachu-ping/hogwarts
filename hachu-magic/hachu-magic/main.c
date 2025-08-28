@@ -71,11 +71,11 @@ int main() {
             // - 利 积己
 
             // - 付过 藕券 捞悼
-
+            move_magic();
             // - 利 捞悼
 
             // - 利-付过 面倒 贸府
-
+            collide_magic();
             // - 利-绊剧捞 面倒 贸府
 
             should_redraw = true;
