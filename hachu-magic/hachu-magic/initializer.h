@@ -22,7 +22,6 @@ void init_addons(void);
  */
 void install_driver(void);
 
-
 /**
  * 프로그램 실행에 필요한 화면 관련 리소스를 생성 및 초기화합니다.
  * 생성 및 초기화 실패 시 프로그램이 종료됩니다.
@@ -54,10 +53,3 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void);
 void init_data(void);
 
 #endif /* __initializer_H__ */
-
- 
-/**
- * A brief description. A more elaborate class description
- * @param somebool a boolean argument.
- * @return The test results
- */

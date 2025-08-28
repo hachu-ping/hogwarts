@@ -9,7 +9,6 @@ cat_t g_cat;
 
 extern unsigned char g_key[ALLEGRO_KEY_MAX];
 
-
 void DEBUG_init_cat(void)
 {
     g_cat.pos_x = 700;
