@@ -3,6 +3,8 @@
 #define __initializer_H__
 
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
+
 #include <stdbool.h>
 
 /**
@@ -49,6 +51,12 @@ ALLEGRO_TIMER* init_timer(const double speed_secs);
  */
 ALLEGRO_EVENT_QUEUE* init_event_queue(void);
 
+/*
+* 프로그램 실행에 필요한 폰트를 설정합니다.
+* 내장 폰트를 생성하여 ttf 없이 사용 가능합니다.
+* 생성 초기화 실패 시 프로그램이 종료됩니다.
+*/
+ALLEGRO_FONT* init_builtin_font(void);
 
 /**
  * 프로그램 실행에 필요한 기본 데이터를 초기화합니다.

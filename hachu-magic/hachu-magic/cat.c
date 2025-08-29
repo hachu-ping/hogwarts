@@ -1,6 +1,6 @@
 
 #include <allegro5/allegro5.h>
-#include <allegro5/keycodes.h>
+//#include <allegro5/keycodes.h>
 
 #include "cat.h"
 #include "enemy.h"

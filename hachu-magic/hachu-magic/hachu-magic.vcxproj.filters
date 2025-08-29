@@ -30,6 +30,21 @@
     <ClCompile Include="example.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="game_manager.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="game_system.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="initializer.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="sprites.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="magic.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -38,13 +53,13 @@
     <Image Include="placeholder.jpeg">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\..\Users\조은서\Desktop\blue.jpeg">
+    <Image Include="assets\sprites\cat_sprite.png">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\..\Users\조은서\Desktop\green.jpeg">
+    <Image Include="assets\sprites\effect_sprite.png">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\..\..\..\Users\조은서\Downloads\mouse.png">
+    <Image Include="assets\sprites\enemy_sprite.png">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
@@ -56,6 +71,21 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="game_manager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="game_system.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="initializer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="sprites.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="magic.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

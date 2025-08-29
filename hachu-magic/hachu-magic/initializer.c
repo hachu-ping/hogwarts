@@ -1,6 +1,7 @@
 
 
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
@@ -29,11 +30,17 @@ void init_addons(void)
 
 	// ��, �簢��, ��, ���� �� �������� ������ ���� primitives �����
 	must_init(al_init_primitives_addon(), "primitives addon init");  
+
+	//font addon initialize
+	must_init(al_init_font_addon(), "font addon init");
+	must_init(al_init_ttf_addon(), "ttf font addon init");
+
 }
 
 void install_driver(void)
 {
 	must_init(al_install_keyboard(), "keyboard");
+	must_init(al_install_mouse(), "mouse");
 }
 
 ALLEGRO_DISPLAY* init_display(const int width, const int height)
@@ -43,6 +50,19 @@ ALLEGRO_DISPLAY* init_display(const int width, const int height)
 
 	return temp;
 }
+//시진 추가1
+
+/*
+ALLEGRO_FONT* init_builtin_font(void)
+{
+	ALLEGRO_FONT* font = al_create_builtin_font();
+	must_init(font, "font");
+
+	return font;
+}
+*/
+//시진 추가2
+
 
 ALLEGRO_TIMER* init_timer(const double speed_secs)
 {

@@ -7,7 +7,6 @@
 magic_t g_magic_list[MAGIC_MAX_NUMBER];
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
-
 void create_magic(int x, int y, int size_w, int size_h, float velocity, char type, enemy_t* target)
 {
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
@@ -49,11 +48,11 @@ void DEBUG_init_magic(void) {
 		g_magic_list[i].pos_y = 540;
 		g_magic_list[i].size_w = 20;
 		g_magic_list[i].size_h = 20;
-		//g_magic_list[i].velocity = 2.0;
 		g_magic_list[0].velocity = 4.0;
 		g_magic_list[1].velocity = 3.0;
 		g_magic_list[2].velocity = 1.0;
 		g_magic_list[3].velocity = 0.9;
+		//g_magic_list[i].velocity = 2.0;
 		//g_magic_list[i].target_ptr = &g_enemy_list[i];
 		g_magic_list[i].target_ptr = &g_enemy_list[0];
 	}
