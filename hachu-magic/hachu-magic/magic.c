@@ -31,7 +31,7 @@ void create_magic(int pos_x, int pos_y, char type, enemy_t* target)
 	printf("[MAGIC] 생성 실패! 사용 가능한 마법 슬롯이 없습니다.\n");
 }
 
-void DEBUG_init_magic(void) {
+void DEBUG_clear_magic(void) {
 	// for debugging
 
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
@@ -122,7 +122,7 @@ void collide_magic(void)
 	}
 }
 
-void init_magic(void)
+void clear_magic(void)
 {
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
 		g_magic_list[i].is_spawned = 0;

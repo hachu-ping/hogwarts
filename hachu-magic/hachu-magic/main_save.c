@@ -146,7 +146,6 @@ int main() {
         // *** 게임 화면 업데이트
         // 값 수정 사항이 있을 때 + event 처리가 완료되었을 때 게임 화면 업데이트
         if (al_is_event_queue_empty(queue)) {
-            should_redraw = false;
 
             if (g_scene_screne == SCENE_TITLE) {
                 draw_title_screen();
