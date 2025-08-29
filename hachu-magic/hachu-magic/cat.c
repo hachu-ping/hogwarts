@@ -20,7 +20,7 @@ extern unsigned char g_key[ALLEGRO_KEY_MAX];
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
-void init_cat()
+void clear_cat()
 {
     g_cat.pos_x = 700;  // Áß¾Ó
     g_cat.pos_y = 400;
@@ -135,7 +135,7 @@ void handle_input(int input_dir)
 
 
 
-void DEBUG_init_cat(void) 
+void DEBUG_clear_cat(void)
 {
 	// TODO: Modify to valid values
 	g_cat.size_w = 200;

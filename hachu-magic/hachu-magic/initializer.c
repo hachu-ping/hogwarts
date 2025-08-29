@@ -7,10 +7,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
-#include "cat.h"
-#include "enemy.h"
 #include "initializer.h"
-#include "magic.h"
 #include "sprites.h"
 #include "utils.h"
 
@@ -83,15 +80,5 @@ void init_data(void)
 	memset(g_key, 0, sizeof(g_key));
 
 	init_sprites();
-
-#if __DEBUG_MODE__
-	DEBUG_init_cat();
-	DEBUG_init_enemy();
-	DEBUG_init_magic();
-#else
-	init_cat();
-	init_enemy();
-	init_magic();
-#endif	
 }
 
