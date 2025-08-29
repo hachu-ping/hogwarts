@@ -23,8 +23,8 @@ extern int stage_wave_spawn_enemy_number[];
 void DEBUG_init_enemy(void) {
     for (int i = 0; i < 5; i++) {
         g_enemy_list[i].type = 0;
-        g_enemy_list[i].pos_x = 0;
-        g_enemy_list[i].pos_y = 0;
+        g_enemy_list[i].pos_x = rand() % 1400;
+        g_enemy_list[i].pos_y = rand() % 800;
         g_enemy_list[i].size_w = 180;
         g_enemy_list[i].size_h = 180;
 

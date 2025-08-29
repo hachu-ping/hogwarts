@@ -29,13 +29,13 @@ direction_t keycode_to_direction(char keycode)
     }
 }
 
-direction_t direction_to_magic_type(direction_t direction)
+magic_type_t direction_to_magic_type(direction_t direction)
 {
     switch (direction) {
-    case DIRECTION_LEFT:  return MAGIC_TYPE_FIRE;
-    case DIRECTION_RIGHT: return MAGIC_TYPE_WATER;
-    case DIRECTION_UP:    return MAGIC_TYPE_AIR;
-    case DIRECTION_DOWN:  return MAGIC_TYPE_NATURE;
-    default:              return MAGIC_TYPE_NONE;
+    case DIRECTION_LEFT:    return MAGIC_TYPE_FIRE;
+    case DIRECTION_RIGHT:   return MAGIC_TYPE_WATER;
+    case DIRECTION_UP:      return MAGIC_TYPE_AIR;
+    case DIRECTION_DOWN:    return MAGIC_TYPE_NATURE;
+    default:                return MAGIC_TYPE_NONE;
     }
 }

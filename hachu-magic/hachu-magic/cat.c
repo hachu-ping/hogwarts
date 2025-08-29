@@ -25,7 +25,7 @@ void DEBUG_init_cat(void)
     g_cat.pos_x = 500;
     g_cat.pos_y = 500;
     g_cat.last_attack_time = al_get_time();
-    g_cat.attack_cooldown_time = 0.2;
+    g_cat.attack_cooldown_time = DEFAULT_ATTACK_COOLDOWN_TIME;
 }
 
 void init_cat()
@@ -49,7 +49,7 @@ void update_cat()
 
     // 공격 쿨타임 체크 (마지막으로 공격한 시간으로부터 충분히 지났는가)
     if (now - g_cat.last_attack_time >= g_cat.attack_cooldown_time) {
-        DEBUG_PRINT("now: %.2f, last_attack_time: %.2f, diff: %.2f\n", now, g_cat.last_attack_time, now - g_cat.last_attack_time);
+        //DEBUG_PRINT("now: %.2f, last_attack_time: %.2f, diff: %.2f\n", now, g_cat.last_attack_time, now - g_cat.last_attack_time);
 
         char left    = (g_key[ALLEGRO_KEY_LEFT]  == KEY_DOWN) ? 1 : 0;
         char right   = (g_key[ALLEGRO_KEY_RIGHT] == KEY_DOWN) ? 1 : 0;
@@ -101,12 +101,12 @@ void cast_magic(direction_t direction)
         }
 
         // 4. 입력 방향이 현재 패턴과 일치하면
-        if (e->current_pattern != magic_type) {
+        if (e->current_pattern != (magic_type_t) direction) {
             continue;
         }
 
         // 마법 생성 (반환값 없이 호출만)
-        create_magic(g_cat.pos_x, g_cat.pos_y, magic_type, e);
+        create_magic(g_cat.pos_x, g_cat.pos_y, (magic_type_t) direction, e);
     }
 }
 
