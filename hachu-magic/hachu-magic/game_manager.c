@@ -13,6 +13,7 @@
 #define MAX_NAME_LEN 20
 #define RANK_FILE "ranking.txt"
 
+
 // ---------------------------------------------------
 int max_stage_number = 2;
 int current_stage = 0;
@@ -25,6 +26,7 @@ int stage_wave_spawn_enemy_number[] = { 5, 6, 7 };
 
 RankEntry rankings[MAX_RANK];
 int rank_count = 0;
+GameState gm_state;
 
 void init_game(GameState* gm_state) {
     gm_state->current_stage = 0;
@@ -147,17 +149,6 @@ void add_score(const char* name, float time) {
     qsort(rankings, rank_count, sizeof(RankEntry), compare_scores);
 }
 
-/*
-void print_rankings(void) {
-    printf("=== RANKINGS ===\n");
-    for (int i = 0; i < rank_count; i++) {
-        if (rankings[i].time < 0)
-            printf("%2d. %-10s  --초\n", i + 1, rankings[i].name);
-        else
-            printf("%2d. %-10s  %.2f초\n", i + 1, rankings[i].name, rankings[i].time);
-    }
-}
-*/
 
 // 화면에 랭킹 출력하는 함수
 

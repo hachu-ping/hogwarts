@@ -6,6 +6,10 @@
 #include <math.h>
 #include <time.h>
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
+
 
 #include "cat.h"
 #include "enemy.h"
@@ -13,15 +17,23 @@
 #include "sprites.h"
 #include "utils.h"
 #include "magic.h"
+#include "game_manager.h"
 
 #include <allegro5/keycodes.h>
 
 
 int g_frames = 0;
+extern int rank_count;
+extern RankEntry rankings[];
+extern GameState gm_state;
 
 int main() {
     // 알레그로 초기화
     init_allegro();
+
+    // 글꼴 애드온 초기화
+    al_init_font_addon();
+    al_init_ttf_addon();
 
     // 에드온 초기화
     init_addons();
@@ -29,6 +41,13 @@ int main() {
 
     // 데이터 초기화
     init_data();
+
+    ALLEGRO_FONT* font = al_load_ttf_font("NanumGothic.ttf", 24, 0);
+    // ALLEGRO_FONT* font = al_create_builtin_font();  // 내장 기본 폰트 사용  
+    if (!font) {
+        fprintf(stderr, "폰트 로드 실패!\n");
+        return -1;
+    }
 
     // 리소스 초기화
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
@@ -85,6 +104,13 @@ int main() {
 
             // - 적-고양이 충돌 처리
 
+            is_game_clear(&gm_state);
+            is_game_over(&gm_state);
+
+            // 2. 게임 클리어 조건 확인 (디버깅용)
+            gm_state.current_stage = 2;     // 최종 스테이지 완료했다고 가정
+            gm_state.g_cat_life = 3;        // 생명 있음
+
             should_redraw = true;
             break;
 
@@ -104,9 +130,24 @@ int main() {
 
     }
     
+
+    load_rankings();
+    add_score("test", gm_state.time_taken);
+    save_rankings();
+
+    // 랭킹 화면 출력
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+
+    print_rankings_screen(font, &gm_state);
+    al_flip_display();
+
+    al_rest(15.0);
+
+    al_destroy_font(font);
     al_destroy_timer(timer);
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
+    
 
     return 0;
 }
