@@ -21,7 +21,7 @@ static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 
 #define MAGIC_WIDTH 100
 #define MAGIC_HEIGHT 100
-#define MAGIC_TYPE_NUMBER 4
+#define MAGIC_TYPE_NUMBER 5
 #define MAGIC_FRAME_NUMBER 3
 
 #define LIFE_WIDTH 80
