@@ -88,7 +88,7 @@ void update_cat()
 
             // 마법 공격 함수 호출
             Direction input_dir = keycode_to_direction(keycode);
-            printf("input_dir(enum) = %d\n", input_dir);  // 1~4 출력 확인
+            //printf("input_dir(enum) = %d\n", input_dir);  // 1~4 출력 확인
 
             handle_input(input_dir);
 
@@ -107,8 +107,8 @@ void handle_input(int input_dir)
         // 1. 적이 사용 중이고
         // 2. 무적이 아니며
         // 3. 아직 남은 패턴이 있고
-        printf("[DEBUG] enemy[%d] used: %d, invincible: %d, received_attack_count: %d, life: %d\n",
-            i, e->is_spawned, e->is_invincible, e->received_attack_count, e->life);
+        //printf("[DEBUG] enemy[%d] used: %d, invincible: %d, received_attack_count: %d, life: %d\n",
+            //i, e->is_spawned, e->is_invincible, e->received_attack_count, e->life);
 
         if (e->is_spawned && !e->is_invincible && e->received_attack_count < e->life)
         {
@@ -119,18 +119,13 @@ void handle_input(int input_dir)
             // 4. 입력 방향이 패턴과 일치하면
             if (expected_dir == input_dir)
             {
-                printf("[MAGIC-LOGIC] 적 #%d: 패턴 일치 (%d)\n", i, input_dir);
-
                 // 5. 마법 생성 (반환값 없이 호출만)
-                create_magic(g_cat.pos_x, g_cat.pos_y, 20, 20, 10.0f, input_dir, e);
+                create_magic(g_cat.pos_x, g_cat.pos_y, input_dir, e);
 
                 // 6. 패턴 한 단계 진도 증가
-                e->received_attack_count++;
-
-
+                //e->received_attack_count++;
             }
             else {
-                printf("[MAGIC-LOGIC] 적 #%d: 패턴 불일치 (입력: %d, 기대값: %d)\n", i, input_dir, e->pattern[e->received_attack_count]);
             }
         }
     }

@@ -27,12 +27,12 @@ void keyboard_update(ALLEGRO_EVENT* event)
 
         //printf("DEBUG -- Key 눌림: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
         g_key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
-        printf("DEBUG -- Key 눌림: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
+        //printf("DEBUG -- Key 눌림: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
         break;
     case ALLEGRO_EVENT_KEY_UP:
         // printf("DEBUG -- Key 떼짐: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
         g_key[event->keyboard.keycode] &= ~KEY_DOWN;
-        printf("DEBUG -- Key 떼짐: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
+        //printf("DEBUG -- Key 떼짐: %d\n", event->keyboard.keycode);  // ← 어떤 키인지 출력
         break;
     }
 }
