@@ -112,11 +112,17 @@ void draw_background(void)
 
 void draw_cat(void)
 {
-    al_draw_bitmap(g_sprites.cat[g_frames / 12 % SPRITE_CAT_FRAME_NUMBER],
-        g_cat.pos_x, 
-        g_cat.pos_y,
+    int x_offset = (g_cat.size_w - SPRITE_CAT_WIDTH) * 0.5;
+    int y_offset = (g_cat.size_h - SPRITE_CAT_HEIGHT) * 0.5;
+
+    al_draw_bitmap(
+        g_sprites.cat[g_frames / 12 % SPRITE_CAT_FRAME_NUMBER],
+        g_cat.pos_x + x_offset,
+        g_cat.pos_y + y_offset,
         0
     );
+
+    al_draw_scaled_bitmap(g_sprites.background[0], 0, 0, 640, 437, g_cat.pos_x, g_cat.pos_y, g_cat.size_w, g_cat.size_h, 0);
 }
 
 void draw_enemies(void)
@@ -126,27 +132,34 @@ void draw_enemies(void)
 
     // 적 
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
-        enemy_t enemy = g_enemy_list[i];
-        if (enemy.is_spawned) {
-            al_draw_bitmap(g_sprites.enemies[enemy.type][g_frames / 16 % SPRITE_ENEMY_FRAME_NUMBER],
-                enemy.pos_x, 
-                enemy.pos_y,
+        enemy_t* enemy = g_enemy_list + i;
+        if (enemy->is_spawned) {
+            int x_offset = (enemy->size_w - SPRITE_CAT_WIDTH) * 0.5;
+            int y_offset = (enemy->size_h - SPRITE_CAT_HEIGHT) * 0.5;
+
+            al_draw_bitmap(
+                g_sprites.enemies[enemy->type][g_frames / 16 % SPRITE_ENEMY_FRAME_NUMBER],
+                enemy->pos_x + x_offset,
+                enemy->pos_y + y_offset,
                 0
             );
+
+            al_draw_scaled_bitmap(g_sprites.background[0], 0, 0, 640, 437, enemy->pos_x, enemy->pos_y, enemy->size_w, enemy->size_h, 0);
+
         }
     }
 
     // 적 머리위 패턴 (패턴 가려짐 방지 위해 로직 분리)
     for (int i = 0; i < ENEMY_MAX_NUMBER; ++i) {
-        enemy_t enemy = g_enemy_list[i];
-        if (enemy.is_spawned) {
-            for (int ii = enemy.received_attack_count; ii < enemy.life; ++ii) {
-                double arrow_pos_x_offset = 0.5 * enemy.size_w + (-0.5 * (enemy.life - enemy.received_attack_count)) * SPRITE_ARROW_WIDTH + (ii - enemy.received_attack_count) * SPRITE_ARROW_WIDTH;
-                double arrow_pos_y_offset = +(SPRITE_ARROW_HEIGHT * 0.3);
+        enemy_t* enemy = g_enemy_list + i;
+        if (enemy->is_spawned) {
+            for (int ii = enemy->received_attack_count; ii < enemy->life; ++ii) {
+                double arrow_pos_x_offset = 0.5 * enemy->size_w + (-0.5 * (enemy->life - enemy->received_attack_count)) * SPRITE_ARROW_WIDTH + (ii - enemy->received_attack_count) * SPRITE_ARROW_WIDTH;
+                double arrow_pos_y_offset = (enemy->size_h - SPRITE_ENEMY_HEIGHT[enemy->type]) * 0.5 - (SPRITE_ARROW_HEIGHT * 0.8);
                 al_draw_bitmap(
-                    g_sprites.arrows[enemy.pattern[ii]], 
-                    enemy.pos_x + arrow_pos_x_offset, 
-                    enemy.pos_y + arrow_pos_y_offset, 
+                    g_sprites.arrows[enemy->pattern[ii]],
+                    enemy->pos_x + arrow_pos_x_offset,
+                    enemy->pos_y + arrow_pos_y_offset,
                     0
                 );
             }

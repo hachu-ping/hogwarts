@@ -177,8 +177,8 @@ void spawn_enemy(void)
     temp_enemy.life = 4;
     temp_enemy.received_attack_count = 0;
 
-    temp_enemy.size_w = 180;
-    temp_enemy.size_h = 180;
+    temp_enemy.size_w = 90;
+    temp_enemy.size_h = 90;
     char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
     memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
     temp_enemy.current_pattern = temp_enemy.pattern[0];
