@@ -177,11 +177,10 @@ void spawn_enemy(void)
 
     temp_enemy.size_w = 180;
     temp_enemy.size_h = 180;
-    char pattern[] = { DIR_UP, DIR_LEFT, DIR_LEFT, DIR_LEFT };
+    char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
     memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
-    temp_enemy.current_pattern = DIR_UP;
+    temp_enemy.current_pattern = temp_enemy.pattern[0];
 
-    //temp_enemy.velocity = 1.0f + (rand() % 200) / 100.0f;
     temp_enemy.velocity = 1;
    
     temp_enemy.is_spawned = 1;
