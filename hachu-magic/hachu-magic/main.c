@@ -18,11 +18,6 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 
-#if defined(_MSC_VER)
-#define STRCPY_SAFE(dst, src) strncpy_s(dst, sizeof(dst), src, _TRUNCATE)
-#else
-#define STRCPY_SAFE(dst, src) snprintf(dst, sizeof(dst), "%s", src)
-#endif
 
 
 int main() {
@@ -64,7 +59,7 @@ int main() {
             is_done = true;
             break;
 
-            // ★ 타이틀에서 텍스트박스/버튼 입력 처리: 마우스/문자 입력을 한 블록에서
+            // ★타이틀에서 텍스트박스/버튼 입력 처리: 마우스/문자 입력을 한 블록에서
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
         case ALLEGRO_EVENT_KEY_CHAR: {
             if (g_scene_screne != SCENE_TITLE) break;
@@ -79,27 +74,22 @@ int main() {
                 float mx = event.mouse.x, my = event.mouse.y;
 
                 if (point_in_button(mx, my, &g_btn_start)) {
-                    // 이름 저장 후 게임 시작
-                    STRCPY_SAFE(g_player_name, g_name_box.text);
-                    g_player_name[sizeof(g_player_name) - 1] = '\0';
-                    textbox_clear(&g_name_box);
-                    start_play_stage(queue);     // 내부에서 play_game 실행/복귀
-                    printf("%s", g_player_name);
-                    changed = true;              // 타이틀로 복귀했으니 다시 그리기
+                    handle_start_from_title(queue);  // ★ 이름 저장(빈 경우 guset) + 시작 + 복귀
+                    printf("%s\n", g_player_name);
+                    start_play_stage(queue);
+                    changed = true;                  // 타이틀 재렌더
                 }
                 else if (point_in_button(mx, my, &g_btn_rank)) {
                     g_scene_screne = SCENE_RANK;
                     changed = true;
                 }
             }
-            // 3) 문자 입력이면(Enter로 시작 등) 추가 처리
-            else {
+            // 3) 문자입력: 엔터로 시작
+            else { // ALLEGRO_EVENT_KEY_CHAR
                 int key = event.keyboard.keycode;
-                if ((key == ALLEGRO_KEY_ENTER || key == ALLEGRO_KEY_PAD_ENTER) && g_name_box.len > 0) {
-                    STRCPY_SAFE(g_player_name, g_name_box.text);
-                    g_player_name[sizeof(g_player_name) - 1] = '\0';
-                    textbox_clear(&g_name_box);
-                    printf("%s", g_player_name);
+                if (key == ALLEGRO_KEY_ENTER || key == ALLEGRO_KEY_PAD_ENTER) {
+                    handle_start_from_title(queue);  // ★ 동일 처리
+                    printf("%s\n", g_player_name);
                     start_play_stage(queue);
                     changed = true;
                 }

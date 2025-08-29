@@ -9,6 +9,7 @@
 
 #include "game_system.h"
 
+
 // --- keyboard ---
 
 
@@ -145,4 +146,13 @@ void textbox_clear(TextBox* tb)
     tb->len = 0;
     tb->text[0] = '\0';
     tb->focused = false;
+}
+
+void handle_start_from_title(ALLEGRO_EVENT_QUEUE* main_queue) {
+    if (g_name_box.len > 0) STRCPY_SAFE(g_player_name, g_name_box.text);
+    else                    STRCPY_SAFE(g_player_name, "guset");
+    g_player_name[sizeof(g_player_name) - 1] = '\0';
+
+    textbox_clear(&g_name_box);
+    //start_play_stage(main_queue);
 }

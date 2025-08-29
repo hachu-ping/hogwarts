@@ -12,6 +12,12 @@
 #define SCREEN_HEIGHT 800
 
 
+#if defined(_MSC_VER)
+#define STRCPY_SAFE(dst, src) strncpy_s(dst, sizeof(dst), src, _TRUNCATE)
+#else
+#define STRCPY_SAFE(dst, src) snprintf(dst, sizeof(dst), "%s", src)
+#endif
+
 typedef enum { SCENE_TITLE, SCENE_PLAY, SCENE_RANK } Scene;
 
 typedef struct {
@@ -57,6 +63,7 @@ void keyboard_update(ALLEGRO_EVENT* event);
 void draw_title_screen(void);
 void draw_rank_screen(void);
 void textbox_clear(TextBox* tb);
+void handle_start_from_title(ALLEGRO_EVENT_QUEUE* main_queue);
 
 #endif /* __GAME_SYSTEM_H__ */
 
