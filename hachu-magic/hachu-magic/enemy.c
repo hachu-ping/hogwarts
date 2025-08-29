@@ -25,8 +25,8 @@ void DEBUG_init_enemy(void) {
         g_enemy_list[i].type = 0;
         g_enemy_list[i].pos_x = 0;
         g_enemy_list[i].pos_y = 0;
-        g_enemy_list[i].size_w = 50;
-        g_enemy_list[i].size_h = 50;
+        g_enemy_list[i].size_w = 180;
+        g_enemy_list[i].size_h = 180;
 
         // ?? ?????? ??? ???? ????
         switch (i) {
@@ -73,34 +73,6 @@ void DEBUG_init_enemy(void) {
     }
 }
 
-
-
-
-
-
-/*
-void DEBUG_init_enemy(void) {
-	for (int i = 0; i < 15; i++) {
-		g_enemy_list[i].type = 0;
-		g_enemy_list[i].pos_x = 0;
-		g_enemy_list[i].pos_y = 0;
-		g_enemy_list[i].size_w = 0;
-		g_enemy_list[i].size_h = 0;
-
-		// ???? ??¡À ???? (??? DIR_LEFT = 1)
-		char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_LEFT, DIR_LEFT };
-		memcpy(g_enemy_list[i].pattern, pattern, sizeof(char) * 4);
-
-		g_enemy_list[i].is_invincible = 0;
-		g_enemy_list[i].life = 3;
-		g_enemy_list[i].received_attack_count = 0;
-		// g_enemy_list[i].current_pattern = DIR_LEFT;  // ? ??? ????
-		g_enemy_list[i].current_pattern = 1;
-		g_enemy_list[i].used = 1;
-		g_enemy_list[i].velocity = 1.0;
-	}
-}
-*/
 void init_enemy(void) {
 	for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
 		g_enemy_list[i].is_spawned = 0;
@@ -203,9 +175,9 @@ void spawn_enemy(void)
     temp_enemy.life = 4;
     temp_enemy.received_attack_count = 0;
 
-    temp_enemy.size_w = 40;
-    temp_enemy.size_h = 40;
-    char pattern[] = { DIR_UP, DIR_LEFT, DIR_RIGHT, DIR_UP };
+    temp_enemy.size_w = 180;
+    temp_enemy.size_h = 180;
+    char pattern[] = { DIR_UP, DIR_LEFT, DIR_LEFT, DIR_LEFT };
     memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
     temp_enemy.current_pattern = DIR_UP;
 
@@ -226,7 +198,7 @@ void move_enemy()
         double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
-        printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
+        //printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
 
 
         if (dist == 0) {
