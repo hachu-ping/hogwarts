@@ -71,10 +71,10 @@ void update_cat()
             DEBUG_PRINT("left %d, right: %d, up : %d, down : %d\n", left, right, up, down);
 
             // 마법 공격 함수 호출
-            direction magic_type = keycode_to_direction(keycode);
-            DEBUG_PRINT("input_dir(enum) = %d\n", magic_type);  // 1~4 출력 확인
+            direction_t direction = keycode_to_direction(keycode);
+            DEBUG_PRINT("input_dir(enum) = %d\n", direction);  // 1~4 출력 확인
 
-            cast_magic(magic_type);
+            cast_magic(direction);
 
             // 마지막 공격 시간 갱신
             g_cat.last_attack_time = now;
@@ -82,7 +82,7 @@ void update_cat()
     }
 }
 
-void cast_magic(direction magic_type)
+void cast_magic(direction_t direction)
 {
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t* e = &g_enemy_list[i];

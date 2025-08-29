@@ -12,16 +12,13 @@
 #include "sprites.h"
 #include "utils.h"
 
-
-
 extern cat_t g_cat;
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
-SPRITES g_sprites;
-
 extern int g_frames;
-extern cat_t g_cat;
+
+SPRITES g_sprites;
 
 // internal 함수 선언
 static ALLEGRO_BITMAP* load_bitmap(const char* file_name);

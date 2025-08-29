@@ -57,10 +57,15 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void)
 	return temp;
 }
 
+void init_keyboard(void)
+{
+	memset(key, 0, sizeof(key));
+}
+
+
 void init_data(void)
 {
-	memset(g_key, 0, sizeof(g_key));
-
+	init_keyboard();
 	init_sprites();
 
 #ifdef DEBUG_MODE

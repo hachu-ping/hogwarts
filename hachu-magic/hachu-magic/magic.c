@@ -41,7 +41,7 @@ void init_magic(void)
 	}
 }
 
-void create_magic(double pos_x, double pos_y, magic_type type, enemy_t* target)
+void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target)
 {
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
 		// 비어 있는 슬롯 발견

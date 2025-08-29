@@ -16,7 +16,7 @@ typedef struct _magic {
 	char is_spawned;
 
 	// 마법의 종류
-	magic_type type;
+	magic_type_t type;
 
 	// 현재 x 좌표 (좌측상단 기준)
 	double pos_x;
@@ -56,7 +56,7 @@ void init_magic(void);
  * @param type: 마법의 공격 타입
  * @param target: 마법의 목표(적)에 대한 포인터
  */
-void create_magic(double pos_x, double pos_y, magic_type type, enemy_t* target);
+void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target);
 
 /**
  * 타겟과의 충돌에 대해 검사합니다.

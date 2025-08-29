@@ -6,9 +6,6 @@
 
 #include "game_system.h"
 
-// --- keyboard ---
-
-
 unsigned char g_key[ALLEGRO_KEY_MAX];
 
 void keyboard_update(ALLEGRO_EVENT* event)
