@@ -12,11 +12,10 @@
 #include "initializer.h"
 #include "sprites.h"
 #include "utils.h"
-#include "enemy.h"
 #include "magic.h"
-#include "cat.h"
 
 #include <allegro5/keycodes.h>
+
 
 int g_frames = 0;
 
@@ -77,11 +76,13 @@ int main() {
 
             // - 마법 탄환 이동
             move_magic();
+
             // - 적 이동
             move_enemy();
 
             // - 적-마법 충돌 처리
-            collide_magic();
+            handle_magic_collision();
+
             // - 적-고양이 충돌 처리
 
             should_redraw = true;
