@@ -11,6 +11,7 @@
 #include "game_system.h"
 
 enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
+int life_by_stage[] = { 3, 5, 7 };
 
 extern cat_t g_cat;
 extern int max_stage_number;
@@ -26,7 +27,8 @@ void DEBUG_init_enemy(void) {
         g_enemy_list[i].pos_y = 0;
         g_enemy_list[i].size_w = 180;
         g_enemy_list[i].size_h = 180;
-
+    }
+}
 
 //디버그 테스트용 enemy
 //void DEBUG_init_enemy(void) {
@@ -182,16 +184,20 @@ void spawn_enemy(void)
         return;
     }
 
-    temp_enemy.type = 0;
-    temp_enemy.life = 4;
+    temp_enemy.type = 0; 
+  /*  temp_enemy.life = 4; ---> 2025-08-29 여기를 바꿔야함 */
+    temp_enemy.life = life_by_stage[current_stage];
+
+  
     temp_enemy.received_attack_count = 0;
 
     temp_enemy.size_w = 180;
     temp_enemy.size_h = 180;
-    char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
-    memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
+
+    //char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
+    //memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
     //temp_enemy.current_pattern = DIR_UP;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < life_by_stage[current_stage]; i++) {
         temp_enemy.pattern[i] = (Direction)(1 + rand() % 4);
     }
     temp_enemy.current_pattern = temp_enemy.pattern[0];  // 패턴 첫 방향으로 설정

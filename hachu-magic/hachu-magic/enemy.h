@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #define ENEMY_MAX_NUMBER 15
+#define MAX_PATTERN_LENGTH 15
 
 typedef struct _enemy {
 	// TODO: change into enum (char)
@@ -37,6 +38,8 @@ typedef struct _enemy {
 	// 적의 패턴 배열. 배열 요소는 패턴(방향키)으로 구성된다.
 	char pattern[15];
 	
+
+
 	// 현재 남은 첫 번째 패턴 == pattern[received_attack_count]
 	char current_pattern;
 
