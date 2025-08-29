@@ -6,6 +6,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdbool.h>
 
+#include "game_system.h"
+
 
 /**
  * 첫 번째 인자로 전달된 값의 유효성을 검사합니다. 만약 해당 값이 false (0) 이라면 description 을 출력하고 프로그램을 종료합니다.
@@ -25,13 +27,7 @@ void draw_cat();
 */
 
 
-typedef enum _direction {
-    DIRECTION_NONE = 0,
-    DIRECTION_LEFT = 1,
-    DIRECTION_RIGHT = 2,
-    DIRECTION_UP = 3,
-    DIRECTION_DOWN = 4
-} direction;
+
 
 direction keycode_to_direction(int);
 

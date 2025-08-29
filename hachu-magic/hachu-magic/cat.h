@@ -8,10 +8,10 @@
 
 typedef struct _cat {
 	// 현재 x 좌표 (좌측상단 기준)
-	int pos_x;
+	double pos_x;
 
 	// 현재 y 좌표 (좌측상단 기준)
-	int pos_y;
+	double pos_y;
 
 	// 가로 길이
 	int size_w;
