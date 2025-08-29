@@ -6,6 +6,7 @@
 #include <allegro5/allegro_font.h>
 
 #include <stdbool.h>
+#include "game_system.h"
 
 /**
  * Allegro를 사용하도록 초기화합니다.
@@ -16,13 +17,13 @@
 void init_allegro(void);
 
 /**
- * Allegro의 addon들을 초기화합니다. 
+ * Allegro의 addon들을 초기화합니다.
  * 초기화 실패 시 프로그램이 종료됩니다.
  */
 void init_addons(void);
 
 /**
- * Allegro의 드라이버들을 설치합니다. 
+ * Allegro의 드라이버들을 설치합니다.
  * 설치 실패 시 프로그램이 종료됩니다.
  */
 void install_driver(void);
@@ -32,7 +33,7 @@ void install_driver(void);
  * 생성 및 초기화 실패 시 프로그램이 종료됩니다.
  * @param int width: 프로그램 윈도우의 가로 길이
  * @param int height: 프로그램 윈도우의 세로 길이
- * @return ALLEGRO_DISPLAY* 
+ * @return ALLEGRO_DISPLAY*
  */
 ALLEGRO_DISPLAY* init_display(const int width, const int height);
 
@@ -62,5 +63,6 @@ ALLEGRO_FONT* init_builtin_font(void);
  * 프로그램 실행에 필요한 기본 데이터를 초기화합니다.
  */
 void init_data(void);
+void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen);
 
 #endif /* __initializer_H__ */

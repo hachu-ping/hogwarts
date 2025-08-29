@@ -23,6 +23,9 @@ int stage_wave_spawn_enemy_number[] = { 5, 6, 7 };
 
 int g_frames = 0;
 
+char g_player_name[64] = { 0 };
+
+
 //함수 부 시작
 void clear_data(void)
 {
@@ -30,13 +33,13 @@ void clear_data(void)
     current_wave = 0;
 
 #if __DEBUG_MODE__
-	DEBUG_clear_cat();
-	DEBUG_clear_enemy();
-	DEBUG_clear_magic();
+    DEBUG_clear_cat();
+    DEBUG_clear_enemy();
+    DEBUG_clear_magic();
 #else
-	clear_cat();
-	clear_enemy();
-	clear_magic();
+    clear_cat();
+    clear_enemy();
+    clear_magic();
 #endif	
 }
 
@@ -92,10 +95,29 @@ void play_game(void)
         // === 렌더 ===
         if (redraw && al_is_event_queue_empty(queue)) {
             redraw = false;
-            refresh_screen();    
+            refresh_screen();
         }
     }
 
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
+}
+
+extern void play_game(void);
+
+void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue)
+{
+    // 현재 씬 저장(원하면 복귀 시 사용)
+    Scene prev = g_scene_screne;
+
+    g_scene_screne = SCENE_PLAY;
+
+    if (main_queue) al_pause_event_queue(main_queue, true);
+    play_game();
+    if (main_queue) {
+        al_pause_event_queue(main_queue, false);
+        al_flush_event_queue(main_queue);
+    }
+
+    g_scene_screne = SCENE_TITLE;
 }

@@ -8,6 +8,7 @@
 #include <allegro5/allegro_image.h>
 
 #include "initializer.h"
+#include "game_system.h"
 #include "sprites.h"
 #include "utils.h"
 
@@ -20,13 +21,13 @@ void init_allegro(void)
 	must_init(al_init(), "allegro");
 }
 
-void init_addons(void) 
+void init_addons(void)
 {
 	// png ????? ????? ???? ????? ?????
 	must_init(al_init_image_addon(), "image addon init");
 
 	// ??, ????, ??, ???? ?? ???????? ?????? ???? primitives ?????
-	must_init(al_init_primitives_addon(), "primitives addon init");  
+	must_init(al_init_primitives_addon(), "primitives addon init");
 
 	//font addon initialize
 	must_init(al_init_font_addon(), "font addon init");
@@ -47,7 +48,7 @@ ALLEGRO_DISPLAY* init_display(const int width, const int height)
 
 	return temp;
 }
-//시진 추가1
+//�떆吏� 異붽��1
 
 /*
 ALLEGRO_FONT* init_builtin_font(void)
@@ -58,7 +59,7 @@ ALLEGRO_FONT* init_builtin_font(void)
 	return font;
 }
 */
-//시진 추가2
+//�떆吏� 異붽��2
 
 
 ALLEGRO_TIMER* init_timer(const double speed_secs)
@@ -82,3 +83,11 @@ void init_data(void)
 	init_sprites();
 }
 
+void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen)
+{
+	tb->x = x; tb->y = y; tb->w = w; tb->h = h;
+	tb->focused = false;
+	tb->maxlen = (maxlen < (int)sizeof(tb->text) - 1) ? maxlen : (int)sizeof(tb->text) - 1;
+	tb->len = 0;
+	tb->text[0] = '\0';
+}

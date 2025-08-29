@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -12,9 +10,7 @@
 #include "initializer.h"
 #include "sprites.h"
 #include "utils.h"
-#include "enemy.h"
 #include "magic.h"
-#include "cat.h"
 #include "game_system.h"
 #include "game_manager.h"
 
@@ -22,179 +18,126 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 
+#if defined(_MSC_VER)
+#define STRCPY_SAFE(dst, src) strncpy_s(dst, sizeof(dst), src, _TRUNCATE)
+#else
+#define STRCPY_SAFE(dst, src) snprintf(dst, sizeof(dst), "%s", src)
+#endif
+
 
 int main() {
-    // 알레그로 초기화
+    // Allegro / addons
     init_allegro();
-
-    // 에드온 초기화
     init_addons();
     install_driver();
-    
 
-    // 데이터 초기화
     init_data();
 
-    // 리소스 초기화
+    // 버튼 위에 텍스트박스 배치
+    textbox_init(&g_name_box, g_btn_start.x, g_btn_start.y - 60, g_btn_start.w, 40, 32);
 
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
-    //ALLEGRO_FONT* g_font = init_builtin_font();
+
     g_font = al_create_builtin_font();
-    //Scene g_scene_screne = SCENE_TITLE;
-    //ALLEGRO_FONT* font = NULL;  // 내장 폰트(별도 TTF 없이)
-   // static Button g_btn_start = { 550, 380, 300, 60, "게임 시작" };
-    //static Button g_btn_rank = { 550, 460, 300, 60, "랭크 보기" };
+    g_font_btn = al_create_builtin_font();
 
-
-    // 이벤트 큐 등록
+    // 이벤트 소스 등록
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_mouse_event_source());
 
-    int i = 1;
+    // 첫 화면
+    g_scene_screne = SCENE_TITLE;
+    draw_title_screen();
+    al_flip_display();
 
     bool is_done = false;
-    bool should_redraw = false;
 
     while (!is_done) {
         ALLEGRO_EVENT event;
-        
         al_wait_for_event(queue, &event);
-        
-        keyboard_update(&event);  // 키 상태 갱신
-        
-        if (i) {
-            draw_title_screen();
-            al_flip_display();
-            i = 0;
-        }
-        
-
-        
+        keyboard_update(&event);
 
         switch (event.type) {
-
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
-            // 창 종료
             is_done = true;
             break;
-        //TODO : 이동은 함수로 ㅂ빼자.
-        //TODO : switch로 g_scene_screne 구분
 
+            // ★ 타이틀에서 텍스트박스/버튼 입력 처리: 마우스/문자 입력을 한 블록에서
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-            {
-        
-            float mx = event.mouse.x;
-            float my = event.mouse.y;
-            if (g_scene_screne == SCENE_TITLE) {
-                draw_title_screen();
+        case ALLEGRO_EVENT_KEY_CHAR: {
+            if (g_scene_screne != SCENE_TITLE) break;
+
+            bool changed = false;
+
+            // 1) 텍스트박스에 먼저 이벤트 전달(포커스/문자 편집)
+            changed |= textbox_handle_event(&g_name_box, &event);
+
+            // 2) 마우스 클릭이면 버튼 처리
+            if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+                float mx = event.mouse.x, my = event.mouse.y;
+
                 if (point_in_button(mx, my, &g_btn_start)) {
-                    // 플레이 시작 직전 초기화가 필요하면 여기서!
-                    // ex) reset_score(); reset_entities(); init_level();
-                    g_scene_screne = SCENE_PLAY;
-                    printf("1\n");
-                    al_pause_event_queue(queue, true);
-                    play_game();
-                    al_pause_event_queue(queue, false);
-                    g_scene_screne = SCENE_TITLE;
-                    should_redraw = true;
+                    // 이름 저장 후 게임 시작
+                    STRCPY_SAFE(g_player_name, g_name_box.text);
+                    g_player_name[sizeof(g_player_name) - 1] = '\0';
+                    textbox_clear(&g_name_box);
+                    start_play_stage(queue);     // 내부에서 play_game 실행/복귀
+                    printf("%s", g_player_name);
+                    changed = true;              // 타이틀로 복귀했으니 다시 그리기
                 }
                 else if (point_in_button(mx, my, &g_btn_rank)) {
                     g_scene_screne = SCENE_RANK;
-                    should_redraw = true;
+                    changed = true;
                 }
             }
-            else if (g_scene_screne == SCENE_RANK) {
-                // 필요 시 클릭으로 스크롤/선택 등
-            }}
-            break;
-
-         //TODO : key랑 화면 if문 바꾸기, switch case -> ok 근데 너무 분량이 커졌음
-        case ALLEGRO_EVENT_KEY_DOWN: {
-            int k = event.keyboard.keycode;
-
-            switch (k) {
-            case ALLEGRO_KEY_ENTER:
-                switch (g_scene_screne) {
-                case SCENE_TITLE:
-                    g_scene_screne = SCENE_PLAY;
-                    al_pause_event_queue(queue, true);
-                    play_game();
-                    al_pause_event_queue(queue, false);
-                    g_scene_screne = SCENE_TITLE;
-                    should_redraw = true;
-                    break;
-                case SCENE_PLAY:
-                case SCENE_RANK:
-                    break;
+            // 3) 문자 입력이면(Enter로 시작 등) 추가 처리
+            else {
+                int key = event.keyboard.keycode;
+                if ((key == ALLEGRO_KEY_ENTER || key == ALLEGRO_KEY_PAD_ENTER) && g_name_box.len > 0) {
+                    STRCPY_SAFE(g_player_name, g_name_box.text);
+                    g_player_name[sizeof(g_player_name) - 1] = '\0';
+                    textbox_clear(&g_name_box);
+                    printf("%s", g_player_name);
+                    start_play_stage(queue);
+                    changed = true;
                 }
-                break;
+            }
 
-            case ALLEGRO_KEY_R:
-                switch (g_scene_screne) {
-                case SCENE_TITLE:
-                    g_scene_screne = SCENE_RANK; 
-                    break;
-                default:
-                    break;
-                }
-                break;
-
-            case ALLEGRO_KEY_ESCAPE:
-                switch (g_scene_screne) {
-                case SCENE_TITLE:
-                    is_done = true;              
-                    break;
-                case SCENE_PLAY:
-                    g_scene_screne = SCENE_TITLE;
-                    break;
-                case SCENE_RANK:
-                    g_scene_screne = SCENE_TITLE;  
-                    should_redraw = true;
-                    break;
-                }
-                break;
-
-            default:
-                // 다른 키들(방향키, 스페이스 등)도 같은 패턴으로 추가 가능
-                break;
+            if (changed) {
+                if (g_scene_screne == SCENE_TITLE)      draw_title_screen();
+                else if (g_scene_screne == SCENE_RANK)  draw_rank_screen();
+                al_flip_display();
             }
         } break;
 
 
+        case ALLEGRO_EVENT_KEY_DOWN: {
+            int k = event.keyboard.keycode;
+            switch (k) {
+            case ALLEGRO_KEY_ESCAPE:
+                if (g_scene_screne == SCENE_TITLE) {
+                    is_done = true;
+                }
+                else {
+                    g_scene_screne = SCENE_TITLE;
+                    draw_title_screen();
+                    al_flip_display();
+                }
+                break;
+            default: break;
+            }
+        } break;
+
         default:
             break;
-
         }
-
- 
-        // *** 게임 화면 업데이트
-        // 값 수정 사항이 있을 때 + event 처리가 완료되었을 때 게임 화면 업데이트
-        if (al_is_event_queue_empty(queue)) {
-            should_redraw = false;
-
-            if (g_scene_screne == SCENE_TITLE) {
-                draw_title_screen();
-            }
-            else if (g_scene_screne == SCENE_PLAY) {
-                // 당신이 이미 가진 전체 게임 그리기 함수
-                refresh_screen();
-            }
-            else if (g_scene_screne == SCENE_RANK) {
-                draw_rank_screen();
-            }               
-            al_flip_display();
-
-        }
-     
     }
 
-    if (g_font) al_destroy_font(g_font);
+    if (g_font)     al_destroy_font(g_font);
+    if (g_font_btn) al_destroy_font(g_font_btn);
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
-
     return 0;
 }
-
-
