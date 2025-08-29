@@ -109,33 +109,59 @@ int main() {
                 // 필요 시 클릭으로 스크롤/선택 등
             }}
             break;
-         //TODO : key랑 화면 if문 바꾸기, switch case
-        case ALLEGRO_EVENT_KEY_DOWN:
-            if (g_scene_screne == SCENE_TITLE) {
-                if (event.keyboard.keycode == ALLEGRO_KEY_ENTER) {
-                    // 키보드로도 시작
+
+         //TODO : key랑 화면 if문 바꾸기, switch case -> ok 근데 너무 분량이 커졌음
+        case ALLEGRO_EVENT_KEY_DOWN: {
+            int k = event.keyboard.keycode;
+
+            switch (k) {
+            case ALLEGRO_KEY_ENTER:
+                switch (g_scene_screne) {
+                case SCENE_TITLE:
                     g_scene_screne = SCENE_PLAY;
-                }
-                else if (event.keyboard.keycode == ALLEGRO_KEY_R) {
-                    g_scene_screne = SCENE_RANK;
-                }
-                else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                    is_done = true; // 타이틀에서 ESC로 종료
-                }
-            }
-            else if (g_scene_screne == SCENE_PLAY) {
-                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                    // 플레이 중 ESC → 타이틀 복귀(또는 일시정지 메뉴)
-                    g_scene_screne = SCENE_TITLE;
-                }
-            }
-            else if (g_scene_screne == SCENE_RANK) {
-                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                    al_pause_event_queue(queue, true);
+                    play_game();
+                    al_pause_event_queue(queue, false);
                     g_scene_screne = SCENE_TITLE;
                     should_redraw = true;
+                    break;
+                case SCENE_PLAY:
+                case SCENE_RANK:
+                    break;
                 }
+                break;
+
+            case ALLEGRO_KEY_R:
+                switch (g_scene_screne) {
+                case SCENE_TITLE:
+                    g_scene_screne = SCENE_RANK; 
+                    break;
+                default:
+                    break;
+                }
+                break;
+
+            case ALLEGRO_KEY_ESCAPE:
+                switch (g_scene_screne) {
+                case SCENE_TITLE:
+                    is_done = true;              
+                    break;
+                case SCENE_PLAY:
+                    g_scene_screne = SCENE_TITLE;
+                    break;
+                case SCENE_RANK:
+                    g_scene_screne = SCENE_TITLE;  
+                    should_redraw = true;
+                    break;
+                }
+                break;
+
+            default:
+                // 다른 키들(방향키, 스페이스 등)도 같은 패턴으로 추가 가능
+                break;
             }
-            break;
+        } break;
+
 
         default:
             break;
