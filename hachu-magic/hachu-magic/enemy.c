@@ -11,7 +11,8 @@
 #include "game_system.h"
 
 enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
-int life_by_stage[] = { 3, 5, 7 };
+//int life_by_stage[] = { 3, 5, 7 };
+int life_by_stage[] = { 3,4,5,7 };
 
 extern cat_t g_cat;
 extern int max_stage_number;
@@ -94,18 +95,23 @@ void init_enemy(void) {
 
 void spawn_wave(void)
 {
+    
     bool is_cleared = is_enemy_cleared();
 
     if (!is_cleared) {
         return;
     }
-    current_wave += 1;
+
 
     if (stage_wave_max_number[current_stage] == current_wave) {
         current_wave = 0;
         current_stage += 1;
     }
+ 
+ 
+   
 
+    
     if (max_stage_number == current_stage)
     {
         // ???? ????
@@ -117,6 +123,7 @@ void spawn_wave(void)
         printf("%d %d\n", i, stage_wave_spawn_enemy_number[current_stage]);
         spawn_enemy();
     }
+    current_wave += 1;
 }
 
 
@@ -184,11 +191,12 @@ void spawn_enemy(void)
         return;
     }
 
-    temp_enemy.type = 0; 
-  /*  temp_enemy.life = 4; ---> 2025-08-29 여기를 바꿔야함 */
-    temp_enemy.life = life_by_stage[current_stage];
+  /*  temp_enemy.type = 0;*/
+    temp_enemy.type = current_stage;
 
-  
+
+  /*  temp_enemy.life = 4; ---> 2025-08-29 여기를 바꿔야함 밑에 life 부분으로 바꿈! */
+    temp_enemy.life = life_by_stage[current_stage];
     temp_enemy.received_attack_count = 0;
 
     temp_enemy.size_w = 180;
