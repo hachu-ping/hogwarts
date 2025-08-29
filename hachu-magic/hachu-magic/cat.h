@@ -21,7 +21,7 @@ typedef struct _cat {
 } cat_t;
 
 void handle_input(int);
-void create_magic(int, int, int, int, float, char, enemy_t*);
+void create_magic(int, int, char, enemy_t*);
 void init_cat();
 void update_cat();
 void draw_cat();

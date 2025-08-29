@@ -73,23 +73,23 @@ void init_sprites(void)
     g_sprites.enemies[3][1] = sprite_grab(g_sprites._enemy_sheet, ENEMY_WIDTH[3] * 1, ENEMY_HEIGHT[1] + ENEMY_HEIGHT[2], ENEMY_WIDTH[3], ENEMY_HEIGHT[3]);
 
     g_sprites._effect_sheet = load_bitmap("assets/sprites/effect_sprite.png");
-    g_sprites.arrows[0] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 0, ARROW_WIDTH, ARROW_HEIGHT);
-    g_sprites.arrows[1] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 1, ARROW_WIDTH, ARROW_HEIGHT);
-    g_sprites.arrows[2] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 2, ARROW_WIDTH, ARROW_HEIGHT);
-    g_sprites.arrows[3] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 3, ARROW_WIDTH, ARROW_HEIGHT);
+    g_sprites.arrows[1] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 0, ARROW_WIDTH, ARROW_HEIGHT);
+    g_sprites.arrows[2] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 1, ARROW_WIDTH, ARROW_HEIGHT);
+    g_sprites.arrows[3] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 2, ARROW_WIDTH, ARROW_HEIGHT);
+    g_sprites.arrows[4] = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 3, ARROW_WIDTH, ARROW_HEIGHT);
     g_sprites.life = sprite_grab(g_sprites._effect_sheet, 0, ARROW_HEIGHT * 4, LIFE_WIDTH, LIFE_HEIGHT);
-    g_sprites.magics[0][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 0, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[0][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 0, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[0][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 0, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[1][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 1, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[1][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 1, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[1][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 1, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[2][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 2, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[2][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 2, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[2][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 2, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[3][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 3, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[3][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 3, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
-    g_sprites.magics[3][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 3, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[1][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 0, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[1][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 0, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[1][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 0, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[2][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 1, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[2][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 1, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[2][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 1, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[3][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 2, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[3][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 2, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[3][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 2, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[4][0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 3, MAGIC_HEIGHT * 0, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[4][1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 3, MAGIC_HEIGHT * 1, MAGIC_WIDTH, MAGIC_HEIGHT);
+    g_sprites.magics[4][2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + MAGIC_WIDTH * 3, MAGIC_HEIGHT * 2, MAGIC_WIDTH, MAGIC_HEIGHT);
     g_sprites.explosion[0] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + EXPLOSION_WIDTH * 0, MAGIC_HEIGHT * 4, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
     g_sprites.explosion[1] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + EXPLOSION_WIDTH * 1, MAGIC_HEIGHT * 4, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
     g_sprites.explosion[2] = sprite_grab(g_sprites._effect_sheet, ARROW_WIDTH + EXPLOSION_WIDTH * 2, MAGIC_HEIGHT * 4, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
@@ -115,7 +115,11 @@ void draw_background(void)
 
 void draw_cat(void)
 {
-    al_draw_bitmap(g_sprites.cat[g_frames / 12 % CAT_FRAME_NUMBER], g_cat.pos_x, g_cat.pos_y, 0);
+    al_draw_bitmap(g_sprites.cat[g_frames / 12 % CAT_FRAME_NUMBER],
+        g_cat.pos_x, 
+        g_cat.pos_y,
+        0
+    );
 }
 
 void draw_enemies(void)
@@ -127,7 +131,11 @@ void draw_enemies(void)
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t enemy = g_enemy_list[i];
         if (enemy.is_spawned) {
-            al_draw_bitmap(g_sprites.enemies[enemy.type][g_frames / 16 % ENEMY_FRAME_NUMBER], enemy.pos_x, enemy.pos_y,0);
+            al_draw_bitmap(g_sprites.enemies[enemy.type][g_frames / 16 % ENEMY_FRAME_NUMBER], 
+                enemy.pos_x, 
+                enemy.pos_y,
+                0
+            );
         }
     }
 
@@ -136,8 +144,14 @@ void draw_enemies(void)
         enemy_t enemy = g_enemy_list[i];
         if (enemy.is_spawned) {
             for (int ii = enemy.received_attack_count; ii < enemy.life; ++ii) {
-                double arrow_pos_x = -0.5 * (enemy.life - enemy.received_attack_count) + ii;
-                al_draw_bitmap(g_sprites.arrows[enemy.pattern[ii]], enemy.pos_x + arrow_pos_x * ARROW_WIDTH, enemy.pos_y - enemy.size_h / 2 - ARROW_HEIGHT /2 , 0);
+                double arrow_pos_x_offset = 0.5 * enemy.size_w + (-0.5 * (enemy.life - enemy.received_attack_count)) * ARROW_WIDTH + (ii - enemy.received_attack_count) * ARROW_WIDTH;
+                double arrow_pos_y_offset = +(ARROW_HEIGHT * 0.3);
+                al_draw_bitmap(
+                    g_sprites.arrows[enemy.pattern[ii]], 
+                    enemy.pos_x + arrow_pos_x_offset, 
+                    enemy.pos_y + arrow_pos_y_offset, 
+                    0
+                );
             }
         }
     }
@@ -148,7 +162,11 @@ void draw_magics(void)
     for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
         magic_t temp = g_magic_list[i];
         if (temp.is_spawned)
-            al_draw_bitmap(g_sprites.magics[temp.type][g_frames / 16 % MAGIC_FRAME_NUMBER], temp.pos_x, temp.pos_y, 0);
+            al_draw_bitmap(g_sprites.magics[temp.type][g_frames / 16 % MAGIC_FRAME_NUMBER], 
+                temp.pos_x, 
+                temp.pos_y, 
+                0
+            );
     }
 }
 
