@@ -6,7 +6,6 @@
 #include "enemy.h"
 #include "utils.h"
 #include "magic.h"
-#include <allegro5/keycodes.h>
 #include "game_system.h"
 
 #include <stdio.h>

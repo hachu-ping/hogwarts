@@ -226,7 +226,7 @@ void move_enemy()
         double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
-        printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
+        // printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
 
 
         if (dist == 0) {
