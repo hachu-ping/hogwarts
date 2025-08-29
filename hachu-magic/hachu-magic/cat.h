@@ -5,6 +5,7 @@
 
 #define CAT_SIZE_W 200
 #define CAT_SIZE_H 200
+#define DEFAULT_ATTACK_COOLDOWN_TIME 0.2
 
 typedef struct _cat {
 	// 현재 x 좌표 (좌측상단 기준)
