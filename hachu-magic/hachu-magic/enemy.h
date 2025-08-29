@@ -62,6 +62,9 @@ void spawn_enemy(void);
 
 bool is_enemy_cleared(void);
 
+bool is_collided_with_cat(enemy_t* enemy_ptr);
+
+void handle_enemy_collision();
 
 
 #endif /* __ENEMY_H__ */

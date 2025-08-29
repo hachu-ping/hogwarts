@@ -84,6 +84,7 @@ int main() {
             handle_magic_collision();
 
             // - 利-绊剧捞 面倒 贸府
+            handle_enemy_collision();
 
             should_redraw = true;
             break;
