@@ -9,7 +9,7 @@
 #include "game_manager.h"
 #include <stdbool.h>
 
-#define MAX_RANK 10
+#define MAX_RANK 5
 #define MAX_NAME_LEN 20
 #define RANK_FILE "ranking.txt"
 
@@ -47,7 +47,7 @@ void is_game_over(GameState* gm_state) {
 
 void is_game_clear(GameState* gm_state) {
     gm_state->gm_end_time = al_get_time();
-    if (gm_state->g_cat_life > 0 && gm_state->current_stage > 2) {
+    if (gm_state->g_cat_life > 0 && gm_state->current_stage >= 2) {
         printf("debug - is game clear - true \n");
         gm_state->game_clear = true;
         gm_state->time_taken = (float)(gm_state->gm_end_time - gm_state->gm_start_time);  
@@ -106,44 +106,8 @@ int compare_scores(const void* a, const void* b) {
 
 성공한 기록끼리는 빠른 시간 순서로 정렬
 */
-void add_score(const char* name, float time) {
-    // 기록 실패인 경우도 포함시켜야 하므로 따로 처리
-    if (rank_count < MAX_RANK) {
-        // 자리 여유 있음 -> 그냥 추가
-        strncpy(rankings[rank_count].name, name, MAX_NAME_LEN);
-        rankings[rank_count].time = time;
-        rank_count++;
-    }
-    else {
-        // 꽉 찼으면 새 기록이 기존 최하위보다 더 좋아야 함
-        // 정렬된 상태에서 마지막 기록과 비교
-        int worst_index = rank_count - 1;
-        float worst_time = rankings[worst_index].time;
 
-        if (time < 0 && worst_time < 0) {
-            // 둘 다 실패 기록 -> 그냥 무시
-            return;
-        }
-        if (time < 0 && worst_time >= 0) {
-            // 새 기록은 실패, 기존은 성공 -> 무시
-            return;
-        }
-        if (time >= 0 && worst_time < 0) {
-            // 새 기록은 성공, 기존은 실패 -> 교체
-            // 기록 갱신
-            strncpy(rankings[worst_index].name, name, MAX_NAME_LEN);
-            rankings[worst_index].time = time;
-            return;
-        }
-        else if (time >= worst_time) {
-            // 새 기록이 기존 최하위보다 나쁘거나 같음 -> 무시
-            return;
-        }
-    }
-    // 정렬
-    qsort(rankings, rank_count, sizeof(RankEntry), compare_scores);
-}
-void add_score_v2(const char* name, float time) {
+void add_score(const char* name, float time) {
     // 자리 남아 있으면 그냥 추가
     if (rank_count < MAX_RANK) {
         strncpy(rankings[rank_count].name, name, MAX_NAME_LEN);
@@ -196,17 +160,33 @@ void print_rankings(void) {
 */
 
 // 화면에 랭킹 출력하는 함수
-void print_rankings_screen(ALLEGRO_FONT* font) {
-    al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 50, 0, "=== RANKINGS ===");
+
+void print_rankings_screen(ALLEGRO_FONT* font, GameState* gm_state) {
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+
+    if (gm_state->game_clear) {
+        al_draw_text(font, al_map_rgb(0, 255, 0), 650, 160, 0, "Game Clear!");
+    }
+    else if (gm_state->game_over) {
+        al_draw_text(font, al_map_rgb(255, 0, 0), 650, 160, 0, "Game Over!");
+    }
+
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 600, 230, 0, "=== RANKINGS ===");
 
     for (int i = 0; i < rank_count; i++) {
         if (rankings[i].time < 0) {
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 80 + i * 30, 0,
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
                 "%2d. %-10s  --초", i + 1, rankings[i].name);
         }
         else {
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 100, 80 + i * 30, 0,
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
                 "%2d. %-10s  %.2f초", i + 1, rankings[i].name, rankings[i].time);
         }
     }
+
+    al_flip_display();
 }
+
+
+
+

@@ -37,9 +37,9 @@ void is_game_clear(GameState*);
 void load_rankings(void);
 void save_rankings(void);
 int compare_scores(const void*, const void*);
-void add_score(const char* , float );
-void add_score_v2(const char*, float);
-void print_rankings_screen(ALLEGRO_FONT*);
+void add_score(const char*, float);
+void print_rankings_screen(ALLEGRO_FONT*, GameState*);
+
 
 
 

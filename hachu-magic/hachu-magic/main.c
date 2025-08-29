@@ -76,14 +76,18 @@ int main() {
     // 1. 게임 상태 초기화
     init_game(&gm_state);
 
+   /*
    
     // 2. 게임 클리어 조건 확인 (디버깅용)
     gm_state.current_stage = 3;     // 최종 스테이지 완료했다고 가정
     gm_state.g_cat_life = 3;        // 생명 있음
+
+    */
+    gm_state.current_stage = 2;     // 최종 스테이지 완료했다고 가정
+    gm_state.g_cat_life = 0;        // 생명 있음
     is_game_clear(&gm_state);     
 
     is_game_over(&gm_state);
-
     load_rankings();
 
     /*
@@ -95,13 +99,14 @@ int main() {
     is_game_clear(&gm_state);  // 종료 시간 계산
 
     add_score("test", gm_state.time_taken);
-
+   
     save_rankings();
  
  
     // 랭킹 화면 출력
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    print_rankings_screen(font);
+
+    print_rankings_screen(font, &gm_state);
     al_flip_display();
     al_rest(15.0);
 

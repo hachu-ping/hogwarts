@@ -1,10 +1,5 @@
-Player 0.00
-Player 0.00
-Player 0.00
-Player 0.00
-Player 0.00
-Player 0.00
-Player 0.00
-Player 0.00
-Player 0.00
-TesterC 10.50
+test 0.00
+test 0.00
+test 0.00
+test -1.00
+test -1.00
