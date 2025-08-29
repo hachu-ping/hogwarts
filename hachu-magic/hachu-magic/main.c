@@ -18,6 +18,7 @@
 
 #include <allegro5/keycodes.h>
 
+
 int g_frames = 0;
 
 int main() {

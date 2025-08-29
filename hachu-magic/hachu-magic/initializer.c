@@ -7,13 +7,12 @@
 #include <allegro5/allegro_image.h>
 
 #include "cat.h"
+#include "debug.h"
 #include "enemy.h"
 #include "initializer.h"
 #include "magic.h"
 #include "sprites.h"
 #include "utils.h"
-
-#define __DEBUG_MODE__ 0
 
 extern unsigned char g_key[ALLEGRO_KEY_MAX];
 
@@ -64,7 +63,7 @@ void init_data(void)
 
 	init_sprites();
 
-#if __DEBUG_MODE__
+#ifdef DEBUG_MODE
 	DEBUG_init_cat();
 	DEBUG_init_enemy();
 	DEBUG_init_magic();

@@ -15,7 +15,7 @@
  */
 void must_init(bool, const char*);
 void keyboard_update(ALLEGRO_EVENT*);
-void handle_input_and_create_magic(int);
+void cast_magic_and_create_magic(int);
 
 /*
 void create_magic(int, int, int, int, float, char, enemy_t*);
@@ -25,15 +25,15 @@ void draw_cat();
 */
 
 
-typedef enum {
-    DIR_NONE = 0,
-    DIR_LEFT = 1,
-    DIR_RIGHT = 2,
-    DIR_UP = 3,
-    DIR_DOWN = 4
-} Direction;
+typedef enum _direction {
+    DIRECTION_NONE = 0,
+    DIRECTION_LEFT = 1,
+    DIRECTION_RIGHT = 2,
+    DIRECTION_UP = 3,
+    DIRECTION_DOWN = 4
+} direction;
 
-Direction keycode_to_direction(int);
+direction keycode_to_direction(int);
 
 #endif /* __UTILS_H__ */
 

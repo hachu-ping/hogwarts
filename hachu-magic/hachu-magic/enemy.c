@@ -31,31 +31,31 @@ void DEBUG_init_enemy(void) {
         // ?? ?????? ??? ???? ????
         switch (i) {
         case 0: {
-            char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 1 1 2 3
+            char pattern[] = { DIRECTION_LEFT, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP }; // 1 1 2 3
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 1: {
-            char pattern[] = { DIR_RIGHT, DIR_UP, DIR_RIGHT, DIR_RIGHT }; // 2 3 2 2
+            char pattern[] = { DIRECTION_RIGHT, DIRECTION_UP, DIRECTION_RIGHT, DIRECTION_RIGHT }; // 2 3 2 2
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 2: {
-            char pattern[] = { DIR_UP, DIR_LEFT, DIR_DOWN, DIR_RIGHT }; // 3 1 4 2
+            char pattern[] = { DIRECTION_UP, DIRECTION_LEFT, DIRECTION_DOWN, DIRECTION_RIGHT }; // 3 1 4 2
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 3: {
-            char pattern[] = { DIR_UP, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 3 1 2 3
+            char pattern[] = { DIRECTION_UP, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP }; // 3 1 2 3
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 4: {
-            char pattern[] = { DIR_DOWN, DIR_RIGHT, DIR_LEFT, DIR_UP }; // 4 2 1 3
+            char pattern[] = { DIRECTION_DOWN, DIRECTION_RIGHT, DIRECTION_LEFT, DIRECTION_UP }; // 4 2 1 3
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;

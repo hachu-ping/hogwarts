@@ -31,14 +31,14 @@ void keyboard_init()
     memset(key, 0, sizeof(key));
 }
 
-Direction keycode_to_direction(int keycode)
+direction keycode_to_direction(int keycode)
 {
     switch (keycode) {
-    case ALLEGRO_KEY_LEFT: return DIR_LEFT;
-    case ALLEGRO_KEY_RIGHT: return DIR_RIGHT;
-    case ALLEGRO_KEY_UP: return DIR_UP;
-    case ALLEGRO_KEY_DOWN: return DIR_DOWN;
-    default: return DIR_NONE;
+    case ALLEGRO_KEY_LEFT:  return DIRECTION_LEFT;
+    case ALLEGRO_KEY_RIGHT: return DIRECTION_RIGHT;
+    case ALLEGRO_KEY_UP:    return DIRECTION_UP;
+    case ALLEGRO_KEY_DOWN:  return DIRECTION_DOWN;
+    default: return DIRECTION_NONE;
     }
 }
 /*
@@ -63,7 +63,7 @@ typedef enum {
     DIR_DOWN = 4
 } Direction;
 
-Direction keycode_to_direction(int keycode)
+direction keycode_to_direction(int keycode)
 {
     switch (keycode) {
     case ALLEGRO_KEY_LEFT: return DIR_LEFT;
@@ -115,7 +115,7 @@ extern enemy_t g_enemy_list[MAX_ENEMY];
 extern CAT cat;
 extern enemy_t g_enemy_list[MAX_ENEMY];
 
-void handle_input_and_create_magic(int input_dir)
+void cast_magic_and_create_magic(int input_dir)
 
 {
     // printf("\nhandle 함수 도착-1\n");
@@ -231,10 +231,10 @@ void cat_update()
             // 마법 공격 함수 호출
             //magic_attack(cat.x, cat.y, input_dir);
 
-            Direction input_dir = keycode_to_direction(keycode);
+            direction input_dir = keycode_to_direction(keycode);
             printf("input_dir(enum) = %d\n", input_dir);  // 1~4 출력 확인
 
-            handle_input_and_create_magic(input_dir);
+            cast_magic_and_create_magic(input_dir);
 
             // 마지막 공격 시간 갱신
             cat.last_attack_time = now;

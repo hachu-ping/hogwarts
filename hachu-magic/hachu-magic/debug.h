@@ -5,6 +5,7 @@
 #define DEBUG_MODE
 
 #ifdef DEBUG_MODE
+
 /**
  * 실행 중 디버깅을 위한 printf 입니다.
  * debug.h 파일의 #define DEBUG_MODE 이 활성화 되어있다면 
