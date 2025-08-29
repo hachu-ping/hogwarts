@@ -1,5 +1,4 @@
 
-
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -28,50 +27,62 @@ void DEBUG_init_enemy(void) {
         g_enemy_list[i].size_w = 180;
         g_enemy_list[i].size_h = 180;
 
-        // ?? ?????? ??? ???? ????
-        switch (i) {
-        case 0: {
-            char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 1 1 2 3
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 1: {
-            char pattern[] = { DIR_RIGHT, DIR_UP, DIR_RIGHT, DIR_RIGHT }; // 2 3 2 2
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 2: {
-            char pattern[] = { DIR_UP, DIR_LEFT, DIR_DOWN, DIR_RIGHT }; // 3 1 4 2
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 3: {
-            char pattern[] = { DIR_UP, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 3 1 2 3
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 4: {
-            char pattern[] = { DIR_DOWN, DIR_RIGHT, DIR_LEFT, DIR_UP }; // 4 2 1 3
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        }
 
-        g_enemy_list[i].is_invincible = 0;
-        g_enemy_list[i].received_attack_count = 0;
-        g_enemy_list[i].is_spawned= 1;
-        g_enemy_list[i].velocity = 1.0;
+//디버그 테스트용 enemy
+//void DEBUG_init_enemy(void) {
+//    for (int i = 0; i < 5; i++) {
+//        g_enemy_list[i].type = 0;
+//        g_enemy_list[i].pos_x = 0;
+//        g_enemy_list[i].pos_y = 0;
+//        g_enemy_list[i].size_w = 50;
+//        g_enemy_list[i].size_h = 50;
+//
+//        // ?? ?????? ??? ???? ????
+//        switch (i) {
+//        case 0: {
+//            char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 1 1 2 3
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 1: {
+//            char pattern[] = { DIR_RIGHT, DIR_UP, DIR_RIGHT, DIR_RIGHT }; // 2 3 2 2
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 2: {
+//            char pattern[] = { DIR_UP, DIR_LEFT, DIR_DOWN, DIR_RIGHT }; // 3 1 4 2
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 3: {
+//            char pattern[] = { DIR_UP, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 3 1 2 3
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 4: {
+//            char pattern[] = { DIR_DOWN, DIR_RIGHT, DIR_LEFT, DIR_UP }; // 4 2 1 3
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        }
+//
+//        g_enemy_list[i].is_invincible = 0;
+//        g_enemy_list[i].received_attack_count = 0;
+//        g_enemy_list[i].is_spawned= 1;
+//        g_enemy_list[i].velocity = 1.0;
+//
+//        // ???? ??? ???? ??????? (??????)
+//        g_enemy_list[i].current_pattern = g_enemy_list[i].pattern[0];
+//
+//    }
+//}
 
-        // ???? ??? ???? ??????? (??????)
-        g_enemy_list[i].current_pattern = g_enemy_list[i].pattern[0];
 
-    }
-}
 
 void init_enemy(void) {
 	for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
@@ -96,7 +107,7 @@ void spawn_wave(void)
     if (max_stage_number == current_stage)
     {
         // ???? ????
-        printf("??? ??? ???\n");
+        printf("Game Over\n");
         return;
     }
 
@@ -118,22 +129,22 @@ void spawn_enemy(void)
         int side = rand() % 4;
         switch (side) {
         case 0: 
-            //??? ???? ????? (x = -50)???? y ????? 0 ~ SCREEN_H ???? ?????? ????       
+            // From outside the left side of the screen (x = -50), y position is random within the range 0 to SCREEN_H       
             temp_enemy.pos_x = -50.0;     
             temp_enemy.pos_y = rand() % SCREEN_HEIGHT;
             break;
         case 1: 
-            //??? ?????? ??? (x = SCREEN_W + 50)????, Y?? ????? y ????? 0 ~ SCREEN_H
+            // From outside the right side of the screen (x = SCREEN_W + 50), the y position is random within the range 0 to SCREEN_H
             temp_enemy.pos_x = SCREEN_WIDTH + 50;   
             temp_enemy.pos_y = rand() % SCREEN_HEIGHT;
             break;
         case 2: 
-            //??? ???? ??? (y = -50) ???? ,X ?? ????? 0 ~ SCREEN_W
+            // From above the top of the screen (y = -50), the x position is random within the range 0 to SCREEN_W
             temp_enemy.pos_x = rand() % SCREEN_WIDTH;  
             temp_enemy.pos_y = -50.0;
             break;
         case 3: 
-            //??? ?????? ??? (x = SCREEN_W + 50) ???? y ?? ????? 0 ~ SCREEN_H
+            // From outside the right side of the screen (x = SCREEN_W + 50), the y position is random within the range 0 to SCREEN_H
             temp_enemy.pos_x = rand() % SCREEN_WIDTH;  
             temp_enemy.pos_y = SCREEN_HEIGHT + 50;
             break;
@@ -143,11 +154,11 @@ void spawn_enemy(void)
         for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
             if (!g_enemy_list[i].is_spawned) continue;
 
-            //???? ?????? ?? ????? ??? ???? ??? (??? ???)
+            //calculate the distance between ememy and new enemy.
             float dx = g_enemy_list[i].pos_x - temp_enemy.pos_x;          
             float dy = g_enemy_list[i].pos_y - temp_enemy.pos_x;
 
-            //?? ??? ????l ????? ?????? ????? ????, sqrtf ?????? ????? ???
+            //제곡근함수
             float dist = sqrtf(dx * dx + dy * dy);      
             //??ħ ????
             if (dist < 40.0f) {
@@ -166,7 +177,7 @@ void spawn_enemy(void)
         index += 1;
     }
 
-    // ENEMY_MAX_NUMBER?? ??? ?????? ???
+    // ENEMY_MAX_NUMBER
     if (index >= ENEMY_MAX_NUMBER) {
         return;
     }
@@ -179,7 +190,11 @@ void spawn_enemy(void)
     temp_enemy.size_h = 180;
     char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
     memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
-    temp_enemy.current_pattern = temp_enemy.pattern[0];
+    //temp_enemy.current_pattern = DIR_UP;
+    for (int i = 0; i < 4; i++) {
+        temp_enemy.pattern[i] = (Direction)(1 + rand() % 4);
+    }
+    temp_enemy.current_pattern = temp_enemy.pattern[0];  // 패턴 첫 방향으로 설정
 
     temp_enemy.velocity = 1;
    
