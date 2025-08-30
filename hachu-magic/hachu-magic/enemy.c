@@ -10,6 +10,7 @@
 #include "utils.h"
 #include "enemy.h"
 #include "game_system.h"
+#include "game_manager.h"
 
 enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
@@ -19,43 +20,44 @@ extern int current_stage;
 extern int stage_wave_max_number[];
 extern int current_wave;
 extern int stage_wave_spawn_enemy_number[];
+extern int life;
 
 void DEBUG_clear_enemy(void) {
     for (int i = 0; i < 5; i++) {
         g_enemy_list[i].type = 0;
-        g_enemy_list[i].pos_x = 0;
-        g_enemy_list[i].pos_y = 0;
+        g_enemy_list[i].pos_x = rand() % 1400;
+        g_enemy_list[i].pos_y = rand() % 800;
         g_enemy_list[i].size_w = 180;
         g_enemy_list[i].size_h = 180;
 
         // ?? ?????? ??? ???? ????
         switch (i) {
         case 0: {
-            char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 1 1 2 3
+            char pattern[] = { DIRECTION_LEFT, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP }; // 1 1 2 3
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 1: {
-            char pattern[] = { DIR_RIGHT, DIR_UP, DIR_RIGHT, DIR_RIGHT }; // 2 3 2 2
+            char pattern[] = { DIRECTION_RIGHT, DIRECTION_UP, DIRECTION_RIGHT, DIRECTION_RIGHT }; // 2 3 2 2
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 2: {
-            char pattern[] = { DIR_UP, DIR_LEFT, DIR_DOWN, DIR_RIGHT }; // 3 1 4 2
+            char pattern[] = { DIRECTION_UP, DIRECTION_LEFT, DIRECTION_DOWN, DIRECTION_RIGHT }; // 3 1 4 2
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 3: {
-            char pattern[] = { DIR_UP, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 3 1 2 3
+            char pattern[] = { DIRECTION_UP, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP }; // 3 1 2 3
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
         }
         case 4: {
-            char pattern[] = { DIR_DOWN, DIR_RIGHT, DIR_LEFT, DIR_UP }; // 4 2 1 3
+            char pattern[] = { DIRECTION_DOWN, DIRECTION_RIGHT, DIRECTION_LEFT, DIRECTION_UP }; // 4 2 1 3
             memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
             g_enemy_list[i].life = sizeof(pattern);
             break;
@@ -224,4 +226,48 @@ bool is_enemy_cleared(void)
     }
 
     return is_cleared;
+}
+
+// 고양이와의 층돌 검사
+bool is_collided_with_cat(enemy_t* enemy_ptr)
+{
+    if (enemy_ptr == NULL) {
+        return false;
+    }
+
+    double ax1 = (enemy_ptr->pos_x);
+    double ay1 = (enemy_ptr->pos_y);
+    double ax2 = (enemy_ptr->pos_x) + (enemy_ptr->size_w);
+    double ay2 = (enemy_ptr->pos_y) + (enemy_ptr->size_h);
+    double bx1 = (g_cat.pos_x);
+    double by1 = (g_cat.pos_y);
+    double bx2 = (g_cat.pos_x) + (g_cat.size_w);
+    double by2 = (g_cat.pos_y) + (g_cat.size_h);
+
+    if (ax1 > bx2) return false;
+    if (ax2 < bx1) return false;
+    if (ay1 > by2) return false;
+    if (ay2 < by1) return false;
+
+    return true;
+}
+
+// 충돌 처리 함수
+void handle_enemy_collision(void)
+{
+    enemy_t* enemy_ptr = g_enemy_list;
+
+    for (int i = 0; i < ENEMY_MAX_NUMBER; ++i, ++enemy_ptr) {
+        if (!(enemy_ptr->is_spawned)) {
+            continue;
+        }
+
+        cat_t* target = (cat_t*)&g_cat;
+        if (is_collided_with_cat(enemy_ptr)) {
+            // 충돌 시 마법은 소멸
+            enemy_ptr->is_spawned = 0;
+
+            apply_damage(1);
+        }
+    }
 }

@@ -1,26 +1,24 @@
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
-#include <time.h>
 #include <allegro5/allegro5.h>
-
-#include "cat.h"
-#include "enemy.h"
-#include "initializer.h"
-#include "sprites.h"
-#include "utils.h"
-#include "enemy.h"
-#include "magic.h"
-#include "cat.h"
-#include "game_system.h"
-#include "game_manager.h"
-
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+
+#include "cat.h"
+#include "enemy.h"
+#include "game_system.h"
+#include "game_manager.h"
+#include "initializer.h"
+#include "magic.h"
+#include "sprites.h"
+#include "utils.h"
+
 
 
 int main() {

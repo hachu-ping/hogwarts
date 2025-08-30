@@ -6,6 +6,7 @@
 #include <allegro5/allegro_image.h>
 
 #include "cat.h"
+#include "debug.h"
 #include "enemy.h"
 #include "initializer.h"
 #include "magic.h"
@@ -81,9 +82,12 @@ void play_game(void)
             // === 업데이트 ===
             update_cat();
             spawn_wave();
+            
             move_magic();
             move_enemy();
-            collide_magic();
+
+            handle_enemy_collision();
+            handle_magic_collision();
 
             redraw = true;       // 이 틱에서 한 번 그리기
             break;
@@ -98,4 +102,18 @@ void play_game(void)
 
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
+}
+
+int life = 5;
+
+void apply_damage(int damage)
+{
+	life -= damage;
+
+	DEBUG_PRINT("충돌 발생 life -> %d\n", life);
+
+	if (life <= 0) {
+		// TODO: 게임오버 처리하기
+		DEBUG_PRINT("게임 오버\n");
+	}
 }

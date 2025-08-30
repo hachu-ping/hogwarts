@@ -7,11 +7,12 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
+#include "cat.h"
+#include "debug.h"
+#include "enemy.h"
 #include "initializer.h"
 #include "sprites.h"
 #include "utils.h"
-
-#define __DEBUG_MODE__ 0
 
 extern unsigned char g_key[ALLEGRO_KEY_MAX];
 
@@ -22,10 +23,10 @@ void init_allegro(void)
 
 void init_addons(void) 
 {
-	// png ????? ????? ???? ????? ?????
+	// PNG ÀÌ¹ÌÁö¸¦ »ç¿ëÇÏ±â À§ÇÑ image addon Ãß°¡
 	must_init(al_init_image_addon(), "image addon init");
 
-	// ??, ????, ??, ???? ?? ???????? ?????? ???? primitives ?????
+	// µµÇüÀ» ±×¸®±â À§ÇÑ primitives addon Ãß°¡
 	must_init(al_init_primitives_addon(), "primitives addon init");  
 
 	//font addon initialize
@@ -47,7 +48,7 @@ ALLEGRO_DISPLAY* init_display(const int width, const int height)
 
 	return temp;
 }
-//ì‹œì§„ ì¶”ê°€1
+//?‹œì§? ì¶”ê??1
 
 /*
 ALLEGRO_FONT* init_builtin_font(void)
@@ -58,7 +59,7 @@ ALLEGRO_FONT* init_builtin_font(void)
 	return font;
 }
 */
-//ì‹œì§„ ì¶”ê°€2
+//?‹œì§? ì¶”ê??2
 
 
 ALLEGRO_TIMER* init_timer(const double speed_secs)
@@ -81,4 +82,3 @@ void init_data(void)
 
 	init_sprites();
 }
-
