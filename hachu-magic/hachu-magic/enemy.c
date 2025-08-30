@@ -26,9 +26,9 @@ void DEBUG_init_enemy(void) {
     for (int i = 0; i < 5; i++) {
         g_enemy_list[i].type = 0;
         g_enemy_list[i].pos_x = rand() % 1400;
-        g_enemy_list[i].pos_y = rand() % 800;
-        g_enemy_list[i].size_w = 180;
-        g_enemy_list[i].size_h = 180;
+        g_enemy_list[i].pos_y = 0;
+        g_enemy_list[i].size_w = ENEMY_WIDTH[2];
+        g_enemy_list[i].size_h = ENEMY_HEIGHT[2];
 
         // ?? ?????? ??? ???? ????
         switch (i) {
@@ -173,12 +173,12 @@ void spawn_enemy(void)
         return;
     }
 
-    temp_enemy.type = 0;
+    temp_enemy.type = 3;
     temp_enemy.life = 4;
     temp_enemy.received_attack_count = 0;
 
-    temp_enemy.size_w = 90;
-    temp_enemy.size_h = 90;
+    temp_enemy.size_w = ENEMY_WIDTH[temp_enemy.type];
+    temp_enemy.size_h = ENEMY_HEIGHT[temp_enemy.type];
     char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
     memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
     temp_enemy.current_pattern = temp_enemy.pattern[0];

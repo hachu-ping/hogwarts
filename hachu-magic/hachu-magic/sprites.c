@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include "cat.h"
+#include "debug.h"
 #include "enemy.h"
 #include "magic.h"
 #include "sprites.h"
@@ -122,7 +123,10 @@ void draw_cat(void)
         0
     );
 
-    al_draw_scaled_bitmap(g_sprites.background[0], 0, 0, 640, 437, g_cat.pos_x, g_cat.pos_y, g_cat.size_w, g_cat.size_h, 0);
+#ifdef DEBUG_MODE
+    // 충돌 영역 표시
+    al_draw_rectangle(g_cat.pos_x, g_cat.pos_y, g_cat.pos_x + g_cat.size_w, g_cat.pos_y + g_cat.size_h, al_map_rgb(0, 255, 0), 3);
+#endif
 }
 
 void draw_enemies(void)
@@ -134,8 +138,8 @@ void draw_enemies(void)
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t* enemy = g_enemy_list + i;
         if (enemy->is_spawned) {
-            int x_offset = (enemy->size_w - SPRITE_CAT_WIDTH) * 0.5;
-            int y_offset = (enemy->size_h - SPRITE_CAT_HEIGHT) * 0.5;
+            int x_offset = (enemy->size_w - SPRITE_ENEMY_WIDTH[enemy->type]) * 0.5;
+            int y_offset = (enemy->size_h - SPRITE_ENEMY_HEIGHT[enemy->type]) * 0.5;
 
             al_draw_bitmap(
                 g_sprites.enemies[enemy->type][g_frames / 16 % SPRITE_ENEMY_FRAME_NUMBER],
@@ -143,9 +147,10 @@ void draw_enemies(void)
                 enemy->pos_y + y_offset,
                 0
             );
-
-            al_draw_scaled_bitmap(g_sprites.background[0], 0, 0, 640, 437, enemy->pos_x, enemy->pos_y, enemy->size_w, enemy->size_h, 0);
-
+#ifdef DEBUG_MODE
+            // 충돌 영역 표시
+            al_draw_rectangle(enemy->pos_x, enemy->pos_y, enemy->pos_x + enemy->size_w, enemy->pos_y + enemy->size_h, al_map_rgb(255, 0, 0), 3);
+#endif
         }
     }
 
@@ -170,13 +175,19 @@ void draw_enemies(void)
 void draw_magics(void)
 {
     for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-        magic_t temp = g_magic_list[i];
-        if (temp.is_spawned)
-            al_draw_bitmap(g_sprites.magics[temp.type][g_frames / 16 % SPRITE_MAGIC_FRAME_NUMBER],
-                temp.pos_x, 
-                temp.pos_y, 
+        magic_t* temp = g_magic_list + i;
+        if (temp->is_spawned)
+        {
+            al_draw_bitmap(g_sprites.magics[temp->type][g_frames / 16 % SPRITE_MAGIC_FRAME_NUMBER],
+                temp->pos_x,
+                temp->pos_y,
                 0
             );
+#ifdef DEBUG_MODE
+            // 충돌 영역 표시
+            al_draw_rectangle(temp->pos_x, temp->pos_y, temp->pos_x + temp->size_w, temp->pos_y + temp->size_h, al_map_rgb(0, 0, 255), 3);
+#endif
+        }
     }
 }
 

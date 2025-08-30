@@ -1,7 +1,7 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
-// 디버그 모드의 활성화 위해서는 아래 줄을 주석처리 해주세요.
+// 디버그 모드의 비활성화 위해서는 아래 줄을 주석처리 해주세요.
 #define DEBUG_MODE
 
 #ifdef DEBUG_MODE

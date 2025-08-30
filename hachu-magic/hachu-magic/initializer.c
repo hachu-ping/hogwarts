@@ -70,8 +70,8 @@ void init_data(void)
 
 #ifdef DEBUG_MODE
 	DEBUG_init_cat();
-	init_enemy();
-	init_magic();
+	DEBUG_init_enemy();
+	DEBUG_init_magic();
 #else
 	init_cat();
 	init_enemy();

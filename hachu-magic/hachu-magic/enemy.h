@@ -7,6 +7,9 @@
 
 #define ENEMY_MAX_NUMBER 15
 
+static const int ENEMY_WIDTH[] = { 140, 180, 220, 320 };
+static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
+
 typedef struct _enemy {
 	// TODO: change into enum (char)
 	// 적의 종류
