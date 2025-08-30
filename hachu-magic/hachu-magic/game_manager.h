@@ -3,8 +3,8 @@
 
 /**
  * A brief description. A more elaborate class description
- * °í¾çÀÌ¿¡°Ô µ¥¹ÌÁö¸¦ ÀÔÈü´Ï´Ù.
- * @params damage: °í¾çÀÌ¿¡°Ô Àü´ŞÇÏ´Â µ¥¹ÌÁö
+ * í”Œë ˆì´ì–´ê°€ ë°ë¯¸ì§€ë¥¼ ë°›ìŠµë‹ˆë‹¤.
+ * @params damage: í”Œë ˆì´ì–´ê°€ ë°›ì„ ë°ë¯¸ì§€ ìˆ˜ì¹˜
  */
 void apply_damage(int damage);
 

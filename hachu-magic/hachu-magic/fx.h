@@ -9,46 +9,39 @@
 #define EXPLOSION_HEIGHT 100
 
 typedef struct _explosion {
-	// ÇöÀç À¯È¿ÇÑ°¡
+	// í­ë°œ í™œì„±í™”ì—¬ë¶€
 	bool is_spawned;
 
-	// ÇöÀç x ÁÂÇ¥ (ÁÂÃø»ó´Ü ±âÁØ)
+	// í­ë°œ x ì¢Œí‘œ (í™”ë©´ì—ì„œ ì¤‘ì‹¬)
 	double pos_x;
 
-	// ÇöÀç y ÁÂÇ¥ (ÁÂÃø»ó´Ü ±âÁØ)
+	// í­ë°œ y ì¢Œí‘œ (í™”ë©´ì—ì„œ ì¤‘ì‹¬)
 	double pos_y;
 
-	// ÇöÀç ÇÁ·¹ÀÓ
+	// í­ë°œ í”„ë ˆìž„
 	int current_frame;
 } explosion_t;
 
 extern explosion_t g_explosion_list[EXPLOSION_MAX_NUMBER];
 
 /**
- * explosions ¹è¿­ÀÇ is_spawned °ªÀ» ÃÊ±âÈ­ÇÕ´Ï´Ù.
+ * explosions ë°°ì—´ì˜ is_spawned ìƒíƒœ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
  */
 void clear_explosion(void);
 
 /**
- * ÁÖ¾îÁø (x, y) ÁÂÇ¥¿¡ Æø¹ß ÀÌÆåÆ®¸¦ »ý¼ºÇÕ´Ï´Ù. 
- * ÇöÀç È°¼ºÈ­µÈ Æø¹ß ÀÌÆåÆ®ÀÇ °³¼ö°¡ Á¦ÇÑÀ» ³Ñ¾î°¡´Â °æ¿ì, 
- * ÀÌÆåÆ®°¡ »ý¼ºµÇÁö ¾ÊÀ» ¼ö ÀÖ½À´Ï´Ù.
- * @param pos_x: Æø¹ß ÀÌÆåÆ®¸¦ »ý¼ºÇÒ x ÁÂÇ¥
- * @param pos_y: Æø¹ß ÀÌÆåÆ®¸¦ »ý¼ºÇÒ y ÁÂÇ¥
+ * ì£¼ì–´ì§„ (x, y) ì¢Œí‘œì— í­ë°œ ì´íŽ™íŠ¸ë¥¼ ìƒì„±í•©ë‹ˆë‹¤. 
+ * í˜„ìž¬ í™œì„±í™”ëœ í­ë°œ ì´íŽ™íŠ¸ê°€ ìµœëŒ€ì¹˜ ê°œìˆ˜ë¥¼ ë„˜ì–´ê°„ ê²½ìš°, 
+ * ì´íŽ™íŠ¸ê°€ ìƒì„±ë˜ì§€ ì•Šì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+ * @param pos_x: í­ë°œ ì´íŽ™íŠ¸ê°€ ìƒì„±ë  x ì¢Œí‘œ
+ * @param pos_y: í­ë°œ ì´íŽ™íŠ¸ê°€ ìƒì„±ë  y ì¢Œí‘œ
  */
 void create_explosion(double pos_x, double pos_y);
 
 /**
- * Æø¹ß ÀÌÆåÆ®ÀÇ ÇÁ·¹ÀÓÀ» º¯°æÇÏ°í,
- * ½Ã°£ÀÌ Áö³­ Æø¹ß ÀÌÆåÆ®¸¦ explosions ¹è¿­¿¡¼­ ¼Ò¸ê½ÃÅµ´Ï´Ù.
+ * í­ë°œ ì´íŽ™íŠ¸ì˜ í”„ë ˆìž„ì„ ì—…ë°ì´íŠ¸í•˜ê³ ,
+ * ì‹œê°„ì´ ì§€ë‚œ í­ë°œ ì´íŽ™íŠ¸ë¥¼ explosions ë°°ì—´ì—ì„œ ì†Œë©¸ì‹œí‚µë‹ˆë‹¤.
  */
 void update_explosion(void);
 
 #endif /* __FX_H__ */
-
-
-/**
- * A brief description. A more elaborate class description
- * @param somebool a boolean argument.
- * @return The test results
- */

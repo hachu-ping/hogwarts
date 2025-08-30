@@ -45,7 +45,7 @@ void init_magic(void)
 void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target)
 {
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-		// ºñ¾î ÀÖ´Â ½½·Ô ¹ß°ß
+		// ë¹„ì–´ ìžˆëŠ” ìŠ¬ë¡¯ ì°¾ê¸°
 		if (g_magic_list[i].is_spawned == false) {  
 			g_magic_list[i].pos_x = pos_x;
 			g_magic_list[i].pos_y = pos_y;
@@ -57,16 +57,16 @@ void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target
 
 			g_magic_list[i].is_spawned = true;
 
-			DEBUG_PRINT("%d¿¡ ¸¶¹ý »ý¼º\n", i);
+			DEBUG_PRINT("%dë²ˆ ë§ˆë²• ìƒì„±\n", i);
 			return;
 		}
 	}
 
-	//  ¸ðµç ½½·ÔÀÌ ²Ë Ã¡À» °æ¿ì
-	DEBUG_PRINT("[MAGIC] »ý¼º ½ÇÆÐ! »ç¿ë °¡´ÉÇÑ ¸¶¹ý ½½·ÔÀÌ ¾ø½À´Ï´Ù.\n");
+	//  ëª¨ë“  ë§ˆë²•ìŠ¬ë¡¯ì´ ë‹¤ ì°¬ ê²½ìš°
+	DEBUG_PRINT("[MAGIC] ë§ˆë²• ì‹¤íŒ¨! ëª¨ë“  ë§ˆë²•ìŠ¬ë¡¯ì´ ê°€ë“ ì°¨ìžˆì–´ ìƒì„±í• ìˆ˜ ì—†ìŠµë‹ˆë‹¤.\n");
 }
 
-// Å¸°Ù°úÀÇ Ãþµ¹ °Ë»ç
+// íƒ€ê²Ÿê³¼ì˜ ì¶©ëŒ ê²€ì‚¬
 bool is_collided_with_target(magic_t* magic_ptr)
 {
 	if (magic_ptr == NULL) {
@@ -91,54 +91,54 @@ bool is_collided_with_target(magic_t* magic_ptr)
 }
 
 
-// Ãæµ¹ Ã³¸® ÇÔ¼ö
+// ì¶©ëŒ ì²˜ë¦¬ í•¨ìˆ˜
 void handle_magic_collision(void)
 {
 	magic_t* magic_ptr = g_magic_list;
 	enemy_t* target;
 
 	for (int i = 0; i < MAGIC_MAX_NUMBER; ++i, ++magic_ptr) {
-		// »ý¼ºµÈ ¸¶¹ý¿¡ ´ëÇØ¼­¸¸ °Ë»ç.
+		// ë§ˆë²•ì´ ë¹„í™œì„± ìƒíƒœì—ì„œëŠ” ê²€ì‚¬í•˜ì§€ ì•ŠìŒ.
 		if (!(magic_ptr->is_spawned)) { 
 			continue;
 		}
 
 		target = (enemy_t*)magic_ptr->target_ptr;
 		if (is_collided_with_target(magic_ptr)) {
-			// Ãæµ¹ ½Ã ¸¶¹ýÀº ¼Ò¸ê
+			// ì¶©ëŒ ì‹œ ë§ˆë²•ê°ì²´ ì†Œë©¸
 			magic_ptr->is_spawned = 0;
 
 			create_explosion(magic_ptr->pos_x, magic_ptr->pos_y);
 
-			// Å¸ÀÔÀÌ ÀÏÄ¡ÇÏÁö ¾ÊÀº °ø°ÝÀº ¹«½Ã
+			// íƒ€ê²Ÿì˜ íŒ¨í„´ê³¼ ë§ˆë²• ì†ì„±ì´ ë‹¤ë¥¸ ê²½ìš°
 			if (magic_ptr->type != target->current_pattern) {
 				continue;
 			}
 
-			// ÀûÀÇ ÃÑ »ý¸íº¸´Ù ÀÛÀ»¶§ ±îÁö
+			// ì ì´ ì•„ì§ ì£½ì§€ì•Šì•˜ì„ ê²½ìš°ì— ëŒ€í•œ ì²˜ë¦¬
 			if (target->received_attack_count < (target->life-1)) { 
 				target->received_attack_count += 1;
 				target->current_pattern = target->pattern[target->received_attack_count];
 
 				DEBUG_PRINT("%d %d\n", i, target->received_attack_count);
 			} else {
-				// TODO: Enemy Á×À» ¶§ ÇÔ¼ö È£ÃâÇÏ±â
+				// TODO: Enemy ì£½ì„ ë•Œ í•¨ìˆ˜ í˜¸ì¶œí•˜ê¸°
 				(target->is_spawned) = 0;
 
-				DEBUG_PRINT("Àû Á×À½ life = %d - %d", target->received_attack_count, target->life);
+				DEBUG_PRINT("ì  ì‚¬ë§ life = %d - %d", target->received_attack_count, target->life);
 			}
 		}
 	}
 }
 
 /*
-//³ªÁß¿¡ ¸¶¹ýÀÌ ¿òÁ÷ÀÌ´Â °ªÀ» º¯ÁÖÇÒ ¶§ »ç¿ë
+//ë‚˜ì¤‘ì— ë§ˆë²•ì— ë‹¤ì´ë‚˜ë¯¹í•œ ì›€ì§ìž„ì„ ì¤„ ìˆ˜ ìžˆëŠ” í•¨ìˆ˜
 double delta_move_magic(void) {
 	extern g_frames;
 	return ((rand() % 5) + 1)*fabsf(sinf(0.5*g_frames)) + 0.5;
 }*/
 
-//ÇÑ ÇÁ·¹ÀÓ¸¸ »ý°¢ÇÒ °Í.
+//ë§¤ í”„ë ˆìž„ë§ˆë‹¤ ë§ˆë²•ì„ ì›€ì§ìž„.
 void move_magic(void) {
 	magic_t* magic_ptr = g_magic_list;
 
@@ -148,26 +148,26 @@ void move_magic(void) {
 		}
 
 		if (!(((enemy_t*)magic_ptr->target_ptr)->is_spawned)) {
-			// ´ë»óÀÌ »ç¶óÁö¸é ¼Ò¸ê
+			// íƒ€ê²Ÿì´ ì‚¬ë¼ì¡Œìœ¼ë©´ ì†Œë©¸
 			magic_ptr->is_spawned = false;
 			continue;
 		}
 
-		//1. ¹æÇâ º¤ÅÍ
+		//1. ë°©í–¥ ë²¡í„°
 		float magic_dx =  (((enemy_t*)magic_ptr->target_ptr)->pos_x) - (magic_ptr->pos_x);
 		float magic_dy =  (((enemy_t*)magic_ptr->target_ptr)->pos_y) - (magic_ptr->pos_y);
 		
-		//2. º¤ÅÍ ±æÀÌ
+		//2. ë²¡í„° ê¸¸ì´
 		float len = (float) sqrt((magic_dx * magic_dx) + (magic_dy * magic_dy));
 		
-		// ÀÌ¹Ì °ãÄ£ »óÅÂÀÏ ¶§
+		// ì´ë¯¸ ë„ì°©í•œ ê²½ìš°ëŠ” ì œì™¸
 		if (len == 0) continue; 
 		
-		// ´ÜÀ§ º¤ÅÍ
+		// ë‹¨ìœ„ ë²¡í„°
 		magic_dx /= len; 
 		magic_dy /= len;
 		
-		//3. ¼ÓµµÀÌµ¿
+		//3. ì†ë„ì´ë™
 		magic_ptr->pos_x += (magic_dx*4 * (magic_ptr->velocity));
 		magic_ptr->pos_y += (magic_dy*4 * (magic_ptr->velocity));
 	}

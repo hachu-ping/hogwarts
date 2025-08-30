@@ -150,7 +150,7 @@ void spawn_enemy(void)
 
             //?? ??? ????l ????? ?????? ????? ????, sqrtf ?????? ????? ???
             float dist = sqrtf(dx * dx + dy * dy);      
-            //??©¤ ????
+            //??ï¿½ï¿½ ????
             if (dist < 40.0f) {
                 //vaildPosition ????? ????????
                 is_valid_position = false;                 
@@ -218,7 +218,7 @@ bool is_enemy_cleared(void)
     return is_cleared;
 }
 
-// °í¾çÀÌ¿ÍÀÇ Ãþµ¹ °Ë»ç
+// í”Œë ˆì´ì–´ì™€ ì¶©ëŒ ê²€ì‚¬
 bool is_collided_with_cat(enemy_t* enemy_ptr)
 {
     if (enemy_ptr == NULL) {
@@ -242,7 +242,7 @@ bool is_collided_with_cat(enemy_t* enemy_ptr)
     return true;
 }
 
-// Ãæµ¹ Ã³¸® ÇÔ¼ö
+// ì¶©ëŒ ì²˜ë¦¬ í•¨ìˆ˜
 void handle_enemy_collision(void)
 {
     enemy_t* enemy_ptr = g_enemy_list;
@@ -254,7 +254,7 @@ void handle_enemy_collision(void)
 
         cat_t* target = (cat_t*)&g_cat;
         if (is_collided_with_cat(enemy_ptr)) {
-            // Ãæµ¹ ½Ã ¸¶¹ýÀº ¼Ò¸ê
+            // ì¶©ëŒ ì‹œ ì ê°ì²´ ì†Œë©¸
             enemy_ptr->is_spawned = 0;
 
             apply_damage(1);

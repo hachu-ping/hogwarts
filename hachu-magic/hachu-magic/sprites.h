@@ -64,14 +64,14 @@ typedef struct _sprites
 } sprites_t;
 
 /**
- * ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö¸¦ ºÒ·¯¿Í °¡°øÇÕ´Ï´Ù.
- * ÀÌ¹ÌÁö ·Îµå ¶Ç´Â ¼­ºêºñÆ® °¡°ø¿¡ ½ÇÆÐÇÒ °æ¿ì ÇÁ·Î±×·¥ÀÌ Á¾·áµË´Ï´Ù.
+ * ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ë¥¼ ë¶ˆëŸ¬ì™€ ì €ìž¥í•©ë‹ˆë‹¤.
+ * ì´ë¯¸ì§€ ë¡œë“œ ë˜ëŠ” ìŠ¤í”„ë¼ì´íŠ¸ ìƒì„±ì— ì‹¤íŒ¨í•  ê²½ìš° í”„ë¡œê·¸ëž¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.
  */
 void init_sprites(void);
 
 /**
- * draw ÇÔ¼öµéÀ» È°¿ëÇØ È­¸éÀ» »õ·Î ±×¸®°í, Ã¢¿¡ Ç¥½ÃÇÕ´Ï´Ù.
- * È­¸éÀ» ±×¸®´Â ¼ø¼­´Â ´ÙÀ½°ú °°½À´Ï´Ù.
+ * draw í•¨ìˆ˜ë“¤ì„ í™œìš©í•´ í™”ë©´ì— ê·¸ë¦´ ê·¸ë¦¼ë“¤ì„ ì°½ì— í‘œì‹œí•©ë‹ˆë‹¤.
+ * í™”ë©´ì— ê·¸ë ¤ì§ˆ ìˆœì„œëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
  * 
  * background -> enemy -> cat -> magic -> FX
  */
@@ -79,34 +79,33 @@ void refresh_screen(void);
 
 
 /**
- * ÁÖÀÎ°ø °í¾çÀÌ¸¦ È­¸é¿¡ ±×¸³´Ï´Ù.
- * ÁÖÀÎ°ø °í¾çÀÌÀÇ ÇöÀç »óÅÂ¿¡ µû¶ó ´Ù¸¥ ÀÌ¹ÌÁö¸¦ º¸¿©ÁÝ´Ï´Ù. 
+ * í”Œë ˆì´ì–´ ê³ ì–‘ì´ë¥¼ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * í”Œë ˆì´ì–´ ê³ ì–‘ì´ì˜ í˜„ìž¬ ìƒíƒœì— ë”°ë¼ ë‹¤ë¥¸ ì´ë¯¸ì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤. 
  */
 void draw_cat(void);
 
 /**
- * ¹è°æÀ» È­¸é¿¡ ±×¸³´Ï´Ù.
- * ¹è°æÀº Stage¿¡ µû¶ó ´Þ¶óÁý´Ï´Ù. 
+ * ë°°ê²½ì„ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * ë°°ê²½ì€ Stageì— ë”°ë¼ ë‹¬ë¼ì§‘ë‹ˆë‹¤. 
  */
 void draw_background(void);
 
 /**
- * ÇöÀç È°¼ºÈ­µÈ ¸¶¹ýÀ» È­¸é¿¡ ±×¸³´Ï´Ù.
- * ¸¶¹ýÀº g_magics ¿¡¼­ ÇöÀç is_spawned ÀÎ °ª¸¸ ±×¸³´Ï´Ù.
+ * í˜„ìž¬ í™œì„±í™”ëœ ë§ˆë²•ì„ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * ë§ˆë²•ì€ g_magics ë°°ì—´ ì¤‘ì—ì„œ is_spawned ì¸ ê²ƒë§Œ ê·¸ë¦½ë‹ˆë‹¤.
  */
 void draw_magics(void);
 
 /**
- * ÇöÀç È°¼ºÈ­µÈ ÀûÀ» È­¸é¿¡ ±×¸³´Ï´Ù.
- * ÀûÀº g_enemies ¿¡¼­ ÇöÀç is_spawned ÀÎ °ª¸¸ ±×¸³´Ï´Ù.
+ * í˜„ìž¬ í™œì„±í™”ëœ ì ì„ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * ì ì€ g_enemies ë°°ì—´ ì¤‘ì—ì„œ is_spawned ì¸ ê²ƒë§Œ ê·¸ë¦½ë‹ˆë‹¤.
  */
 void draw_enemies(void);
 
 /**
- * È­¸é È¿°ú¸¦ È­¸é¿¡ ±×¸³´Ï´Ù.
+ * í™”ë©´ íš¨ê³¼ë¥¼ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
  */
 void draw_fxs(void);
 
 
 #endif /* __SPRITES_H__ */
-
