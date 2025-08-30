@@ -9,6 +9,7 @@
 #include "cat.h"
 #include "debug.h"
 #include "enemy.h"
+#include "fx.h"
 #include "initializer.h"
 #include "magic.h"
 #include "sprites.h"
@@ -72,10 +73,12 @@ void init_data(void)
 	DEBUG_init_cat();
 	DEBUG_init_enemy();
 	DEBUG_init_magic();
+	clear_explosion();
 #else
 	init_cat();
 	init_enemy();
 	init_magic();
+	clear_explosion();
 #endif	
 }
 

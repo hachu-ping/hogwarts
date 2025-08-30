@@ -9,6 +9,7 @@
 #include "cat.h"
 #include "debug.h"
 #include "enemy.h"
+#include "fx.h"
 #include "magic.h"
 #include "sprites.h"
 #include "utils.h"
@@ -88,10 +89,10 @@ void init_sprites(void)
     g_sprites.magics[4][0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
     g_sprites.magics[4][1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
     g_sprites.magics[4][2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.explosion[0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 4, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
-    g_sprites.explosion[1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 4, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
-    g_sprites.explosion[2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 4, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
-    g_sprites.explosion[3] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 4, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    g_sprites.explosion[0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    g_sprites.explosion[1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    g_sprites.explosion[2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    g_sprites.explosion[3] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
 }
 
 void refresh_screen(void)
@@ -178,11 +179,13 @@ void draw_magics(void)
         magic_t* temp = g_magic_list + i;
         if (temp->is_spawned)
         {
-            al_draw_bitmap(g_sprites.magics[temp->type][g_frames / 16 % SPRITE_MAGIC_FRAME_NUMBER],
+            al_draw_bitmap(
+                g_sprites.magics[temp->type][g_frames / 16 % SPRITE_MAGIC_FRAME_NUMBER],
                 temp->pos_x,
                 temp->pos_y,
                 0
             );
+            
 #ifdef DEBUG_MODE
             // 충돌 영역 표시
             al_draw_rectangle(temp->pos_x, temp->pos_y, temp->pos_x + temp->size_w, temp->pos_y + temp->size_h, al_map_rgb(0, 0, 255), 3);
@@ -194,4 +197,16 @@ void draw_magics(void)
 void draw_fxs(void)
 {
 
+    for (int i = 0; i < EXPLOSION_MAX_NUMBER; i++) {
+        explosion_t* temp = g_explosion_list + i;
+        if (temp->is_spawned)
+        {
+            al_draw_bitmap(
+                g_sprites.explosion[temp->current_frame / 4],
+                temp->pos_x,
+                temp->pos_y,
+                0
+            );
+        }
+    }
 }
