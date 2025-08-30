@@ -26,9 +26,9 @@ void DEBUG_init_enemy(void) {
     for (int i = 0; i < 5; i++) {
         g_enemy_list[i].type = 0;
         g_enemy_list[i].pos_x = rand() % 1400;
-        g_enemy_list[i].pos_y = rand() % 800;
-        g_enemy_list[i].size_w = 180;
-        g_enemy_list[i].size_h = 180;
+        g_enemy_list[i].pos_y = 0;
+        g_enemy_list[i].size_w = ENEMY_WIDTH[2];
+        g_enemy_list[i].size_h = ENEMY_HEIGHT[2];
 
         // ?? ?????? ??? ???? ????
         switch (i) {
@@ -163,7 +163,7 @@ void spawn_enemy(void)
     int index = 0;
     while (index < ENEMY_MAX_NUMBER) {
         if (!g_enemy_list[index].is_spawned) {
-            break;;
+            break;
         }
         index += 1;
     }
@@ -173,12 +173,12 @@ void spawn_enemy(void)
         return;
     }
 
-    temp_enemy.type = 0;
+    temp_enemy.type = 3;
     temp_enemy.life = 4;
     temp_enemy.received_attack_count = 0;
 
-    temp_enemy.size_w = 180;
-    temp_enemy.size_h = 180;
+    temp_enemy.size_w = ENEMY_WIDTH[temp_enemy.type];
+    temp_enemy.size_h = ENEMY_HEIGHT[temp_enemy.type];
     char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
     memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
     temp_enemy.current_pattern = temp_enemy.pattern[0];
@@ -199,21 +199,12 @@ void move_enemy()
         double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
-        //printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
-
-
         if (dist == 0) {
             continue;
         }
 
         g_enemy_list[i].pos_x += (dx / dist) * g_enemy_list[i].velocity;
         g_enemy_list[i].pos_y += (dy / dist) * g_enemy_list[i].velocity;
-
-        if (dist < 10.0) {
-            // TODO: 디버깅을 위한 코드임. 
-            // 이후 충돌 구현 시 제거하기
-            g_enemy_list[i].is_spawned = false;
-        }
     }
 }
 

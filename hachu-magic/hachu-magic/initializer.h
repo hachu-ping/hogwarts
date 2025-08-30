@@ -9,8 +9,6 @@
  * Allegro를 사용하도록 초기화합니다.
  * 초기화 실패 시 프로그램이 종료됩니다.
  */
-
-
 void init_allegro(void);
 
 /**

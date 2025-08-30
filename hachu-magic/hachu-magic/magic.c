@@ -1,6 +1,7 @@
 
 #include "debug.h"
 #include "enemy.h"
+#include "fx.h"
 #include "magic.h"
 
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
@@ -106,6 +107,8 @@ void handle_magic_collision(void)
 		if (is_collided_with_target(magic_ptr)) {
 			// 충돌 시 마법은 소멸
 			magic_ptr->is_spawned = 0;
+
+			create_explosion(magic_ptr->pos_x, magic_ptr->pos_y);
 
 			// 타입이 일치하지 않은 공격은 무시
 			if (magic_ptr->type != target->current_pattern) {

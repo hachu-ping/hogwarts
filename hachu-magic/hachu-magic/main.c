@@ -9,6 +9,7 @@
 
 #include "cat.h"
 #include "enemy.h"
+#include "fx.h"
 #include "initializer.h"
 #include "sprites.h"
 #include "utils.h"
@@ -85,6 +86,8 @@ int main() {
 
             // - 利-绊剧捞 面倒 贸府
             handle_enemy_collision();
+
+            update_explosion();
 
             should_redraw = true;
             break;
