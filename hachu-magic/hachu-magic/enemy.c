@@ -103,7 +103,6 @@ void spawn_wave(void)
     }
 
     for (int i = 0; i < stage_wave_spawn_enemy_number[current_stage]; i++) {
-        printf("%d %d\n", i, stage_wave_spawn_enemy_number[current_stage]);
         spawn_enemy();
     }
 }
