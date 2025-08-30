@@ -24,10 +24,10 @@ void init_allegro(void)
 
 void init_addons(void) 
 {
-	// PNG ÀÌ¹ÌÁö¸¦ »ç¿ëÇÏ±â À§ÇÑ image addon Ãß°¡
+	// PNG ì´ë¯¸ì§€ë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•œ image addon ì¶”ê°€
 	must_init(al_init_image_addon(), "image addon init");
 
-	// µµÇüÀ» ±×¸®±â À§ÇÑ primitives addon Ãß°¡
+	// ê¸°í•˜ì²´ ê·¸ë¦¬ê¸° ìœ„í•œ primitives addon ì¶”ê°€
 	must_init(al_init_primitives_addon(), "primitives addon init");  
 }
 

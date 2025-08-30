@@ -14,10 +14,10 @@ void apply_damage(int damage)
 {
 	life -= damage;
 
-	DEBUG_PRINT("Ãæµ¹ ¹ß»ý life -> %d\n", life);
+	DEBUG_PRINT("ì¶©ëŒ ë°œìƒ life -> %d\n", life);
 
 	if (life <= 0) {
-		// TODO: °ÔÀÓ¿À¹ö Ã³¸®ÇÏ±â
-		DEBUG_PRINT("°ÔÀÓ ¿À¹ö\n");
+		// TODO: ê²Œìž„ì˜¤ë²„ ì²˜ë¦¬í•˜ê¸°
+		DEBUG_PRINT("ê²Œìž„ ì¢…ë£Œ\n");
 	}
 }

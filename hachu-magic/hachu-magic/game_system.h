@@ -29,8 +29,8 @@ typedef enum _direction {
 
 
 /**
- * Å°º¸µå ÀÔ·Â¿¡ µû¶ó Àü¿ªº¯¼ö g__key[]¿¡ ÇöÀç °¢ ±âÈ£¿¡ ´ëÇÑ Å°º¸µåÀÇ ÀÔ·Â ¿©ºÎ¸¦ ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
- * @param event: ALLEGRO_EVENT* ¸¦ ÅëÇØ ÀÌº¥Æ® ÀÔ·ÂÀ» °¨ÁöÇÕ´Ï´Ù.
+ * í‚¤ë³´ë“œ ìž…ë ¥ì— ë”°ë¼ ì „ì—­ë³€ìˆ˜ g__key[]ì— í•´ë‹¹ í‚¤ ë²ˆí˜¸ì— ë”°ë¥¸ í‚¤ë³´ë“œ ìž…ë ¥ ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
+ * @param event: ALLEGRO_EVENT* ë¥¼ ë§¤ê°œ ì´ë²¤íŠ¸ ìž…ë ¥ì„ ë°›ìŠµë‹ˆë‹¤.
  */
 void keyboard_update(ALLEGRO_EVENT* event);
 

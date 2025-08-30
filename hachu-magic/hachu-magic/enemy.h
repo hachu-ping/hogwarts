@@ -12,77 +12,77 @@ static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 
 typedef struct _enemy {
 	// TODO: change into enum (char)
-	// ÀûÀÇ Á¾·ù
+	// ì ì˜ ì¢…ë¥˜
 	int type;
 
-	// ÇöÀç xÁÂÇ¥ (Áß¾Ó ÁÂÇ¥)
+	// ì ì˜ xì¢Œí‘œ (ì¤‘ì‹¬ ì¢Œí‘œ)
 	double pos_x;
 
-	// ÇöÀç yÁÂÇ¥ (Áß¾Ó ÁÂÇ¥)
+	// ì ì˜ yì¢Œí‘œ (ì¤‘ì‹¬ ì¢Œí‘œ)
 	double pos_y;
 
-	// °¡·Î ±æÀÌ
+	// ì ì˜ ë„ˆë¹„
 	double size_w;
 
-	// ¼¼·Î ±æÀÌ
+	// ì ì˜ ë†’ì´
 	int size_h;
 
-	// ÀÌµ¿¼Óµµ
+	// ì´ë™ì†ë„
 	float velocity;
 
-	// ÀûÀÇ ÃÖ´ë Ã¼·Â == ÆÐÅÏÀÇ ±æÀÌ¿Í µ¿ÀÏÇÔ
+	// ì ì´ ê°€ì§„ ì²´ë ¥ == ë§ˆë²•ì˜ ê°œìˆ˜ì™€ ê°™ì€ ìˆ˜ì¹˜
 	int life;
 
-	// ÀûÀÌ ÇöÀç ¹ÞÀº ÇÇÇØ·® == ÃÖ´ë Ã¼·Â - ³²Àº Ã¼·Â
+	// ì ì´ ë°›ì€ ê³µê²© ëˆ„ì  íšŸìˆ˜ == ìµœëŒ€ ì²´ë ¥ - í˜„ìž¬ ì²´ë ¥
 	int received_attack_count;
 
 	// TODO: change char type into enum
-	// ÀûÀÇ ÆÐÅÏ ¹è¿­. ¹è¿­ ¿ä¼Ò´Â ÆÐÅÏ(¹æÇâÅ°)À¸·Î ±¸¼ºµÈ´Ù.
+	// ì ì´ ê°€ì§„ ë°°ì—´. ë°°ì—´ ìš”ì†ŒëŠ” ë°©í–¥(ë§ˆë²•í‚¤)ê°’ì´ ì €ìž¥ëœë‹¤.
 	char pattern[15];
 	
-	// ÇöÀç ³²Àº Ã¹ ¹øÂ° ÆÐÅÏ == pattern[received_attack_count]
+	// ì ì´ í˜„ìž¬ ì²« ë²ˆì§¸ íŒ¨í„´ == pattern[received_attack_count]
 	char current_pattern;
 
-	// ÀûÀÌ À¯È¿ÇÑ »óÅÂÀÎ°¡
+	// ì ì´ ìœ íš¨í•œ ìƒíƒœì¸ê°€
 	bool is_spawned;
 
-	// ÀûÀÌ ¹«ÀûÀÎ »óÅÂÀÎ°¡
+	// ì ì´ ë¬´ì ìƒíƒœ ìƒíƒœì¸ê°€
 	bool is_invincible;
 
 } enemy_t;
 
 /**
- * µð¹ö±ëÀ» À§ÇÑ Àû ¸®½ºÆ® ÃÊ±âÈ­
+ * ë””ë²„ê¹…ìš© ì ì„ ìœ„í•œ ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”
  */
  void DEBUG_init_enemy(void);
 
 /**
- * ÀûÀÇ ¸ñ·ÏÀ» ´ã´Â enemies ¸®½ºÆ®¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+ * ê²Œìž„ ì‹œìž‘ì‹œ ëª¨ë“  enemies ë¦¬ìŠ¤íŠ¸ë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
  */
 void init_enemy(void);
 
 /**
- * ÇöÀç ½ºÅ×ÀÌÁö Á¤º¸¿¡ µû¶ó ÀûÀ» »ý¼ºÇÏ°í Á¤º¸¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù. 
+ * ëžœë¤ ìœ„ì¹˜ì—ì„œ ì ì„ ì‚¬ë°©ì— ìƒì„±í•˜ê³  ì ì„ ì´ˆê¸°í™”í•©ë‹ˆë‹¤. 
  */
 void spawn_enemy(void);
 
 /**
- * ÇöÀç È°¼ºÈ­µÈ ÀûÀÇ À¯¹«¸¦ °Ë»çÇÕ´Ï´Ù. 
- * ¸ðµç ÀûÀÌ Á×Àº (ºñÈ°¼ºÈ­ µÈ) °æ¿ì true¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
- * @return bool: ÀüÃ¼ ÀûÀÇ ºñÈ°¼ºÈ­ ¿©ºÎ
+ * ëª¨ë“  í™œì„±í™”ëœ ì ì´ ì‚¬ë¼ì¡Œì„ ê²€ì‚¬í•©ë‹ˆë‹¤. 
+ * ëª¨ë“  ì ì´ ì‚¬ë§ (ë¹„í™œì„±í™” ìƒíƒœ) ì¼ë•Œ trueë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
+ * @return bool: ì „ì²´ ì ì´ ë¹„í™œì„±í™” ìƒíƒœ
  */
 bool is_enemy_cleared(void);
 
 /**
- * Æ¯Á¤ ÀûÀÌ ÇöÀç °í¾çÀÌ¿ÍÀÇ Ãæµ¹ ¿©ºÎ¸¦ °Ë»çÇÕ´Ï´Ù.
- * @param enemy_ptr: Ãæµ¹¿©ºÎ¸¦ °Ë»çÇÏ·Á´Â Àû ±¸Á¶Ã¼¿¡ ´ëÇÑ Æ÷ÀÎÅÍ
- * @return bool: Ãæµ¹ ¿©ºÎ
+ * íŠ¹ì • ì ì´ ê³ ì–‘ì´ í”Œë ˆì´ì–´ì™€ ì¶©ëŒ ì—¬ë¶€ë¥¼ ê²€ì‚¬í•©ë‹ˆë‹¤.
+ * @param enemy_ptr: ì¶©ëŒì—¬ë¶€ë¥¼ ê²€ì‚¬í•˜ë ¤ê³  í•˜ëŠ” ì  êµ¬ì¡°ì²´ì˜ ë©”ëª¨ë¦¬ í¬ì¸í„°
+ * @return bool: ì¶©ëŒ ì—¬ë¶€
  */
 bool is_collided_with_cat(enemy_t* enemy_ptr);
 
 /**
- * ÇöÀç È°¼ºÈ­µÈ ÀûµéÀÇ °í¾çÀÌ¿ÍÀÇ Ãæµ¹¿¡ ´ëÇØ °Ë»çÇÕ´Ï´Ù.
- * Ãæµ¹ÀÌ ¹ß»ýÇÑ °æ¿ì, Ãæµ¹ÀÌ ¹ß»ýÇßÀ½À» °ÔÀÓ¸Å´ÏÀú¿¡°Ô ¾Ë¸³´Ï´Ù.
+ * ëª¨ë“  í™œì„±í™”ëœ ì ë“¤ì´ í”Œë ˆì´ì–´ì™€ ì¶©ëŒì— ëŒ€í•´ ê²€ì‚¬í•©ë‹ˆë‹¤.
+ * ì¶©ëŒì´ ë°œìƒí•œ ê²½ìš°, ì¶©ëŒì´ ë°œìƒí•œì ì—ê²Œ ìƒëª…ê´€ë¦¬ë¥¼ ì•Œë¦½ë‹ˆë‹¤.
  */
 void handle_enemy_collision(void);
 

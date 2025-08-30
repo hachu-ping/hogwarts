@@ -14,7 +14,7 @@ void clear_explosion(void)
 void create_explosion(double pos_x, double pos_y)
 {
 	for (int i = 0; i < EXPLOSION_MAX_NUMBER; i++) {
-		// ºñ¾î ÀÖ´Â ½½·Ô ¹ß°ß
+		// ë¹ˆìžë¦¬ ìžˆëŠ” ìŠ¬ë¡¯ ì¶”ê°€
 		if (g_explosion_list[i].is_spawned == false) {
 			g_explosion_list[i].pos_x = pos_x;
 			g_explosion_list[i].pos_y = pos_y;
@@ -22,13 +22,13 @@ void create_explosion(double pos_x, double pos_y)
 			
 			g_explosion_list[i].is_spawned = true;
 
-			DEBUG_PRINT("[FX] (%d, %d) explosions[%d]¿¡ Æø¹ß »ý¼º\n", pos_x, pos_y, i);
+			DEBUG_PRINT("[FX] (%d, %d) explosions[%d]ì— í­ë°œ ìƒì„±\n", pos_x, pos_y, i);
 			return;
 		}
 	}
 
-	//  ¸ðµç ½½·ÔÀÌ ²Ë Ã¡À» °æ¿ì
-	DEBUG_PRINT("[FX] »ý¼º ½ÇÆÐ! »ç¿ë °¡´ÉÇÑ Æø¹ß ½½·ÔÀÌ ¾ø½À´Ï´Ù.\n");
+	//  ë¹ˆìžë¦¬ê°€ ë” ì—†ëŠ” ê²½ìš°
+	DEBUG_PRINT("[FX] í­ë°œ ì‹¤íŒ¨! ë¹ˆìžë¦¬ê°€ ì—†ì–´ í­ë°œì„ ìƒì„±í•˜ì§€ ëª»í•©ë‹ˆë‹¤.\n");
 }
 
 void update_explosion(void)

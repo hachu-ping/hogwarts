@@ -30,15 +30,15 @@ void DEBUG_init_cat(void)
 
 void init_cat()
 {
-    // °í¾çÀÌÀÇ À§Ä¡
+    // ê³ ì–‘ì´ì˜ ìœ„ì¹˜
     g_cat.pos_x = 700;
     g_cat.pos_y = 400;
 
-    // °í¾çÀÌÀÇ ³Êºñ¿Í ³ôÀÌ
+    // ê³ ì–‘ì´ì˜ ë„ˆë¹„ì™€ ë†’ì´
     g_cat.size_w = CAT_SIZE_W;
     g_cat.size_h = CAT_SIZE_H;
 
-    // ÇöÀç ½Ã°£À¸·Î ÃÊ±âÈ­ 
+    // ê³µê²© ì‹œê°„ê´€ë ¨ ì´ˆê¸°í™” 
     g_cat.last_attack_time = al_get_time();  
     g_cat.attack_cooldown_time = 0.2;
 }
@@ -47,7 +47,7 @@ void update_cat()
 {
     double now = al_get_time();
 
-    // °ø°İ ÄğÅ¸ÀÓ Ã¼Å© (¸¶Áö¸·À¸·Î °ø°İÇÑ ½Ã°£À¸·ÎºÎÅÍ ÃæºĞÈ÷ Áö³µ´Â°¡)
+    // ê³µê²© ì¿¨íƒ€ì„ ì²´í¬ (ë§ˆì§€ë§‰ìœ¼ë¡œ ê³µê²©í•œ ì‹œê°„ìœ¼ë¡œë¶€í„° ì¶©ë¶„íˆ ì§€ë‚¬ëŠ”ê°€)
     if (now - g_cat.last_attack_time >= g_cat.attack_cooldown_time) {
         //DEBUG_PRINT("now: %.2f, last_attack_time: %.2f, diff: %.2f\n", now, g_cat.last_attack_time, now - g_cat.last_attack_time);
 
@@ -58,9 +58,9 @@ void update_cat()
         
         int total_pressed = left + right + up + down;
         
-        // ¿ÀÁ÷ ÇÑ °³ ¹æÇâÅ°¸¦ ´­·ÈÀ» ¶§¸¸ ÀÔ·ÂÀ» Ã³¸®ÇÔ
+        // ë°©í–¥í‚¤ ì¤‘ í•œ ê°œ ë°©í–¥í‚¤ê°€ ëˆŒë ¤ì§„ ê²½ìš° ì…ë ¥ì„ ì²˜ë¦¬í•¨
         if (total_pressed == 1) {
-            //  ¿©±â¼­ Allegro Å°ÄÚµå ÀúÀå¿ëÀ¸·Î ¼±¾ğ
+            //  ì—¬ê¸°ì„œ Allegro í‚¤ì½”ë“œ ì•Œë ˆê·¸ë¡œë¡œ ë³€í™˜
             char keycode = 0;  
            
             if      (left)  keycode = ALLEGRO_KEY_LEFT;
@@ -70,13 +70,13 @@ void update_cat()
             
             DEBUG_PRINT("left %d, right: %d, up : %d, down : %d\n", left, right, up, down);
 
-            // ¸¶¹ı °ø°İ ÇÔ¼ö È£Ãâ
+            // ë§ˆë²• ê³µê²© í•¨ìˆ˜ í˜¸ì¶œ
             direction_t direction = keycode_to_direction(keycode);
-            DEBUG_PRINT("input_dir(enum) = %d\n", direction);  // 1~4 Ãâ·Â È®ÀÎ
+            DEBUG_PRINT("input_dir(enum) = %d\n", direction);  // 1~4 ê°’ì¸ í™•ì¸
 
             cast_magic(direction);
 
-            // ¸¶Áö¸· °ø°İ ½Ã°£ °»½Å
+            // ê³µê²©í•œ ë§ˆì§€ë§‰ ì‹œê°„ ì—…ë°ì´íŠ¸
             g_cat.last_attack_time = now;
         }
     }
@@ -90,22 +90,22 @@ void cast_magic(direction_t direction)
         DEBUG_PRINT("[DEBUG] enemy[%d] used: %d, invincible: %d, received_attack_count: %d, life: %d\n",
             i, e->is_spawned, e->is_invincible, e->received_attack_count, e->life);
 
-        // 1. ÀûÀÌ È°¼ºÈ­ µÇ¾îÀÖ°í
-        // 2. ¹«ÀûÀÌ ¾Æ´Ï¸ç
+        // 1. ì ì´ í™œì„±í™” ë˜ì–´ìˆê³ 
+        // 2. ë¬´ì ì´ ì•„ë‹ˆë©´
         if (!e->is_spawned || e->is_invincible) {
             continue;
         }
-        // 3. ¾ÆÁ÷ ³²Àº ÆĞÅÏÀÌ ÀÖ´Â °æ¿ì
+        // 3. ê³µê²© ë°›ì€ íšŸìˆ˜ê°€ ìµœëŒ€ì¸ ê²½ìš°
         if (e->received_attack_count >= e->life) {
             continue;
         }
 
-        // 4. ÀÔ·Â ¹æÇâÀÌ ÇöÀç ÆĞÅÏ°ú ÀÏÄ¡ÇÏ¸é
+        // 4. ì…ë ¥ ë°©í–¥ê³¼ í˜„ì¬ íŒ¨í„´ê³¼ ì¼ì¹˜í•˜ë©´
         if (e->current_pattern != (magic_type_t) direction) {
             continue;
         }
 
-        // ¸¶¹ı »ı¼º (¹İÈ¯°ª ¾øÀÌ È£Ãâ¸¸)
+        // ë§ˆë²• ìƒì„± (ì‹¤í™˜ì€ ë§ˆë²• í˜¸ì¶œë§Œ)
         create_magic(g_cat.pos_x, g_cat.pos_y, (magic_type_t) direction, e);
     }
 }

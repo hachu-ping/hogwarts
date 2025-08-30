@@ -22,7 +22,7 @@ extern int g_frames;
 
 sprites_t g_sprites;
 
-// internal ÇÔ¼ö ¼±¾ğ
+// internal í•¨ìˆ˜ ì„ ì–¸
 static ALLEGRO_BITMAP* load_bitmap(const char* file_name);
 static ALLEGRO_BITMAP* sprite_grab(ALLEGRO_BITMAP* sheet, int x, int y, int w, int h);
 
@@ -35,14 +35,14 @@ static ALLEGRO_BITMAP* load_bitmap(const char* file_name)
 }
 
 /**
- * ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö¸¦ ¼­ºêºñÆ®·Î °¡°øÇÕ´Ï´Ù.
- * ¼­ºêºñÆ® °¡°ø¿¡ ½ÇÆĞÇÒ °æ¿ì ÇÁ·Î±×·¥ÀÌ Á¾·áµË´Ï´Ù.
- * @param sheet: °¡°øÀ» ¿øÇÏ´Â ¿øº» ½ÃÆ®
- * @param x: Àß¶ó³»·Á´Â ±¸¿ª ¿ŞÂÊ ¸ğ¼­¸®ÀÇ x ÁÂÇ¥
- * @param y: Àß¶ó³»·Á´Â ±¸¿ª »ó´Ü ¸ğ¼­¸®ÀÇ y ÁÂÇ¥
- * @param w: Àß¶ó³»·Á´Â ±¸¿ªÀÇ °¡·Î ±æÀÌ
- * @param h: Àß¶ó³»·Á´Â ±¸¿ªÀÇ °¡·Î ±æÀÌ
- * @return ALLEGRO_BITMAP*: Àß¶ó³½ bitmap ÀÇ ÁÖ¼Ò
+ * ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ë¥¼ ë¶„í• í•˜ì—¬ ë°˜í™˜í•©ë‹ˆë‹¤.
+ * ìŠ¤í”„ë¼ì´íŠ¸ ì‹œíŠ¸ê°€ ì—†ë‹¤ë©´ ê²Œì„ í”„ë¡œê·¸ë¨ì´ ì¢…ë£Œë©ë‹ˆë‹¤.
+ * @param sheet: ë¶„í• í•  ì›í•˜ëŠ” ì›ë³¸ ì‹œíŠ¸
+ * @param x: ì˜ë¼ë‚¼ë ¤ëŠ” ì˜ì—­ ì™¼ìª½ ëª¨ì„œë¦¬ì˜ x ì¢Œí‘œ
+ * @param y: ì˜ë¼ë‚¼ë ¤ëŠ” ì˜ì—­ ìœ„ìª½ ëª¨ì„œë¦¬ì˜ y ì¢Œí‘œ
+ * @param w: ì˜ë¼ë‚¼ë ¤ëŠ” ìŠ¤í”„ë¼ì´íŠ¸ ê°€ë¡œ ê¸¸ì´
+ * @param h: ì˜ë¼ë‚¼ë ¤ëŠ” ìŠ¤í”„ë¼ì´íŠ¸ ì„¸ë¡œ ê¸¸ì´
+ * @return ALLEGRO_BITMAP*: ì˜ë¦° bitmap ì˜ ì£¼ì†Œ
  */
 static ALLEGRO_BITMAP* sprite_grab(ALLEGRO_BITMAP* sheet, int x, int y, int w, int h)
 {
@@ -125,7 +125,7 @@ void draw_cat(void)
     );
 
 #ifdef DEBUG_MODE
-    // Ãæµ¹ ¿µ¿ª Ç¥½Ã
+    // ì¶©ëŒ ì˜ì—­ í‘œì‹œ
     al_draw_rectangle(g_cat.pos_x, g_cat.pos_y, g_cat.pos_x + g_cat.size_w, g_cat.pos_y + g_cat.size_h, al_map_rgb(0, 255, 0), 3);
 #endif
 }
@@ -135,7 +135,7 @@ void draw_enemies(void)
     int bitmap_size_w;
     int bitmap_size_h;
 
-    // Àû 
+    // ì  
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t* enemy = g_enemy_list + i;
         if (enemy->is_spawned) {
@@ -149,13 +149,13 @@ void draw_enemies(void)
                 0
             );
 #ifdef DEBUG_MODE
-            // Ãæµ¹ ¿µ¿ª Ç¥½Ã
+            // ì¶©ëŒ ì˜ì—­ í‘œì‹œ
             al_draw_rectangle(enemy->pos_x, enemy->pos_y, enemy->pos_x + enemy->size_w, enemy->pos_y + enemy->size_h, al_map_rgb(255, 0, 0), 3);
 #endif
         }
     }
 
-    // Àû ¸Ó¸®À§ ÆĞÅÏ (ÆĞÅÏ °¡·ÁÁü ¹æÁö À§ÇØ ·ÎÁ÷ ºĞ¸®)
+    // ì  ë¨¸ë¦¬ìœ„ í™”ì‚´ (ë§ˆë²• íŒ¨í„´ì— ë”°ë¥¸ ìˆœì„œ ì•ˆë‚´ í™”ì‚´)
     for (int i = 0; i < ENEMY_MAX_NUMBER; ++i) {
         enemy_t* enemy = g_enemy_list + i;
         if (enemy->is_spawned) {
@@ -187,7 +187,7 @@ void draw_magics(void)
             );
             
 #ifdef DEBUG_MODE
-            // Ãæµ¹ ¿µ¿ª Ç¥½Ã
+            // ì¶©ëŒ ì˜ì—­ í‘œì‹œ
             al_draw_rectangle(temp->pos_x, temp->pos_y, temp->pos_x + temp->size_w, temp->pos_y + temp->size_h, al_map_rgb(0, 0, 255), 3);
 #endif
         }
