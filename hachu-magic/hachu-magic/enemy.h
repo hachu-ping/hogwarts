@@ -61,15 +61,29 @@ typedef struct _enemy {
  */
 void init_enemy(void);
 
+/**
+ * 현재 스테이지 정보에 따라 적을 생성하고 정보를 초기화합니다. 
+ */
 void spawn_enemy(void);
 
+/**
+ * 현재 활성화된 적의 유무를 검사합니다. 
+ * 모든 적이 죽은 (비활성화 된) 경우 true를 반환합니다.
+ * @return bool: 전체 적의 비활성화 여부
+ */
 bool is_enemy_cleared(void);
 
+/**
+ * 특정 적이 현재 고양이와의 충돌 여부를 검사합니다.
+ * @param enemy_ptr: 충돌여부를 검사하려는 적 구조체에 대한 포인터
+ * @return bool: 충돌 여부
+ */
 bool is_collided_with_cat(enemy_t* enemy_ptr);
 
-void handle_enemy_collision();
-
+/**
+ * 현재 활성화된 적들의 고양이와의 충돌에 대해 검사합니다.
+ * 충돌이 발생한 경우, 충돌이 발생했음을 게임매니저에게 알립니다.
+ */
+void handle_enemy_collision(void);
 
 #endif /* __ENEMY_H__ */
-
-

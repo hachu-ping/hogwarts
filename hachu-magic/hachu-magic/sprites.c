@@ -20,7 +20,7 @@ extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
 extern int g_frames;
 
-SPRITES g_sprites;
+sprites_t g_sprites;
 
 // internal 함수 선언
 static ALLEGRO_BITMAP* load_bitmap(const char* file_name);
@@ -202,7 +202,7 @@ void draw_fxs(void)
         if (temp->is_spawned)
         {
             al_draw_bitmap(
-                g_sprites.explosion[temp->current_frame / 4],
+                g_sprites.explosion[temp->current_frame / SPRITE_EXPLOSION_FRAME_NUMBER],
                 temp->pos_x,
                 temp->pos_y,
                 0

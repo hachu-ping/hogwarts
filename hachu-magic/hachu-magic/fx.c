@@ -22,7 +22,7 @@ void create_explosion(double pos_x, double pos_y)
 			
 			g_explosion_list[i].is_spawned = true;
 
-			DEBUG_PRINT("%d俊 气惯 积己\n", i);
+			DEBUG_PRINT("[FX] (%d, %d) explosions[%d]俊 气惯 积己\n", pos_x, pos_y, i);
 			return;
 		}
 	}
@@ -37,7 +37,7 @@ void update_explosion(void)
 		if (g_explosion_list[i].is_spawned == true) {
 			g_explosion_list[i].current_frame += 1;
 			
-			if (g_explosion_list[i].current_frame >= 16)
+			if (g_explosion_list[i].current_frame >= EXPLOSION_DURATION_FRAME_NUMBER)
 			{
 				g_explosion_list[i].is_spawned = false;
 				g_explosion_list[i].current_frame = 0;

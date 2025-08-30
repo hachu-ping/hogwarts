@@ -163,7 +163,7 @@ void spawn_enemy(void)
     int index = 0;
     while (index < ENEMY_MAX_NUMBER) {
         if (!g_enemy_list[index].is_spawned) {
-            break;;
+            break;
         }
         index += 1;
     }
@@ -199,21 +199,12 @@ void move_enemy()
         double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
-        //printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
-
-
         if (dist == 0) {
             continue;
         }
 
         g_enemy_list[i].pos_x += (dx / dist) * g_enemy_list[i].velocity;
         g_enemy_list[i].pos_y += (dy / dist) * g_enemy_list[i].velocity;
-
-        if (dist < 10.0) {
-            // TODO: 디버깅을 위한 코드임. 
-            // 이후 충돌 구현 시 제거하기
-            g_enemy_list[i].is_spawned = false;
-        }
     }
 }
 

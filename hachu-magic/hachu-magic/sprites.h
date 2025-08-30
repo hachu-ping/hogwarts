@@ -34,7 +34,7 @@ static const int SPRITE_ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 
 #define BACKGROUND_NUMBER 3
 
-typedef struct SPRITES
+typedef struct _sprites
 {
     ALLEGRO_BITMAP* _sheet;
     ALLEGRO_BITMAP* _cat_sheet;
@@ -61,7 +61,7 @@ typedef struct SPRITES
     ALLEGRO_BITMAP* explosion[SPRITE_EXPLOSION_FRAME_NUMBER];
     ALLEGRO_BITMAP* life;
 
-} SPRITES;
+} sprites_t;
 
 /**
  * 스프라이트 이미지를 불러와 가공합니다.
