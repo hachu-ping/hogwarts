@@ -52,6 +52,10 @@ typedef struct _enemy {
 
 } enemy_t;
 
+
+extern inline const enemy_t* get_enemy_list(void);
+
+
 /**
  * 디버깅용 적을 위한 리스트 초기화
  */
@@ -66,6 +70,8 @@ void clear_enemy(void);
  * 랜덤 위치에서 적을 사방에 생성하고 적을 초기화합니다. 
  */
 void create_enemy(void);
+
+void spawn_wave(void);
 
 /**
  * 모든 활성화된 적이 사라졌을 검사합니다. 

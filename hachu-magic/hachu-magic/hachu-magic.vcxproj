@@ -140,23 +140,14 @@
     <ClCompile Include="game_system.c" />
     <ClCompile Include="initializer.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="scene_manager.c" />
+    <ClCompile Include="screen.c" />
     <ClCompile Include="sprites.c" />
     <ClCompile Include="utils.c" />
     <ClCompile Include="magic.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="assets\sprites\cat_sprite.png" />
-    <Image Include="assets\sprites\effect_sprite.png" />
-    <Image Include="assets\sprites\enemy_sprite.png" />
-    <Image Include="back.png" />
-    <Image Include="placeholder.jpeg" />
-    <Image Include="stage01.jpg" />
-    <Image Include="stage02.jpg" />
-    <Image Include="stage03.jpg" />
-    <Image Include="stage04.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -167,13 +158,21 @@
     <ClInclude Include="game_manager.h" />
     <ClInclude Include="game_system.h" />
     <ClInclude Include="initializer.h" />
+    <ClInclude Include="scene_manager.h" />
+    <ClInclude Include="screen.h" />
     <ClInclude Include="sprites.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="magic.h" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="assets\fonts\DotGothic16-Regular.ttf" />
-    <Font Include="NanumGothic.ttf" />
+    <Image Include="assets\sprites\back.png" />
+    <Image Include="assets\sprites\cat_sprite.png" />
+    <Image Include="assets\sprites\effect_sprite.png" />
+    <Image Include="assets\sprites\enemy_sprite.png" />
+    <Image Include="assets\sprites\stage01.jpg" />
+    <Image Include="assets\sprites\stage02.jpg" />
+    <Image Include="assets\sprites\stage03.jpg" />
+    <Image Include="assets\sprites\stage04.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\audio\bgm.mp3" />
@@ -187,6 +186,10 @@
     <Media Include="assets\audio\enemy_3_damaged.mp3" />
     <Media Include="assets\audio\enemy_3_die.mp3" />
     <Media Include="assets\audio\magic.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\DotGothic16-Regular.ttf" />
+    <Font Include="assets\fonts\NanumGothic.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,7 +21,7 @@ static ALLEGRO_SAMPLE* load_sample(char* filename)
     return sample;
 }
 
-void init_sample(void)
+void load_audios(void)
 {
 #if 1
     g_samples.background[0] = load_sample("assets/audio/bgm.mp3");

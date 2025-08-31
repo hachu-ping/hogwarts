@@ -1,4 +1,5 @@
-﻿#include <allegro5/allegro5.h>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
@@ -9,13 +10,17 @@
 #include "game_system.h"
 #include "sprites.h"
 
-extern sprites_t g_sprites;
+#define MAX_RANK 10
+#define MAX_NAME_LEN 20
+#define RANK_FILE "ranking.txt"
+
+static int rank_count;
+static rank_entry_t rankings[MAX_RANK];
 
 unsigned char g_key[ALLEGRO_KEY_MAX];
 
 void keyboard_update(ALLEGRO_EVENT* event)
 {
-
     switch (event->type)
     {
     case ALLEGRO_EVENT_TIMER:
@@ -24,111 +29,26 @@ void keyboard_update(ALLEGRO_EVENT* event)
         break;
 
     case ALLEGRO_EVENT_KEY_DOWN:
-
-        //printf("DEBUG -- Key 누름: %d\n", event->keyboard.keycode);  // 어떤 키 누르는지 확인
         g_key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
-        //printf("DEBUG -- Key 누름: %d\n", event->keyboard.keycode);  // 어떤 키 누르는지 확인
         break;
+
     case ALLEGRO_EVENT_KEY_UP:
-        // printf("DEBUG -- Key 뗌: %d\n", event->keyboard.keycode);  // 어떤 키 뗐는지 확인
         g_key[event->keyboard.keycode] &= ~KEY_DOWN;
-        //printf("DEBUG -- Key 뗌: %d\n", event->keyboard.keycode);  // 어떤 키 뗐는지 확인
         break;
     }
 }
 
-Scene         g_scene_screne = SCENE_TITLE;     // 현재 화면
-ALLEGRO_FONT* g_font = NULL;            // 폰트는 run-time에 동적 로드
-ALLEGRO_FONT* g_font_btn = NULL;
 
-Button        g_btn_start = { 550, 380, 300, 60, "start" };
-Button        g_btn_rank = { 550, 460, 300, 60, "rank" };
+static text_box_t g_name_box;
 
-// 버튼 안에 텍스트를 정확히 가운데 정렬해서 그려주는 유틸
-static void draw_button(Button* btn, ALLEGRO_FONT* font, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px)
+const text_box_t* get_text_box()
 {
-    // 1) 버튼 박스
-    al_draw_filled_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, fill);
-    if (border_px > 0.0f) {
-        al_draw_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, al_map_rgb(255, 255, 255), border_px);
-    }
-    //al_clear_to_color(al_map_rgb(20, 20, 25));
-    textbox_draw(&g_name_box, font /* 또는 g_font */);
-    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
-
-    // 2) 문자열 크기
-    int tw = al_get_text_width(font, btn->label);
-    int th = al_get_font_line_height(font);
-
-    // 3) 가운데 좌표(가로/세로)
-    float tx = btn->x + (btn->w - tw) * 0.5f;
-    float ty = btn->y + (btn->h - th) * 0.5f;
-
-    // 4) 텍스트
-    al_draw_text(font, textc, tx, ty, 0, btn->label);
-}
-
-// 마우스가 버튼 위에 올라왔는지 체크 (hover 용)
-static bool button_contains(const Button* btn, float mx, float my)
-{
-    return (mx >= btn->x && mx <= btn->x + btn->w &&
-        my >= btn->y && my <= btn->y + btn->h);
-}
-
-
-void draw_title_screen(ALLEGRO_FONT* font, ALLEGRO_FONT* font_title)
-{
-	al_draw_bitmap(g_sprites.background[4], 0, 0, 0);
-    //al_clear_to_color(al_map_rgb(20, 20, 25));
-    textbox_draw(&g_name_box, font /* 또는 g_font */);
-    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
-
-    draw_button(&g_btn_start, font, al_map_rgb(60, 120, 250), al_map_rgb(255, 255, 255), 2.0f);
-    draw_button(&g_btn_rank, font, al_map_rgb(80, 180, 120), al_map_rgb(255, 255, 255), 2.0f);
-
-
-    al_draw_text(font, al_map_rgb(200, 200, 200), 700, 560, ALLEGRO_ALIGN_CENTRE, "Enter: start   R: rank   ESC: end");
-}
-
-void draw_rank_screen(ALLEGRO_FONT* font)
-{
-    al_clear_to_color(al_map_rgb(25, 20, 20));
-    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 150, ALLEGRO_ALIGN_CENTRE, "RANKING");
-    al_draw_text(font, al_map_rgb(200, 200, 200), 700, 520, ALLEGRO_ALIGN_CENTRE, "ESC: back");
-}
-
-TextBox g_name_box;
-
-
-
-// 그리기 (블링킹 커서의 타이밍용)
-void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font) {
-    // 박스 배경/테두리
-    ALLEGRO_COLOR bg = tb->focused ? al_map_rgb(35, 40, 55) : al_map_rgb(28, 30, 40);
-    ALLEGRO_COLOR brd = tb->focused ? al_map_rgb(90, 150, 255) : al_map_rgb(80, 80, 90);
-    al_draw_filled_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, bg);
-    al_draw_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, brd, 2.0f);
-
-    // 텍스트(빈칸 패딩)
-    float pad = 10.0f;
-    al_draw_text(font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(font)) / 2.0f, 0, tb->text[0] ? tb->text : "player name");
-
-    // 커서 블링킹 (0.5초 주기)
-    if (tb->focused) {
-        bool on = ((int)(al_get_time() * 2.0)) % 2 == 0;
-        if (on) {
-            // 텍스트 너비 계산해서 커서 위치 구함
-            float tw = al_get_text_width(font, tb->text);
-            float cx = tb->x + pad + tw + 2.0f;
-            float cy1 = tb->y + 8.0f, cy2 = tb->y + tb->h - 8.0f;
-            al_draw_line(cx, cy1, cx, cy2, al_map_rgb(255, 255, 255), 1.0f);
-        }
-    }
+    return &g_name_box;
 }
 
 // 이벤트 처리 (마우스 포커스 + 키 입력)
 // - ASCII만 다룹니다(숫자/영문/기호).
-bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
+bool textbox_handle_event(text_box_t* tb, const ALLEGRO_EVENT* ev) {
     bool changed = false;
 
     switch (ev->type) {
@@ -169,18 +89,116 @@ bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
     return changed;
 }
 
-void textbox_clear(TextBox* tb)
+void textbox_clear(text_box_t* tb)
 {
     tb->len = 0;
     tb->text[0] = '\0';
     tb->focused = false;
 }
 
-void handle_start_from_title(ALLEGRO_EVENT_QUEUE* main_queue) {
-    if (g_name_box.len > 0) STRCPY_SAFE(g_player_name, g_name_box.text);
-    else                    STRCPY_SAFE(g_player_name, "guset");
-    g_player_name[sizeof(g_player_name) - 1] = '\0';
+void prepare_game_start() {
+    if (g_name_box.len > 0) STRCPY_SAFE(get_game_state()->player_name, g_name_box.text);
+    else                    STRCPY_SAFE(get_game_state()->player_name, "guset");
+    g_player_name[sizeof(get_game_state()->player_name) - 1] = '\0';
 
     textbox_clear(&g_name_box);
-    //start_play_stage(main_queue);
+}
+
+const rank_entry_t* get_rankings(void)
+{
+    return rankings;
+}
+
+int get_rank_count(void)
+{
+    return rank_count;
+}
+
+
+void load_rankings(void) {
+    printf("debug - load_rankings\n");
+    FILE* fp = fopen(RANK_FILE, "r");
+    if (!fp) return;   // 해당 파일 존재하지 않음
+    rank_count = 0;
+    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // 이름 문자열 + 시간(float) 두 개가 모두 성공적으로 읽어진 경우 처리
+        rank_count++;
+        if (rank_count >= MAX_RANK) break;
+    }
+    fclose(fp);
+
+}
+/*
+ranking.txt 형식
+
+플레이어 이름 시간 읽어 배열에 저장
+
+최대 10개까지 저장
+
+파일 열고 닫기*/
+
+
+void save_rankings(void) {
+    printf("debug - save_rankings\n");
+    FILE* fp = fopen(RANK_FILE, "w");
+    if (!fp) return;
+    for (int i = 0; i < rank_count; i++) {
+        fprintf(fp, "%s %.2f\n", rankings[i].name, rankings[i].time);
+    }
+    fclose(fp);
+
+}
+
+int compare_scores(const void* a, const void* b) {
+    const rank_entry_t* ra = a;
+    const rank_entry_t* rb = b;
+
+    if (ra->time < 0 && rb->time < 0) return 0;
+    if (ra->time < 0) return 1;
+    if (rb->time < 0) return -1;
+    return (ra->time > rb->time) - (ra->time < rb->time);
+}
+/*
+게임을 실패 (time == -1) 한 랭킹 은 자료 맨뒤로 보내 주기
+
+게임을 완료한것만 짧은 시간 순서로 정렬
+*/
+
+void add_score(const char* name, float time) {
+    // 자리 여유 있으면 그냥 추가
+    if (rank_count < MAX_RANK) {
+        strncpy(rankings[rank_count].name, name, MAX_NAME_LEN);
+        rankings[rank_count].time = time;
+        rank_count++;
+    }
+    else {
+        // 가득 찬 경우: 실패 기록이 있는지 먼저 찾기
+        int fail_index = -1;
+        for (int i = 0; i < MAX_RANK; i++) {
+            if (rankings[i].time < 0) {
+                fail_index = i;
+                break;
+            }
+        }
+
+        if (fail_index != -1) {
+            // 실패 기록이 있다면, 이것을 교체함
+            strncpy(rankings[fail_index].name, name, MAX_NAME_LEN);
+            rankings[fail_index].time = time;
+        }
+        else {
+            // 모두 다 성공함, 주어진 점수 비교해 보기
+            int worst_index = MAX_RANK - 1;
+            float worst_time = rankings[worst_index].time;
+
+            if (time < 0) return; // 게임을 실패한 경우
+            if (time >= worst_time) return; // 더 느린 점수이면 무시
+
+            // 교체함
+            strncpy(rankings[worst_index].name, name, MAX_NAME_LEN);
+            rankings[worst_index].time = time;
+        }
+    }
+
+    // 정렬
+    qsort(rankings, rank_count, sizeof(rank_entry_t), compare_scores);
 }

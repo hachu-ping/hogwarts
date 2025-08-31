@@ -4,6 +4,9 @@
 #include <allegro5/bitmap.h>
 #include "game_manager.h"
 
+#define SCREEN_WIDTH 1400
+#define SCREEN_HEIGHT 800
+
 #define SPRITE_CAT_FRAME_NUMBER 3
 #define SPRITE_CAT_ACTION_NUMBER 2
 
@@ -34,8 +37,12 @@ static const int SPRITE_BACK_HEIGHT[] = { 1668, 1668, 1668,1668, 1024 };
 #define SPRITE_EXPLOSION_HEIGHT 100
 #define SPRITE_EXPLOSION_FRAME_NUMBER 4
 
+#define SPRITE_BACKGROUND_NUMBER 5
 
-#define BACKGROUND_NUMBER 5
+#define FONT_DEFAULT_SIZE 24
+#define FONT_TITLE_SIZE 24
+#define FONT_HUD_SIZE 35
+#define FONT_STAGE_SIZE 55
 
 typedef struct _sprites
 {
@@ -46,7 +53,7 @@ typedef struct _sprites
 
 
     // background
-    ALLEGRO_BITMAP* background[BACKGROUND_NUMBER];
+    ALLEGRO_BITMAP* background[SPRITE_BACKGROUND_NUMBER];
 
     // cat
     ALLEGRO_BITMAP* cat[SPRITE_CAT_FRAME_NUMBER];
@@ -66,58 +73,68 @@ typedef struct _sprites
 
 } sprites_t;
 
-typedef enum _background_type {
-    BACKGROUND_TYPE_ST1   = 0,
-    BACKGROUND_TYPE_ST2   = 1,
-    BACKGROUND_TYPE_ST3   = 2,
-    BACKGROUND_TYPE_ST4 = 3,
-    BACKGROUND_TYPE_START = 4
-} background_type_t;
+typedef struct _fonts
+{
+    ALLEGRO_FONT* font;
+    ALLEGRO_FONT* font_title;
+    ALLEGRO_FONT* font_hud;
+    ALLEGRO_FONT* font_stage;
+
+} fonts_t;
 
 /**
  * 스프라이트 이미지를 불러와 저장합니다.
  * 이미지 로드 또는 스프라이트 생성에 실패할 경우 프로그램을 종료합니다.
  */
-void init_sprites(void);
+void load_sprites(void);
 
 /**
- * draw 함수들을 활용해 화면에 그릴 그림들을 창에 표시합니다.
- * 화면에 그려질 순서는 다음과 같습니다.
- * 
- * background -> enemy -> cat -> magic -> FX
+ * 폰트를 불러와 저장합니다.
+ * 폰트 로드에 실패할 경우 프로그램을 종료합니다.
  */
-void refresh_game_screen(void);
-
+void load_fonts(void);
 
 /**
  * 플레이어 고양이를 화면에 그립니다.
  * 플레이어 고양이의 현재 상태에 따라 다른 이미지를 출력합니다. 
  */
-void draw_cat(void);
+void draw_cat(double pos_x, double pos_y, double size_w, double size_h);
 
 /**
  * 배경을 화면에 그립니다.
  * 배경은 Stage에 따라 달라집니다. 
+ * @param current_stage: 그리려는 스테이지 번호
  */
-//void draw_background(void);
-void draw_background(game_state_t* );
+void draw_background(int current_stage);
 
 /**
  * 현재 활성화된 마법을 화면에 그립니다.
  * 마법은 g_magics 배열 중에서 is_spawned 인 것만 그립니다.
  */
-void draw_magics(void);
+void draw_magic(double pos_x, double pos_y, int size_w, int size_h, int type);
 
 /**
  * 현재 활성화된 적을 화면에 그립니다.
- * 적은 g_enemies 배열 중에서 is_spawned 인 것만 그립니다.
+ * 
  */
-void draw_enemies(void);
+void draw_enemy(double pos_x, double pos_y, int size_w, int size_h, int type);
+
+
+void draw_enemy_arrow(double pos_x, double pos_y, int size_w, int size_h, int type, const char* pattern, int max_life, int damaged_amount);
 
 /**
  * 화면 효과를 화면에 그립니다.
  */
-void draw_fxs(void);
+void draw_fxs(int pos_x, int pos_y, int current_frame);
+
+void draw_title_screen(void);
+void draw_textbox(const text_box_t* tb);
+void draw_button(button_t* btn, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px);
+void draw_text(float pos_x, float pos_y, const char* string);
+
+void draw_hud_text(float pos_x, float pos_y, const char* string);
+void draw_stage_text(float pos_x, float pos_y, const char* string);
+void draw_text_color(float pos_x, float pos_y, const char* string, ALLEGRO_COLOR color);
 
 
 #endif /* __SPRITES_H__ */

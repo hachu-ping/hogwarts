@@ -1,4 +1,4 @@
-
+﻿
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -17,17 +17,18 @@ enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 //int life_by_stage[] = { 3, 5, 7 };
 int life_by_stage[] = { 3,4,5,7 };
 
-extern cat_t g_cat;
 extern int stage_wave_max_number[];
-
 extern int stage_wave_create_enemy_number[];
-extern int life;
-extern game_state_t gm_state;
 
 //2025-08-31 추가
 double last_wave_clear_time = 0;
 bool wave_ready_to_spawn = false;
 //여기까지
+
+inline const enemy_t* get_enemy_list(void)
+{
+    return &g_enemy_list;
+}
 
 void DEBUG_clear_enemy(void) {
     for (int i = 0; i < 5; i++) {
@@ -45,20 +46,6 @@ void clear_enemy(void) {
 	}
 }
 
-void spawn_wave(void)
-{
-    if (MAX_STAGE_NUMBER <= gm_state.current_stage)
-    {
-        is_game_clear(&gm_state);
-        return;
-    }
-
-    for (int i = 0; i < stage_wave_create_enemy_number[gm_state.current_stage]; i++) {
-        create_enemy();
-    }
-    gm_state.current_wave += 1;
-}
-
 //여기 2025-08-31 오늘 추가함
 
 void spawn_enemy() {
@@ -69,17 +56,14 @@ void spawn_enemy() {
     }
 
     if (!wave_ready_to_spawn) {
-        last_wave_clear_time = al_get_time();  // 마지막 적이 클리어된 시간 기록
         wave_ready_to_spawn = true;
         wait_time = 2.0;
     }
 
-    if (stage_wave_max_number[gm_state.current_stage] == gm_state.current_wave) {
-        gm_state.current_wave = 0;
-        gm_state.current_stage += 1;
+    if (stage_wave_max_number[get_game_state()->current_stage] == get_game_state()->current_wave) {
+        move_to_next_stage();
         // 스테이지가 증가했을 때 알림 띄우기
         wait_time = 4.0;
-        draw_stage_announce(font_stage, &gm_state);
     }
 
     double now = al_get_time();
@@ -90,6 +74,20 @@ void spawn_enemy() {
 }
 
 ///
+
+void spawn_wave(void)
+{
+    if (MAX_STAGE_NUMBER <= get_game_state()->current_stage)
+    {
+        is_game_clear();
+        return;
+    }
+
+    for (int i = 0; i < stage_wave_create_enemy_number[get_game_state()->current_stage]; i++) {
+        create_enemy();
+    }
+    move_to_next_wave();
+}
 
 
 void create_enemy(void) 
@@ -157,20 +155,17 @@ void create_enemy(void)
     }
 
   /*  temp_enemy.type = 0;*/
-    temp_enemy.type = gm_state.current_stage;
+    temp_enemy.type = get_game_state()->current_stage;
 
 
   /*  temp_enemy.life = 4; ---> 2025-08-29 여기를 바꿈으로 해서 life 부분들도 바꿔! */
-    temp_enemy.life = life_by_stage[gm_state.current_stage];
+    temp_enemy.life = life_by_stage[get_game_state()->current_stage];
     temp_enemy.received_attack_count = 0;
 
     temp_enemy.size_w = ENEMY_WIDTH[temp_enemy.type];
     temp_enemy.size_h = ENEMY_HEIGHT[temp_enemy.type];
 
-    //char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
-    //memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
-    //temp_enemy.current_pattern = DIR_UP;
-    for (int i = 0; i < life_by_stage[gm_state.current_stage]; i++) {
+    for (int i = 0; i < life_by_stage[get_game_state()->current_stage]; i++) {
         temp_enemy.pattern[i] = (direction_t)(1 + rand() % 4);
     }
     temp_enemy.current_pattern = temp_enemy.pattern[0];  // 처음 첫 패턴으로 설정
@@ -187,8 +182,8 @@ void move_enemy()
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         if (!g_enemy_list[i].is_spawned) continue;
 
-        double dx = g_cat.pos_x - g_enemy_list[i].pos_x;
-        double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
+        double dx = get_cat()->pos_x - g_enemy_list[i].pos_x;
+        double dy = get_cat()->pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
         if (dist == 0) {
@@ -222,10 +217,10 @@ bool is_collided_with_cat(enemy_t* enemy_ptr)
     double ay1 = (enemy_ptr->pos_y);
     double ax2 = (enemy_ptr->pos_x) + (enemy_ptr->size_w);
     double ay2 = (enemy_ptr->pos_y) + (enemy_ptr->size_h);
-    double bx1 = (g_cat.pos_x);
-    double by1 = (g_cat.pos_y);
-    double bx2 = (g_cat.pos_x) + (g_cat.size_w);
-    double by2 = (g_cat.pos_y) + (g_cat.size_h);
+    double bx1 = (get_cat()->pos_x);
+    double by1 = (get_cat()->pos_y);
+    double bx2 = (get_cat()->pos_x) + (get_cat()->size_w);
+    double by2 = (get_cat()->pos_y) + (get_cat()->size_h);
 
     if (ax1 > bx2) return false;
     if (ax2 < bx1) return false;
@@ -245,7 +240,7 @@ void handle_enemy_collision(void)
             continue;
         }
 
-        cat_t* target = (cat_t*)&g_cat;
+        cat_t* target = (cat_t*)get_cat();
         if (is_collided_with_cat(enemy_ptr)) {
             // 충돌 시 적객체 소멸
             enemy_ptr->is_spawned = 0;

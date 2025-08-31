@@ -1,4 +1,4 @@
-
+﻿
 #ifndef __MAGIC_H__
 #define __MAGIC_H__
 
@@ -38,6 +38,8 @@ typedef struct _magic {
 	void* target_ptr;
 
 } magic_t;
+
+extern inline const magic_t* get_magic_list(void);
 
 /**
  * 디버깅용 마법을 생성할 때 사용할 함수

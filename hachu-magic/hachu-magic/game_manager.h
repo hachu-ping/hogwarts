@@ -5,16 +5,14 @@
 #include <allegro5/allegro_ttf.h>
 #include <stdbool.h>
 
-#define MAX_RANK 10
-#define MAX_NAME_LEN 20
+#include "game_system.h"
+
 
 #define MAX_STAGE_NUMBER 4
 
-extern ALLEGRO_FONT* font_hud;
-extern ALLEGRO_FONT* font_stage;
-
 // 게임 상태 구조체
 typedef struct _game_state {
+    char player_name[MAX_NAME_LEN];
     int current_stage;
     int current_wave;
     int g_cat_life;
@@ -25,35 +23,23 @@ typedef struct _game_state {
     double time_taken;
 } game_state_t;
 
+extern inline const game_state_t* get_game_state(void);
 
 
-// 랭킹 엔트리
-typedef struct _rank_entry{
-    char name[MAX_NAME_LEN];
-    float time;  // -1은 실패 표시
-} rank_entry_t;
+
+void play_game(void);
 
 // 게임 상태 초기화
 void init_game(game_state_t*);
 
 // 게임 종료 여부 판정
-bool is_game_over(game_state_t*);
+bool is_game_over();
 
 // 게임 종료 처리 (시간 계산 및 클리어 여부 설정)
-void is_game_clear(game_state_t*);
-
-// 랭킹 관련 함수들
-void load_rankings(void);
-void save_rankings(void);
-int compare_scores(const void*, const void*);
-void add_score(const char*, float);
-void print_rankings_screen(ALLEGRO_FONT*, game_state_t*);
-void draw_hud(ALLEGRO_FONT*, game_state_t*);
+void is_game_clear();
 
 
-
-void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state);
-
+void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue);
 
 
 /**
@@ -63,7 +49,8 @@ void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state);
  */
 void apply_damage(int damage);
 void clear_data(void);
-void play_game(void);
+void move_to_next_wave(void);
+void move_to_next_stage(void);
 
 #endif /* __GAME_MANAGER_H__ */
 

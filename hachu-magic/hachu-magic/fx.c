@@ -1,8 +1,13 @@
-#include "debug.h"
+﻿#include "debug.h"
 #include "enemy.h"
 #include "fx.h"
 
 explosion_t g_explosion_list[EXPLOSION_MAX_NUMBER];
+
+const explosion_t* get_explosion_list(void)
+{
+	return &g_explosion_list;
+}
 
 void clear_explosion(void)
 {
