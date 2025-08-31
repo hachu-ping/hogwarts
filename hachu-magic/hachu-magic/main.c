@@ -38,7 +38,7 @@ int main() {
 
     must_init(al_install_audio(), "audio");
     must_init(al_init_acodec_addon(), "audio codecs");
-    must_init(al_reserve_samples(16), "reserve samples");  //샘플의 키홀드값
+    must_init(al_reserve_samples(32), "reserve samples");  //샘플의 키홀드값
 
     // 데이터 초기화
     init_data();

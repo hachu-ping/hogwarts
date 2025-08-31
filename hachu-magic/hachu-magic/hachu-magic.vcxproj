@@ -171,7 +171,7 @@
     <Font Include="NanumGothic.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="assets\audio\bgm.wav" />
+    <Media Include="assets\audio\bgm.mp3" />
     <Media Include="assets\audio\cat_damaged.mp3" />
     <Media Include="assets\audio\enemy_0_damaged.mp3" />
     <Media Include="assets\audio\enemy_0_die.mp3" />
