@@ -57,8 +57,8 @@ void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state);
 
 /**
  * A brief description. A more elaborate class description
- * ?뚮젅?댁뼱媛 ?곕?吏瑜?諛쏆뒿?덈떎.
- * @params damage: ?뚮젅?댁뼱媛 諛쏆쓣 ?곕?吏 ?섏튂
+ * 플레이어가 데미지를 받습니다.
+ * @params damage: 플레이어가 받을 데미지 수치
  */
 void apply_damage(int damage);
 void clear_data(void);
