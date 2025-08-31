@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 #include "cat.h"
 #include "game_manager.h"
 #include "utils.h"
@@ -23,6 +24,10 @@ extern int stage_wave_spawn_enemy_number[];
 extern int life;
 extern game_state_t gm_state;
 
+//2025-08-31 추가
+double last_wave_clear_time = 0;
+bool wave_ready_to_spawn = false;
+//여기까지
 
 void DEBUG_clear_enemy(void) {
     for (int i = 0; i < 5; i++) {
@@ -98,7 +103,7 @@ void clear_enemy(void) {
 
 void spawn_wave(void)
 {
-    
+   
     bool is_cleared = is_enemy_cleared();
 
     if (!is_cleared) {
@@ -122,6 +127,28 @@ void spawn_wave(void)
     }
     gm_state.current_wave += 1;
 }
+
+//여기 2025-08-31 오늘 추가함
+
+void check_wave_spawn_delay() {
+    if (!is_enemy_cleared()) {
+        wave_ready_to_spawn = false;  // 적이 남아있으면 딜레이 타이머 리셋
+        return;
+    }
+
+    if (!wave_ready_to_spawn) {
+        last_wave_clear_time = al_get_time();  // 마지막 적이 클리어된 시간 기록
+        wave_ready_to_spawn = true;
+    }
+
+    double now = al_get_time();
+    if (wave_ready_to_spawn && now - last_wave_clear_time >= 2.0) {
+        spawn_wave();           // 2초 딜레이 후 웨이브 호출
+        wave_ready_to_spawn = false;
+    }
+}
+
+///
 
 
 void spawn_enemy(void) 
