@@ -1,146 +1,115 @@
 
 #include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
-
-#include "cat.h"
-#include "enemy.h"
-#include "utils.h"
-#include "magic.h"
-#include <allegro5/keycodes.h>
-#include "game_system.h"
-
 #include <stdio.h>
 
-cat_t g_cat;
+#include "cat.h"
+#include "debug.h"
+#include "enemy.h"
+#include "game_system.h"
+#include "magic.h"
+#include "utils.h"
 
 #define KEY_SEEN     1
 #define KEY_DOWN     2
 
 extern unsigned char g_key[ALLEGRO_KEY_MAX];
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
-extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
+
+cat_t g_cat;
+
+void DEBUG_init_cat(void)
+{
+    g_cat.size_w = CAT_SIZE_W;
+    g_cat.size_h = CAT_SIZE_H;
+    g_cat.pos_x = 500;
+    g_cat.pos_y = 500;
+    g_cat.last_attack_time = al_get_time();
+    g_cat.attack_cooldown_time = DEFAULT_ATTACK_COOLDOWN_TIME;
+}
 
 void init_cat()
 {
-    g_cat.pos_x = 700;  // Áß¾Ó
+    // ê³ ì–‘ì´ì˜ ìœ„ì¹˜
+    g_cat.pos_x = 700;
     g_cat.pos_y = 400;
-    g_cat.size_w = 150;    // °í¾çÀÌ ³Êºñ
-    g_cat.size_h = 150;    // °í¾çÀÌ ³ôÀÌ
 
-    g_cat.last_attack_time = al_get_time();  // ÇöÀç ½Ã°£À¸·Î ÃÊ±âÈ­ 
+    // ê³ ì–‘ì´ì˜ ë„ˆë¹„ì™€ ë†’ì´
+    g_cat.size_w = CAT_SIZE_W;
+    g_cat.size_h = CAT_SIZE_H;
+
+    // ê³µê²© ì‹œê°„ê´€ë ¨ ì´ˆê¸°í™” 
+    g_cat.last_attack_time = al_get_time();  
+    g_cat.attack_cooldown_time = 0.2;
 }
-
 
 void update_cat()
 {
-    // TODO 
-    /*
-    // ¶ó¿îµå¸¶´Ù °í¾çÀÌ À§Ä¡ °íÁ¤
-    switch (current_round)
-    {
-    case 1:
-        cat.x = 700;  // Áß¾Ó
-        cat.y = 400;
-        break;
-    case 2:
-        cat.x = 350;  // ¿ŞÂÊ Áß°£
-        cat.y = 400;
-        break;
-    case 3:
-        cat.x = 1050; // ¿À¸¥ÂÊ Áß°£
-        cat.y = 400;
-        break;
-    default:
-        cat.x = 700;
-        cat.y = 400;
-        break;
-    }
-    */
-    
     double now = al_get_time();
 
-    // ÄğÅ¸ÀÓ Ã¼Å© (0.2ÃÊ °æ°ú ¿©ºÎ)
-    if (now - g_cat.last_attack_time >= 0.2)
-        
-    {
-        // printf("now: %.2f, last_attack_time: %.2f, diff: %.2f\n", now, cat.last_attack_time, now - cat.last_attack_time);                                                   // (KEY_DOWN | KEY_SEEN)) 
-        int left = (g_key[ALLEGRO_KEY_LEFT] == KEY_DOWN) ? 1 : 0;          
-        int right = (g_key[ALLEGRO_KEY_RIGHT] == KEY_DOWN) ? 1 : 0;
-        int up = (g_key[ALLEGRO_KEY_UP] == KEY_DOWN ) ? 1 : 0;
-        int down = (g_key[ALLEGRO_KEY_DOWN] == KEY_DOWN) ? 1 : 0;
+    // ê³µê²© ì¿¨íƒ€ì„ ì²´í¬ (ë§ˆì§€ë§‰ìœ¼ë¡œ ê³µê²©í•œ ì‹œê°„ìœ¼ë¡œë¶€í„° ì¶©ë¶„íˆ ì§€ë‚¬ëŠ”ê°€)
+    if (now - g_cat.last_attack_time >= g_cat.attack_cooldown_time) {
+        //DEBUG_PRINT("now: %.2f, last_attack_time: %.2f, diff: %.2f\n", now, g_cat.last_attack_time, now - g_cat.last_attack_time);
 
-        
+        char left    = (g_key[ALLEGRO_KEY_LEFT]  == KEY_DOWN) ? 1 : 0;
+        char right   = (g_key[ALLEGRO_KEY_RIGHT] == KEY_DOWN) ? 1 : 0;
+        char up      = (g_key[ALLEGRO_KEY_UP]    == KEY_DOWN) ? 1 : 0;
+        char down    = (g_key[ALLEGRO_KEY_DOWN]  == KEY_DOWN) ? 1 : 0;
         
         int total_pressed = left + right + up + down;
         
-        // ¿ÀÁ÷ ÇÑ °³ ¹æÇâÅ°¸¸ ´­·ÈÀ» ¶§¸¸ À¯È¿
-        if (total_pressed == 1)
-        {
-            int keycode = 0;  //  ¿©±â¼­ Allegro Å°ÄÚµå ÀúÀå¿ëÀ¸·Î ¼±¾ğ
+        // ë°©í–¥í‚¤ ì¤‘ í•œ ê°œ ë°©í–¥í‚¤ê°€ ëˆŒë ¤ì§„ ê²½ìš° ì…ë ¥ì„ ì²˜ë¦¬í•¨
+        if (total_pressed == 1) {
+            //  ì—¬ê¸°ì„œ Allegro í‚¤ì½”ë“œ ì•Œë ˆê·¸ë¡œë¡œ ë³€í™˜
+            char keycode = 0;  
            
-
-            if (left)  keycode = ALLEGRO_KEY_LEFT;
+            if      (left)  keycode = ALLEGRO_KEY_LEFT;
             else if (right) keycode = ALLEGRO_KEY_RIGHT;
             else if (up)    keycode = ALLEGRO_KEY_UP;
-            else if (down)  keycode = ALLEGRO_KEY_DOWN;
-           
-            printf("left %d, right: %d, up : %d, down : %d\n", left, right, up, down);
+            else            keycode = ALLEGRO_KEY_DOWN;
+            
+            DEBUG_PRINT("left %d, right: %d, up : %d, down : %d\n", left, right, up, down);
 
-            // ¸¶¹ı °ø°İ ÇÔ¼ö È£Ãâ
-            Direction input_dir = keycode_to_direction(keycode);
-            //printf("input_dir(enum) = %d\n", input_dir);  // 1~4 Ãâ·Â È®ÀÎ
+            // ë§ˆë²• ê³µê²© í•¨ìˆ˜ í˜¸ì¶œ
+            direction_t direction = keycode_to_direction(keycode);
+            DEBUG_PRINT("input_dir(enum) = %d\n", direction);  // 1~4 ê°’ì¸ í™•ì¸
 
-            handle_input(input_dir);
+            cast_magic(direction);
 
-            // ¸¶Áö¸· °ø°İ ½Ã°£ °»½Å
+            // ê³µê²©í•œ ë§ˆì§€ë§‰ ì‹œê°„ ì—…ë°ì´íŠ¸
             g_cat.last_attack_time = now;
         }
     }
 }
 
-void handle_input(int input_dir)
+void cast_magic(direction_t direction)
 {
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         enemy_t* e = &g_enemy_list[i];
 
-        
-        // 1. ÀûÀÌ »ç¿ë ÁßÀÌ°í
-        // 2. ¹«ÀûÀÌ ¾Æ´Ï¸ç
-        // 3. ¾ÆÁ÷ ³²Àº ÆĞÅÏÀÌ ÀÖ°í
-        //printf("[DEBUG] enemy[%d] used: %d, invincible: %d, received_attack_count: %d, life: %d\n",
-            //i, e->is_spawned, e->is_invincible, e->received_attack_count, e->life);
+        DEBUG_PRINT("[DEBUG] enemy[%d] used: %d, invincible: %d, received_attack_count: %d, life: %d\n",
+            i, e->is_spawned, e->is_invincible, e->received_attack_count, e->life);
 
-        if (e->is_spawned && !e->is_invincible && e->received_attack_count < e->life)
-        {
-
-
-            char expected_dir = e->pattern[e->received_attack_count];
-            
-            // 4. ÀÔ·Â ¹æÇâÀÌ ÆĞÅÏ°ú ÀÏÄ¡ÇÏ¸é
-            if (expected_dir == input_dir)
-            {
-                // 5. ¸¶¹ı »ı¼º (¹İÈ¯°ª ¾øÀÌ È£Ãâ¸¸)
-                create_magic(g_cat.pos_x, g_cat.pos_y, input_dir, e);
-
-                // 6. ÆĞÅÏ ÇÑ ´Ü°è Áøµµ Áõ°¡
-                //e->received_attack_count++;
-            }
-            else {
-            }
+        // 1. ì ì´ í™œì„±í™” ë˜ì–´ìˆê³ 
+        // 2. ë¬´ì ì´ ì•„ë‹ˆë©´
+        if (!e->is_spawned || e->is_invincible) {
+            continue;
         }
+        // 3. ê³µê²© ë°›ì€ íšŸìˆ˜ê°€ ìµœëŒ€ì¸ ê²½ìš°
+        if (e->received_attack_count >= e->life) {
+            continue;
+        }
+
+        // 4. ì…ë ¥ ë°©í–¥ê³¼ í˜„ì¬ íŒ¨í„´ê³¼ ì¼ì¹˜í•˜ë©´
+        if (e->current_pattern != (magic_type_t) direction) {
+            continue;
+        }
+
+        // ë§ˆë²• ìƒì„± (ì‹¤í™˜ì€ ë§ˆë²• í˜¸ì¶œë§Œ)
+        create_magic(g_cat.pos_x, g_cat.pos_y, (magic_type_t) direction, e);
     }
 }
 
 
 
 
-
-void DEBUG_init_cat(void) 
-{
-	// TODO: Modify to valid values
-	g_cat.size_w = 200;
-	g_cat.size_h = 200;
-	g_cat.pos_x = 500;
-	g_cat.pos_y = 500;
-	g_cat.last_attack_time = 0.2;
-}

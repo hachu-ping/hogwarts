@@ -3,38 +3,38 @@
 
 #include <allegro5/bitmap.h>
 
-#define CAT_FRAME_NUMBER 3
-#define CAT_ACTION_NUMBER 2
+#define SPRITE_CAT_FRAME_NUMBER 3
+#define SPRITE_CAT_ACTION_NUMBER 2
 
-#define CAT_WIDTH 200
-#define CAT_HEIGHT 200
+#define SPRITE_CAT_WIDTH 200
+#define SPRITE_CAT_HEIGHT 200
 
-static const int ENEMY_WIDTH[] = { 140, 180, 220, 320 };
-static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
+static const int SPRITE_ENEMY_WIDTH[] = { 140, 180, 220, 320 };
+static const int SPRITE_ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 
-#define ENEMY_TIME_NUMBER 4
-#define ENEMY_FRAME_NUMBER 2
+#define SPRITE_ENEMY_TYPE_NUMBER 4
+#define SPRITE_ENEMY_FRAME_NUMBER 2
 
-#define ARROW_WIDTH 80
-#define ARROW_HEIGHT 80
-#define ARROW_NUMBER 5
+#define SPRITE_ARROW_WIDTH 80
+#define SPRITE_ARROW_HEIGHT 80
+#define SPRITE_ARROW_NUMBER 5
 
-#define MAGIC_WIDTH 100
-#define MAGIC_HEIGHT 100
-#define MAGIC_TYPE_NUMBER 5
-#define MAGIC_FRAME_NUMBER 3
+#define SPRITE_MAGIC_WIDTH 100
+#define SPRITE_MAGIC_HEIGHT 100
+#define SPRITE_MAGIC_TYPE_NUMBER 5
+#define SPRITE_MAGIC_FRAME_NUMBER 3
 
-#define LIFE_WIDTH 80
-#define LIFE_HEIGHT 80
+#define SPRITE_LIFE_WIDTH 80
+#define SPRITE_LIFE_HEIGHT 80
 
-#define EXPLOSION_WIDTH 100
-#define EXPLOSION_HEIGHT 100
-#define EXPLOSION_FRAME_NUMBER 4
+#define SPRITE_EXPLOSION_WIDTH 100
+#define SPRITE_EXPLOSION_HEIGHT 100
+#define SPRITE_EXPLOSION_FRAME_NUMBER 4
 
 
 #define BACKGROUND_NUMBER 3
 
-typedef struct SPRITES
+typedef struct _sprites
 {
     ALLEGRO_BITMAP* _sheet;
     ALLEGRO_BITMAP* _cat_sheet;
@@ -46,32 +46,32 @@ typedef struct SPRITES
     ALLEGRO_BITMAP* background[BACKGROUND_NUMBER];
 
     // cat
-    ALLEGRO_BITMAP* cat[CAT_FRAME_NUMBER];
+    ALLEGRO_BITMAP* cat[SPRITE_CAT_FRAME_NUMBER];
 
     // arrow
-    ALLEGRO_BITMAP* arrows[ARROW_NUMBER];
+    ALLEGRO_BITMAP* arrows[SPRITE_ARROW_NUMBER];
 
     // magic
-    ALLEGRO_BITMAP* magics[MAGIC_TYPE_NUMBER][MAGIC_FRAME_NUMBER];
+    ALLEGRO_BITMAP* magics[SPRITE_MAGIC_TYPE_NUMBER][SPRITE_MAGIC_FRAME_NUMBER];
 
     // enemy
-    ALLEGRO_BITMAP* enemies[ENEMY_TIME_NUMBER][ENEMY_FRAME_NUMBER];
+    ALLEGRO_BITMAP* enemies[SPRITE_ENEMY_TYPE_NUMBER][SPRITE_ENEMY_FRAME_NUMBER];
 
     // FX
-    ALLEGRO_BITMAP* explosion[EXPLOSION_FRAME_NUMBER];
+    ALLEGRO_BITMAP* explosion[SPRITE_EXPLOSION_FRAME_NUMBER];
     ALLEGRO_BITMAP* life;
 
-} SPRITES;
+} sprites_t;
 
 /**
- * ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö¸¦ ºÒ·¯¿Í °¡°øÇÕ´Ï´Ù.
- * ÀÌ¹ÌÁö ·Îµå ¶Ç´Â ¼­ºêºñÆ® °¡°ø¿¡ ½ÇÆÐÇÒ °æ¿ì ÇÁ·Î±×·¥ÀÌ Á¾·áµË´Ï´Ù.
+ * ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ë¥¼ ë¶ˆëŸ¬ì™€ ì €ìž¥í•©ë‹ˆë‹¤.
+ * ì´ë¯¸ì§€ ë¡œë“œ ë˜ëŠ” ìŠ¤í”„ë¼ì´íŠ¸ ìƒì„±ì— ì‹¤íŒ¨í•  ê²½ìš° í”„ë¡œê·¸ëž¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.
  */
 void init_sprites(void);
 
 /**
- * draw ÇÔ¼öµéÀ» È°¿ëÇØ È­¸éÀ» »õ·Î ±×¸®°í, Ã¢¿¡ Ç¥½ÃÇÕ´Ï´Ù.
- * È­¸éÀ» ±×¸®´Â ¼ø¼­´Â ´ÙÀ½°ú °°½À´Ï´Ù.
+ * draw í•¨ìˆ˜ë“¤ì„ í™œìš©í•´ í™”ë©´ì— ê·¸ë¦´ ê·¸ë¦¼ë“¤ì„ ì°½ì— í‘œì‹œí•©ë‹ˆë‹¤.
+ * í™”ë©´ì— ê·¸ë ¤ì§ˆ ìˆœì„œëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
  * 
  * background -> enemy -> cat -> magic -> FX
  */
@@ -79,34 +79,33 @@ void refresh_screen(void);
 
 
 /**
- * ÁÖÀÎ°ø °í¾çÀÌ¸¦ È­¸é¿¡ ±×¸³´Ï´Ù.
- * ÁÖÀÎ°ø °í¾çÀÌÀÇ ÇöÀç »óÅÂ¿¡ µû¶ó ´Ù¸¥ ÀÌ¹ÌÁö¸¦ º¸¿©ÁÝ´Ï´Ù. 
+ * í”Œë ˆì´ì–´ ê³ ì–‘ì´ë¥¼ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * í”Œë ˆì´ì–´ ê³ ì–‘ì´ì˜ í˜„ìž¬ ìƒíƒœì— ë”°ë¼ ë‹¤ë¥¸ ì´ë¯¸ì§€ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤. 
  */
 void draw_cat(void);
 
 /**
- * ¹è°æÀ» È­¸é¿¡ ±×¸³´Ï´Ù.
- * ¹è°æÀº Stage¿¡ µû¶ó ´Þ¶óÁý´Ï´Ù. 
+ * ë°°ê²½ì„ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * ë°°ê²½ì€ Stageì— ë”°ë¼ ë‹¬ë¼ì§‘ë‹ˆë‹¤. 
  */
 void draw_background(void);
 
 /**
- * ÇöÀç È°¼ºÈ­µÈ ¸¶¹ýÀ» È­¸é¿¡ ±×¸³´Ï´Ù.
- * ¸¶¹ýÀº g_magics ¿¡¼­ ÇöÀç is_spawned ÀÎ °ª¸¸ ±×¸³´Ï´Ù.
+ * í˜„ìž¬ í™œì„±í™”ëœ ë§ˆë²•ì„ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * ë§ˆë²•ì€ g_magics ë°°ì—´ ì¤‘ì—ì„œ is_spawned ì¸ ê²ƒë§Œ ê·¸ë¦½ë‹ˆë‹¤.
  */
 void draw_magics(void);
 
 /**
- * ÇöÀç È°¼ºÈ­µÈ ÀûÀ» È­¸é¿¡ ±×¸³´Ï´Ù.
- * ÀûÀº g_enemies ¿¡¼­ ÇöÀç is_spawned ÀÎ °ª¸¸ ±×¸³´Ï´Ù.
+ * í˜„ìž¬ í™œì„±í™”ëœ ì ì„ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
+ * ì ì€ g_enemies ë°°ì—´ ì¤‘ì—ì„œ is_spawned ì¸ ê²ƒë§Œ ê·¸ë¦½ë‹ˆë‹¤.
  */
 void draw_enemies(void);
 
 /**
- * È­¸é È¿°ú¸¦ È­¸é¿¡ ±×¸³´Ï´Ù.
+ * í™”ë©´ íš¨ê³¼ë¥¼ í™”ë©´ì— ê·¸ë¦½ë‹ˆë‹¤.
  */
 void draw_fxs(void);
 
 
 #endif /* __SPRITES_H__ */
-

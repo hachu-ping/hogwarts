@@ -1,13 +1,9 @@
-
 #include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 
 #include "game_system.h"
-
-// --- keyboard ---
-
 
 unsigned char g_key[ALLEGRO_KEY_MAX];
 
@@ -23,14 +19,14 @@ void keyboard_update(ALLEGRO_EVENT* event)
 
     case ALLEGRO_EVENT_KEY_DOWN:
 
-        //printf("DEBUG -- Key ´­¸²: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        //printf("DEBUG -- Key ëˆ„ë¦„: %d\n", event->keyboard.keycode);  // ì–´ë–¤ í‚¤ ëˆ„ë¥´ëŠ”ì§€ í™•ì¸
         g_key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
-        //printf("DEBUG -- Key ´­¸²: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        //printf("DEBUG -- Key ëˆ„ë¦„: %d\n", event->keyboard.keycode);  // ì–´ë–¤ í‚¤ ëˆ„ë¥´ëŠ”ì§€ í™•ì¸
         break;
     case ALLEGRO_EVENT_KEY_UP:
-        // printf("DEBUG -- Key ¶¼Áü: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        // printf("DEBUG -- Key ë—Œ: %d\n", event->keyboard.keycode);  // ì–´ë–¤ í‚¤ ë—ëŠ”ì§€ í™•ì¸
         g_key[event->keyboard.keycode] &= ~KEY_DOWN;
-        //printf("DEBUG -- Key ¶¼Áü: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        //printf("DEBUG -- Key ë—Œ: %d\n", event->keyboard.keycode);  // ì–´ë–¤ í‚¤ ë—ëŠ”ì§€ í™•ì¸
         break;
     }
 }

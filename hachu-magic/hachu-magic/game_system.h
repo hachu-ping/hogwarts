@@ -1,4 +1,4 @@
-#ifndef __GAME_SYSTEM_H__
+ï»¿#ifndef __GAME_SYSTEM_H__
 #define __GAME_SYSTEM_H__
 
 #include <allegro5/allegro5.h>
@@ -9,10 +9,28 @@
 #define SCREEN_WIDTH 1400
 #define SCREEN_HEIGHT 800
 
+extern unsigned char key[ALLEGRO_KEY_MAX];
+
+typedef enum _magic_type {
+    MAGIC_TYPE_NONE   = 0,
+    MAGIC_TYPE_FIRE   = 1,
+    MAGIC_TYPE_WATER  = 2,
+    MAGIC_TYPE_AIR    = 3,
+    MAGIC_TYPE_NATURE = 4
+} magic_type_t;
+
+typedef enum _direction {
+    DIRECTION_NONE  = 0,
+    DIRECTION_LEFT  = 1,
+    DIRECTION_RIGHT = 2,
+    DIRECTION_UP    = 3,
+    DIRECTION_DOWN  = 4
+} direction_t;
+
 
 /**
- * Å°º¸µå ÀÔ·Â¿¡ µû¶ó Àü¿ªº¯¼ö g__key[]¿¡ ÇöÀç °¢ ±âÈ£¿¡ ´ëÇÑ Å°º¸µåÀÇ ÀÔ·Â ¿©ºÎ¸¦ ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
- * @param event: ALLEGRO_EVENT* ¸¦ ÅëÇØ ÀÌº¥Æ® ÀÔ·ÂÀ» °¨ÁöÇÕ´Ï´Ù.
+ * í‚¤ë³´ë“œ ì…ë ¥ì— ë”°ë¼ ì „ì—­ë³€ìˆ˜ g__key[]ì— í•´ë‹¹ í‚¤ ë²ˆí˜¸ì— ë”°ë¥¸ í‚¤ë³´ë“œ ì…ë ¥ ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
+ * @param event: ALLEGRO_EVENT* ë¥¼ ë§¤ê°œ ì´ë²¤íŠ¸ ì…ë ¥ì„ ë°›ìŠµë‹ˆë‹¤.
  */
 void keyboard_update(ALLEGRO_EVENT* event);
 

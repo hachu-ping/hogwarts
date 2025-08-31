@@ -1,39 +1,15 @@
 
-
+#include "debug.h"
 #include "enemy.h"
+#include "fx.h"
 #include "magic.h"
 
-// TODO: define max magic number
-magic_t g_magic_list[MAGIC_MAX_NUMBER];
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
+magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
-void create_magic(int pos_x, int pos_y, char type, enemy_t* target)
-{
-	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-		if (g_magic_list[i].is_spawned == false) {  // ∫ÒæÓ ¿÷¥¬ ΩΩ∑‘ πﬂ∞ﬂ
-			g_magic_list[i].pos_x = pos_x;
-			g_magic_list[i].pos_y = pos_y;
-			g_magic_list[i].size_w = 100;
-			g_magic_list[i].size_h = 100;
-			g_magic_list[i].velocity = 3.0;
-			g_magic_list[i].type = type;
-			g_magic_list[i].target_ptr = (void*)target;
-
-			g_magic_list[i].is_spawned = true;
-
-			printf("%dø° ∏∂π˝ ª˝º∫\n", i);
-			return;
-		}
-	}
-
-	//  ∏µÁ ΩΩ∑‘¿Ã ≤À √°¿ª ∞ÊøÏ
-	printf("[MAGIC] ª˝º∫ Ω«∆–! ªÁøÎ ∞°¥…«— ∏∂π˝ ΩΩ∑‘¿Ã æ¯Ω¿¥œ¥Ÿ.\n");
-}
-
+// for debugging
 void DEBUG_init_magic(void) {
-	// for debugging
-
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
 		g_magic_list[i].is_spawned = 0;
 	}
@@ -50,26 +26,55 @@ void DEBUG_init_magic(void) {
 		g_magic_list[i].pos_y = 540;
 		g_magic_list[i].size_w = 20;
 		g_magic_list[i].size_h = 20;
-		//g_magic_list[i].velocity = 2.0;
-		g_magic_list[0].velocity = 4.0;
-		g_magic_list[1].velocity = 3.0;
-		g_magic_list[2].velocity = 1.0;
-		g_magic_list[3].velocity = 0.9;
-		//g_magic_list[i].target_ptr = &g_enemy_list[i];
 		g_magic_list[i].target_ptr = &g_enemy_list[0];
 	}
 
+	g_magic_list[0].velocity = 4.0;
+	g_magic_list[1].velocity = 3.0;
+	g_magic_list[2].velocity = 1.0;
+	g_magic_list[3].velocity = 0.9;
 }
 
-//¿”Ω√ -> √˛µπ Ω√Ω∫≈€
-bool is_collide_with_magic(magic_t* magic_ptr)
+void init_magic(void)
+{
+	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
+		g_magic_list[i].is_spawned = false;
+	}
+}
+
+void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target)
+{
+	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
+		// ÎπÑÏñ¥ ÏûàÎäî Ïä¨Î°Ø Ï∞æÍ∏∞
+		if (g_magic_list[i].is_spawned == false) {  
+			g_magic_list[i].pos_x = pos_x;
+			g_magic_list[i].pos_y = pos_y;
+			g_magic_list[i].size_w = MAGIC_WIDTH;
+			g_magic_list[i].size_h = MAGIC_HEIGHT;
+			g_magic_list[i].velocity = 3.0;
+			g_magic_list[i].type = type;
+			g_magic_list[i].target_ptr = (void*)target;
+
+			g_magic_list[i].is_spawned = true;
+
+			DEBUG_PRINT("%dÎ≤à ÎßàÎ≤ï ÏÉùÏÑ±\n", i);
+			return;
+		}
+	}
+
+	//  Î™®Îì† ÎßàÎ≤ïÏä¨Î°ØÏù¥ Îã§ Ï∞¨ Í≤ΩÏö∞
+	DEBUG_PRINT("[MAGIC] ÎßàÎ≤ï Ïã§Ìå®! Î™®Îì† ÎßàÎ≤ïÏä¨Î°ØÏù¥ Í∞ÄÎìù Ï∞®ÏûàÏñ¥ ÏÉùÏÑ±Ìï†Ïàò ÏóÜÏäµÎãàÎã§.\n");
+}
+
+// ÌÉÄÍ≤üÍ≥ºÏùò Ï∂©Îèå Í≤ÄÏÇ¨
+bool is_collided_with_target(magic_t* magic_ptr)
 {
 	if (magic_ptr == NULL) {
 		return false;
 	}
 
 	double ax1 = (magic_ptr->pos_x);
-	double ay1= (magic_ptr->pos_y);
+	double ay1 = (magic_ptr->pos_y);
 	double ax2 = (magic_ptr->pos_x) + (magic_ptr->size_w);
 	double ay2 = (magic_ptr->pos_y) + (magic_ptr->size_h);
 	double bx1 = (((enemy_t*)magic_ptr->target_ptr)->pos_x);
@@ -86,56 +91,54 @@ bool is_collide_with_magic(magic_t* magic_ptr)
 }
 
 
-//√Êµπ √≥∏Æ «‘ºˆ
-void collide_magic(void) 
+// Ï∂©Îèå Ï≤òÎ¶¨ Ìï®Ïàò
+void handle_magic_collision(void)
 {
 	magic_t* magic_ptr = g_magic_list;
-
 	enemy_t* target;
 
 	for (int i = 0; i < MAGIC_MAX_NUMBER; ++i, ++magic_ptr) {
-		if (!(magic_ptr->is_spawned)) { //ª˝º∫µ» ∏∂π˝ø° ¥Î«ÿº≠∏∏ ∞ÀªÁ.
+		// ÎßàÎ≤ïÏù¥ ÎπÑÌôúÏÑ± ÏÉÅÌÉúÏóêÏÑúÎäî Í≤ÄÏÇ¨ÌïòÏßÄ ÏïäÏùå.
+		if (!(magic_ptr->is_spawned)) { 
 			continue;
 		}
 
 		target = (enemy_t*)magic_ptr->target_ptr;
-		if (is_collide_with_magic(magic_ptr)) {
+		if (is_collided_with_target(magic_ptr)) {
+			// Ï∂©Îèå Ïãú ÎßàÎ≤ïÍ∞ùÏ≤¥ ÏÜåÎ©∏
 			magic_ptr->is_spawned = 0;
 
+			create_explosion(magic_ptr->pos_x, magic_ptr->pos_y);
+
+			// ÌÉÄÍ≤üÏùò Ìå®ÌÑ¥Í≥º ÎßàÎ≤ï ÏÜçÏÑ±Ïù¥ Îã§Î•∏ Í≤ΩÏö∞
 			if (magic_ptr->type != target->current_pattern) {
-				// ≈∏¿‘¿Ã ¿œƒ°«œ¡ˆ æ ¿∫ ∞¯∞›¿∫ π´Ω√
 				continue;
 			}
 
-			if (target->received_attack_count < (target->life-1)) { //¿˚¿« √— ª˝∏Ì∫∏¥Ÿ ¿€¿ª∂ß ±Ó¡ˆ
+			// Ï†ÅÏù¥ ÏïÑÏßÅ Ï£ΩÏßÄÏïäÏïòÏùÑ Í≤ΩÏö∞Ïóê ÎåÄÌïú Ï≤òÎ¶¨
+			if (target->received_attack_count < (target->life-1)) { 
 				target->received_attack_count += 1;
 				target->current_pattern = target->pattern[target->received_attack_count];
-				printf("%d %d\n", i, target->received_attack_count);
-			}
-			else {
 
-				// TODO: Enemy ¡◊¿ª ∂ß «‘ºˆ »£√‚«œ±‚
+				DEBUG_PRINT("%d %d\n", i, target->received_attack_count);
+			} else {
+				// TODO: Enemy Ï£ΩÏùÑ Îïå Ìï®Ïàò Ìò∏Ï∂úÌïòÍ∏∞
 				(target->is_spawned) = 0;
-				printf("¿˚ ¡◊¿Ω life = %d - %d", target->received_attack_count, target->life);
+
+				DEBUG_PRINT("Ï†Å ÏÇ¨Îßù life = %d - %d", target->received_attack_count, target->life);
 			}
 		}
 	}
 }
 
-void init_magic(void)
-{
-	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-		g_magic_list[i].is_spawned = 0;
-	}
-}
 /*
-//≥™¡ﬂø° ∏∂π˝¿Ã øÚ¡˜¿Ã¥¬ ∞™¿ª ∫Ø¡÷«“ ∂ß ªÁøÎ
+//ÎÇòÏ§ëÏóê ÎßàÎ≤ïÏóê Îã§Ïù¥ÎÇòÎØπÌïú ÏõÄÏßÅÏûÑÏùÑ Ï§Ñ Ïàò ÏûàÎäî Ìï®Ïàò
 double delta_move_magic(void) {
 	extern g_frames;
 	return ((rand() % 5) + 1)*fabsf(sinf(0.5*g_frames)) + 0.5;
 }*/
 
-//«— «¡∑π¿”∏∏ ª˝∞¢«“ ∞Õ.
+//Îß§ ÌîÑÎ†àÏûÑÎßàÎã§ ÎßàÎ≤ïÏùÑ ÏõÄÏßÅÏûÑ.
 void move_magic(void) {
 	magic_t* magic_ptr = g_magic_list;
 
@@ -145,20 +148,26 @@ void move_magic(void) {
 		}
 
 		if (!(((enemy_t*)magic_ptr->target_ptr)->is_spawned)) {
-			// ¥ÎªÛ¿Ã ªÁ∂Û¡ˆ∏È º“∏Í
+			// ÌÉÄÍ≤üÏù¥ ÏÇ¨ÎùºÏ°åÏúºÎ©¥ ÏÜåÎ©∏
 			magic_ptr->is_spawned = false;
 			continue;
 		}
 
-		//1. πÊ«‚ ∫§≈Õ
+		//1. Î∞©Ìñ• Î≤°ÌÑ∞
 		float magic_dx =  (((enemy_t*)magic_ptr->target_ptr)->pos_x) - (magic_ptr->pos_x);
 		float magic_dy =  (((enemy_t*)magic_ptr->target_ptr)->pos_y) - (magic_ptr->pos_y);
-		//2. ∫§≈Õ ±Ê¿Ã
+		
+		//2. Î≤°ÌÑ∞ Í∏∏Ïù¥
 		float len = (float) sqrt((magic_dx * magic_dx) + (magic_dy * magic_dy));
-		if (len == 0) continue; // ¿ÃπÃ ∞„ƒ£ ªÛ≈¬¿œ ∂ß
-		magic_dx /= len; // ¥‹¿ß ∫§≈Õ
+		
+		// Ïù¥ÎØ∏ ÎèÑÏ∞©Ìïú Í≤ΩÏö∞Îäî Ï†úÏô∏
+		if (len == 0) continue; 
+		
+		// Îã®ÏúÑ Î≤°ÌÑ∞
+		magic_dx /= len; 
 		magic_dy /= len;
-		//3. º”µµ¿Ãµø
+		
+		//3. ÏÜçÎèÑÏù¥Îèô
 		magic_ptr->pos_x += (magic_dx*4 * (magic_ptr->velocity));
 		magic_ptr->pos_y += (magic_dy*4 * (magic_ptr->velocity));
 	}
