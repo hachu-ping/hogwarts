@@ -200,8 +200,8 @@ void spawn_enemy(void)
     temp_enemy.life = life_by_stage[current_stage];
     temp_enemy.received_attack_count = 0;
 
-    temp_enemy.size_w = 180;
-    temp_enemy.size_h = 180;
+    temp_enemy.size_w = ENEMY_WIDTH[temp_enemy.type];
+    temp_enemy.size_h = ENEMY_HEIGHT[temp_enemy.type];
 
     //char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
     //memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
