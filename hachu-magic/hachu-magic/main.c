@@ -1,10 +1,14 @@
-
+﻿
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
 #include <time.h>
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
+
 
 #include "cat.h"
 #include "enemy.h"
@@ -13,22 +17,35 @@
 #include "sprites.h"
 #include "utils.h"
 #include "magic.h"
+#include "game_manager.h"
 
 #include <allegro5/keycodes.h>
 
 
 int g_frames = 0;
+extern int rank_count;
+extern rank_entry_t rankings[];
+extern game_state_t gm_state;
 
 int main() {
     // 알레그로 초기화
     init_allegro();
 
+    al_init_font_addon();
+    al_init_ttf_addon();
     // 애드온 초기화
     init_addons();
     install_driver();
 
     // 데이터 초기화
     init_data();
+
+    ALLEGRO_FONT* font = al_load_ttf_font("NanumGothic.ttf", 24, 0);
+    // ALLEGRO_FONT* font = al_create_builtin_font();  // ���� �⺻ ��Ʈ ���  
+    if (!font) {
+        fprintf(stderr, "��Ʈ �ε� ����!\n");
+        return -1;
+    }
 
     // 리소스 초기화
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
@@ -107,9 +124,24 @@ int main() {
 
     }
     
+
+    load_rankings();
+    add_score("test", gm_state.time_taken);
+    save_rankings();
+
+    // ��ŷ ȭ�� ���
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+
+    print_rankings_screen(font, &gm_state);
+    al_flip_display();
+
+    al_rest(15.0);
+
+    al_destroy_font(font);
     al_destroy_timer(timer);
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
+    
 
     return 0;
 }
