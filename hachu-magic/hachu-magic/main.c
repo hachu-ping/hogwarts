@@ -73,7 +73,7 @@ int main() {
             bool changed = false;
 
             // 1) 텍스트박스에 대한 이벤트 처리(포커스/문자 입력)
-            changed |= textbox_handle_event(&g_name_box, &event);
+            changed |= textbox_handle_event(get_text_box(), &event);
 
             // 2) 마우스 클릭이면 버튼 처리
             if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {

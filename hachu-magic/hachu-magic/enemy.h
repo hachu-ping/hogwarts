@@ -71,6 +71,8 @@ void clear_enemy(void);
  */
 void create_enemy(void);
 
+void spawn_wave(void);
+
 /**
  * 모든 활성화된 적이 사라졌을 검사합니다. 
  * 모든 적이 사망 (비활성화 상태) 일때 true를 반환합니다.

@@ -26,8 +26,8 @@ const cat_t* get_cat()
 void clear_cat()
 {
     // 고양이의 위치
-    g_cat.pos_x = 700;
-    g_cat.pos_y = 400;
+    g_cat.pos_x = (SCREEN_WIDTH - CAT_SIZE_W) / 2;
+    g_cat.pos_y = (SCREEN_HEIGHT - CAT_SIZE_H) / 2;
 
     // 고양이의 너비와 높이
     g_cat.size_w = CAT_SIZE_W;
@@ -103,18 +103,4 @@ void cast_magic(direction_t direction)
         // 마법 생성 (실환은 마법 호출만)
         create_magic(g_cat.pos_x, g_cat.pos_y, (magic_type_t) direction, e);
     }
-}
-
-
-
-
-
-void DEBUG_clear_cat(void)
-{
-	// TODO: Modify to valid values
-	g_cat.size_w = 200;
-	g_cat.size_h = 200;
-	g_cat.pos_x = 500;
-	g_cat.pos_y = 500;
-	g_cat.last_attack_time = 0.2;
 }

@@ -22,85 +22,21 @@
 
 
 int max_stage_number = 4;
-int current_stage = 0;
-
 int stage_wave_max_number[] = { 4,4,3,2 };
-int current_wave = 0;
 
 int stage_wave_create_enemy_number[] = { 6,5,4,2 };
 
-rank_entry_t rankings[MAX_RANK];
-int rank_count = 0;
-
-game_state_t gm_state;
+int g_frames = 0;
+static game_state_t gm_state;
 
 inline const game_state_t* get_game_state(void)
 {
     return &gm_state;
 }
 
-void init_game(game_state_t* gm_state) {
-    gm_state->current_stage = 0;
-    gm_state->current_wave = 0;
-    gm_state->g_cat_life = 5;
-    gm_state->gm_start_time = al_get_time();
-    gm_state->gm_end_time = 0;
-
-    gm_state->game_clear = false;
-    gm_state->game_over = false;
-}
-
-
-bool is_game_over(game_state_t* gm_state) {
-    if (gm_state->g_cat_life <= 0) {
-        gm_state->game_over = true;
-
-        return true;  // 체력이 0 이하이면 종료
-    }
-    return false;
-}
-
-void is_game_clear(game_state_t* gm_state) {
-    gm_state->gm_end_time = al_get_time();
-    if (gm_state->g_cat_life > 0 && gm_state->current_stage >= MAX_STAGE_NUMBER) {
-        printf("debug - is game clear - true \n");
-        gm_state->game_clear = true;
-        gm_state->time_taken = (float)(gm_state->gm_end_time - gm_state->gm_start_time);
-
-    }
-    else {
-        gm_state->game_clear = false;
-        gm_state->time_taken = -1.0f;
-        printf("debug - is game clear - false\n");
-    }
-}
-
-
-int g_frames = 0;
-
-char g_player_name[64] = { 0 };
-
-
-//함수 별 초기화
-void clear_data(void)
-{
-    current_stage = 0;
-    current_wave = 0;
-
-#if __DEBUG_MODE__
-    DEBUG_clear_cat();
-    DEBUG_clear_enemy();
-    DEBUG_clear_magic();
-#else
-    clear_cat();
-    clear_enemy();
-    clear_magic();
-#endif	
-}
 
 void play_game(void)
 {
-    clear_data();
 
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
@@ -108,7 +44,6 @@ void play_game(void)
     // 현 디스플레이 소스를 등록해야 DISPLAY_CLOSE를 받습니다.
     ALLEGRO_DISPLAY* disp = al_get_current_display();
     al_register_event_source(queue, al_get_display_event_source(disp));
-
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
@@ -122,7 +57,6 @@ void play_game(void)
 
     while (!gm_state.game_over && !gm_state.game_clear) {
         g_frames++;
-
 
         ALLEGRO_EVENT ev;
         al_wait_for_event(queue, &ev);
@@ -140,8 +74,6 @@ void play_game(void)
             break;
 
         case ALLEGRO_EVENT_TIMER:
-            // === 업데이트 ===
-
             update_cat();
             spawn_enemy();
             move_magic();
@@ -150,7 +82,7 @@ void play_game(void)
             handle_enemy_collision();
             update_explosion();
 
-            redraw = true;       // 매 틱마다 다 시 그리기
+            redraw = true;       // 매 틱마다 다시 그리기
             break;
         }
 
@@ -158,14 +90,13 @@ void play_game(void)
         if (redraw && al_is_event_queue_empty(queue)) {
             redraw = false;
             refresh_game_screen();
-            draw_hud();
             al_flip_display();
         }
     }
 
     if (gm_state.game_clear) {
         load_rankings();
-        add_score("test", gm_state.time_taken);  // 수정 필요
+        add_score(gm_state.player_name, gm_state.time_taken);  // 수정 필요
         save_rankings();
     }
 
@@ -173,7 +104,79 @@ void play_game(void)
     al_destroy_event_queue(queue);
 }
 
-extern void play_game(void);
+
+void init_game() {
+    gm_state.current_stage = 0;
+    gm_state.current_wave = 0;
+    gm_state.g_cat_life = 5;
+    gm_state.gm_start_time = al_get_time();
+    gm_state.gm_end_time = 0;
+
+    gm_state.game_clear = false;
+    gm_state.game_over = false;
+
+    clear_data();
+}
+
+
+bool is_game_over() {
+    if (gm_state.g_cat_life <= 0) {
+        gm_state.game_over = true;
+
+        return true;  // 체력이 0 이하이면 종료
+    }
+    return false;
+}
+
+void is_game_clear() {
+    gm_state.gm_end_time = al_get_time();
+    if (get_game_state()->g_cat_life > 0 && gm_state.current_stage >= MAX_STAGE_NUMBER) {
+        printf("debug - is game clear - true \n");
+        gm_state.game_clear = true;
+        gm_state.time_taken = (float)(gm_state.gm_end_time - gm_state.gm_start_time);
+
+    }
+    else {
+        gm_state.game_clear = false;
+        gm_state.time_taken = -1.0f;
+        printf("debug - is game clear - false\n");
+    }
+}
+
+void move_to_next_wave(void)
+{
+    gm_state.current_wave += 1;
+}
+
+
+void move_to_next_stage(void)
+{
+    gm_state.current_wave = 0;
+    gm_state.current_stage += 1;
+
+    draw_stage_announce();
+}
+
+
+
+char g_player_name[64] = { 0 };
+
+
+//함수 별 초기화
+void clear_data(void)
+{
+
+#if __DEBUG_MODE__
+    DEBUG_clear_cat();
+    DEBUG_clear_enemy();
+    DEBUG_clear_magic();
+#else
+    clear_cat();
+    clear_enemy();
+    clear_magic();
+#endif	
+}
+
 
 void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue)
 {
@@ -192,11 +195,5 @@ void apply_damage(int damage)
     play_sound(GAME_SOUND_CAT_DAMAGED);
     DEBUG_PRINT("충돌 발생 life -> %d %d\n", damage, gm_state.g_cat_life);
 
-    is_game_over(&gm_state);
-
-    if (gm_state.g_cat_life <= 0) {
-        // TODO: 게임오버 처리하기
-        is_game_over(&gm_state);
-        DEBUG_PRINT("게임 종료\n");
-    }
+    is_game_over();
 }

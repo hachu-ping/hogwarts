@@ -53,7 +53,7 @@ void refresh_fxs(void);
 
 
 void refresh_scene(void);
-void draw_hud(void);
+void refresh_hud(void);
 void draw_stage_announce(void);
 void draw_title_screen(void);
 void draw_ranking_screen(void);

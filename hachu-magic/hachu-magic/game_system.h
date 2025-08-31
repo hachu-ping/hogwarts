@@ -84,6 +84,9 @@ void add_score(const char*, float);
 
 extern inline const rank_entry_t* get_rankings(void);
 
+extern inline const text_box_t* get_text_box(void);
+
+
 
 #endif /* __GAME_SYSTEM_H__ */
 

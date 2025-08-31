@@ -27,15 +27,16 @@ extern inline const game_state_t* get_game_state(void);
 
 
 
+void play_game(void);
 
 // 게임 상태 초기화
 void init_game(game_state_t*);
 
 // 게임 종료 여부 판정
-bool is_game_over(game_state_t*);
+bool is_game_over();
 
 // 게임 종료 처리 (시간 계산 및 클리어 여부 설정)
-void is_game_clear(game_state_t*);
+void is_game_clear();
 
 
 void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue);
@@ -48,7 +49,8 @@ void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue);
  */
 void apply_damage(int damage);
 void clear_data(void);
-void play_game(void);
+void move_to_next_wave(void);
+void move_to_next_stage(void);
 
 #endif /* __GAME_MANAGER_H__ */
 

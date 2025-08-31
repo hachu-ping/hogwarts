@@ -24,6 +24,8 @@ void refresh_game_screen(void)
     refresh_cat();
     refresh_magics();
     refresh_fxs();
+    refresh_hud();
+
 
     al_flip_display();
 }
@@ -109,7 +111,7 @@ void draw_title_screen(void)
 {
     draw_background(BACKGROUND_TYPE_START);
 
-    draw_textbox(&g_name_box);
+    draw_textbox(get_text_box());
     draw_text(700, 250, "CAT vs MICE");
 
     draw_button(&start_button, al_map_rgb(60, 120, 250), al_map_rgb(255, 255, 255), 2.0f);
@@ -119,7 +121,7 @@ void draw_title_screen(void)
 }
 
 
-void draw_hud(void)
+void refresh_hud(void)
 {
 
     double now = al_get_time();                  // 현재 시간 (초 단위)
@@ -142,13 +144,16 @@ void draw_stage_announce(void)
     if (get_game_state()->current_stage <= 2) {
         snprintf(hud_buffer, sizeof(hud_buffer), "Stage %d", get_game_state()->current_stage + 1);
         
-    }
-    else {
+    } else if (get_game_state()->current_stage == MAX_STAGE_NUMBER - 1) {
         memcpy(hud_buffer, "Final Stage!", 13);
     }
+    else {
+        memcpy(hud_buffer, "CLEAR!", 13);
+    }
+    
     draw_stage_text(700, 350, hud_buffer);
     al_flip_display();
-    al_rest(2); // 2초 동안 표시
+    al_rest(1); // 2초 동안 표시
 }
 
 void draw_ranking_screen(void)

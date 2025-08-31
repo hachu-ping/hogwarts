@@ -39,7 +39,12 @@ void keyboard_update(ALLEGRO_EVENT* event)
 }
 
 
-text_box_t g_name_box;
+static text_box_t g_name_box;
+
+const text_box_t* get_text_box()
+{
+    return &g_name_box;
+}
 
 // 이벤트 처리 (마우스 포커스 + 키 입력)
 // - ASCII만 다룹니다(숫자/영문/기호).
