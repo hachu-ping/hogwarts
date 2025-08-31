@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="audio.c" />
     <ClCompile Include="cat.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="example.c" />
@@ -152,6 +153,7 @@
     <Image Include="placeholder.jpeg" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio.h" />
     <ClInclude Include="cat.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="enemy.h" />
