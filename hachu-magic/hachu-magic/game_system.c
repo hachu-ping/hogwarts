@@ -1,4 +1,4 @@
-#include <allegro5/allegro5.h>
+﻿#include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
@@ -40,8 +40,6 @@ void keyboard_update(ALLEGRO_EVENT* event)
 Scene         g_scene_screne = SCENE_TITLE;     // 현재 화면
 ALLEGRO_FONT* g_font = NULL;            // 폰트는 run-time에 동적 로드
 ALLEGRO_FONT* g_font_btn = NULL;
-Button        g_btn_start = { 550, 380, 300, 60, "게임 시작" };
-Button        g_btn_rank = { 550, 460, 300, 60, "랭크 보기" };
 
 Button        g_btn_start = { 550, 380, 300, 60, "start" };
 Button        g_btn_rank = { 550, 460, 300, 60, "rank" };
@@ -54,9 +52,9 @@ static void draw_button(Button* btn, ALLEGRO_FONT* font, ALLEGRO_COLOR fill, ALL
     if (border_px > 0.0f) {
         al_draw_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, al_map_rgb(255, 255, 255), border_px);
     }
-    al_clear_to_color(al_map_rgb(20, 20, 25));
-    textbox_draw(&g_name_box, g_font_btn /* 또는 g_font */);
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
+    //al_clear_to_color(al_map_rgb(20, 20, 25));
+    textbox_draw(&g_name_box, font /* 또는 g_font */);
+    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
 
     // 2) 문자열 크기
     int tw = al_get_text_width(font, btn->label);
@@ -82,7 +80,7 @@ void draw_title_screen(ALLEGRO_FONT* font, ALLEGRO_FONT* font_title)
 {
 	al_draw_bitmap(g_sprites.background[4], 0, 0, 0);
     //al_clear_to_color(al_map_rgb(20, 20, 25));
-    textbox_draw(&g_name_box, font /* �Ǵ� g_font */);
+    textbox_draw(&g_name_box, font /* 또는 g_font */);
     al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
 
     draw_button(&g_btn_start, font, al_map_rgb(60, 120, 250), al_map_rgb(255, 255, 255), 2.0f);

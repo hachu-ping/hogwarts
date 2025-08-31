@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
@@ -46,13 +46,18 @@ int main() {
 
     ALLEGRO_FONT* font = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
     ALLEGRO_FONT* font_title = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
+
     // ALLEGRO_FONT* font = al_create_builtin_font();  // 기본 내장 폰트 사용  
     if (!font) {
         fprintf(stderr, "폰트 로드 실패!\n");
         return -1;
     }
+    if (!font_title) {
+        fprintf(stderr, "폰트 로드 실패!\n");
+        return -1;
+    }
 
-     font_hud = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 35, 0);
+    font_hud = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 35, 0);
     if (!font_hud) {
         fprintf(stderr, "폰트 로드 실패!\n");
         return -1;

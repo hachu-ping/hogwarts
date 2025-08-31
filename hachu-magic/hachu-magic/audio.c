@@ -115,7 +115,7 @@ void play_sound(game_sound_t type, ...)
         if (index < 0 || index >= MAGIC_TYPE_NUMBER) {
             break;
         }
-        //play_target = g_samples.magic_attack[index];
+        play_target = g_samples.magic_attack[index];
         break;
         
     default:
