@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "game_manager.h"
 #include "enemy.h"
+#include "fx.h"
 #include "initializer.h"
 #include "magic.h"
 #include "sprites.h"
@@ -22,7 +23,7 @@
 
 
 // ---------------------------------------------------
-int max_stage_number = 2;
+int max_stage_number = 4;
 int current_stage = 0;
 
 int stage_wave_max_number[] = { 4,4,3,2 };
@@ -37,15 +38,19 @@ game_state_t gm_state;
 
 void init_game(game_state_t* gm_state) {
     gm_state->current_stage = 0;
+    gm_state->current_wave = 0;
     gm_state->g_cat_life = 5;
     gm_state->game_clear = false;
     gm_state->gm_start_time = al_get_time();
     gm_state->gm_end_time = 0;
+
+    gm_state->game_clear = false;
+    gm_state->game_over = false;
     // printf("debug - init_game : start time %f\n", gm_state->gm_start_time);
 }
 
 
-void is_game_over(game_state_t* gm_state) {
+bool is_game_over(game_state_t* gm_state) {
     if (gm_state->g_cat_life <= 0) {
         gm_state->game_over = true;
         // printf("debug - game over: life depleted\n");
@@ -56,7 +61,7 @@ void is_game_over(game_state_t* gm_state) {
 
 void is_game_clear(game_state_t* gm_state) {
     gm_state->gm_end_time = al_get_time();
-    if (gm_state->g_cat_life > 0 && gm_state->current_stage >= 2) {
+    if (gm_state->g_cat_life > 0 && gm_state->current_stage >= MAX_STAGE_NUMBER) {
         printf("debug - is game clear - true \n");
         gm_state->game_clear = true;
         gm_state->time_taken = (float)(gm_state->gm_end_time - gm_state->gm_start_time);
@@ -227,10 +232,11 @@ void play_game(void)
 
     al_start_timer(timer);
 
-    bool is_game_over = false;
+    init_game(&gm_state);
+
     bool redraw = true;   // 첫 프레임 무조건 그리기
 
-    while (!is_game_over) {
+    while (!gm_state.game_over && !gm_state.game_clear) {
         g_frames++;
 
         ALLEGRO_EVENT ev;
@@ -239,12 +245,12 @@ void play_game(void)
 
         switch (ev.type) {
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
-            is_game_over = true;
+            gm_state.game_over = true;
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
             if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                is_game_over = true;
+                gm_state.game_over = true;
             }
             break;
 
@@ -255,6 +261,8 @@ void play_game(void)
             move_magic();
             move_enemy();
             handle_magic_collision();
+            handle_enemy_collision();
+            update_explosion();
 
             redraw = true;       // 매 틱마다 다 시 그리기
             break;
@@ -265,6 +273,12 @@ void play_game(void)
             redraw = false;
             refresh_screen();
         }
+    }
+
+    if (gm_state.game_clear) {
+        load_rankings();
+        add_score("test", gm_state.time_taken);
+        save_rankings();
     }
 
     al_destroy_timer(timer);
@@ -293,12 +307,15 @@ int life = 5;
 
 void apply_damage(int damage)
 {
-    life -= damage;
+    gm_state.g_cat_life -= damage;
 
-    DEBUG_PRINT("충돌 발생 life -> %d\n", life);
+    DEBUG_PRINT("충돌 발생 life -> %d %d\n", damage, gm_state.g_cat_life);
 
-    if (life <= 0) {
+    is_game_over(&gm_state);
+
+    if (gm_state.g_cat_life <= 0) {
         // TODO: 게임오버 처리하기
+        is_game_over(&gm_state);
         DEBUG_PRINT("게임 종료\n");
     }
 }
