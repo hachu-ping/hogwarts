@@ -1,4 +1,4 @@
-#include <allegro5/allegro5.h>
+﻿#include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
@@ -7,6 +7,9 @@
 #include <ctype.h> 
 
 #include "game_system.h"
+#include "sprites.h"
+
+extern sprites_t g_sprites;
 
 unsigned char g_key[ALLEGRO_KEY_MAX];
 
@@ -37,31 +40,61 @@ void keyboard_update(ALLEGRO_EVENT* event)
 Scene         g_scene_screne = SCENE_TITLE;     // 현재 화면
 ALLEGRO_FONT* g_font = NULL;            // 폰트는 run-time에 동적 로드
 ALLEGRO_FONT* g_font_btn = NULL;
-Button        g_btn_start = { 550, 380, 300, 60, "게임 시작" };
-Button        g_btn_rank = { 550, 460, 300, 60, "랭크 보기" };
 
+Button        g_btn_start = { 550, 380, 300, 60, "start" };
+Button        g_btn_rank = { 550, 460, 300, 60, "rank" };
 
-void draw_title_screen(void)
+// 버튼 안에 텍스트를 정확히 가운데 정렬해서 그려주는 유틸
+static void draw_button(Button* btn, ALLEGRO_FONT* font, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px)
 {
-    al_clear_to_color(al_map_rgb(20, 20, 25));
-    textbox_draw(&g_name_box, g_font_btn /* 또는 g_font */);
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
+    // 1) 버튼 박스
+    al_draw_filled_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, fill);
+    if (border_px > 0.0f) {
+        al_draw_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, al_map_rgb(255, 255, 255), border_px);
+    }
+    //al_clear_to_color(al_map_rgb(20, 20, 25));
+    textbox_draw(&g_name_box, font /* 또는 g_font */);
+    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
 
-    al_draw_filled_rectangle(g_btn_start.x, g_btn_start.y, g_btn_start.x + g_btn_start.w, g_btn_start.y + g_btn_start.h, al_map_rgb(60, 120, 250));
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), g_btn_start.x + g_btn_start.w / 2, g_btn_start.y + 20, ALLEGRO_ALIGN_CENTRE, g_btn_start.label);
+    // 2) 문자열 크기
+    int tw = al_get_text_width(font, btn->label);
+    int th = al_get_font_line_height(font);
 
-    al_draw_filled_rectangle(g_btn_rank.x, g_btn_rank.y, g_btn_rank.x + g_btn_rank.w, g_btn_rank.y + g_btn_rank.h, al_map_rgb(80, 180, 120));
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), g_btn_rank.x + g_btn_rank.w / 2, g_btn_rank.y + 20, ALLEGRO_ALIGN_CENTRE, g_btn_rank.label);
+    // 3) 가운데 좌표(가로/세로)
+    float tx = btn->x + (btn->w - tw) * 0.5f;
+    float ty = btn->y + (btn->h - th) * 0.5f;
 
-    al_draw_text(g_font, al_map_rgb(200, 200, 200), 700, 560, ALLEGRO_ALIGN_CENTRE, "Enter: start   R: rank   ESC: end");
+    // 4) 텍스트
+    al_draw_text(font, textc, tx, ty, 0, btn->label);
 }
 
-void draw_rank_screen(void)
+// 마우스가 버튼 위에 올라왔는지 체크 (hover 용)
+static bool button_contains(const Button* btn, float mx, float my)
+{
+    return (mx >= btn->x && mx <= btn->x + btn->w &&
+        my >= btn->y && my <= btn->y + btn->h);
+}
+
+
+void draw_title_screen(ALLEGRO_FONT* font, ALLEGRO_FONT* font_title)
+{
+	al_draw_bitmap(g_sprites.background[4], 0, 0, 0);
+    //al_clear_to_color(al_map_rgb(20, 20, 25));
+    textbox_draw(&g_name_box, font /* 또는 g_font */);
+    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
+
+    draw_button(&g_btn_start, font, al_map_rgb(60, 120, 250), al_map_rgb(255, 255, 255), 2.0f);
+    draw_button(&g_btn_rank, font, al_map_rgb(80, 180, 120), al_map_rgb(255, 255, 255), 2.0f);
+
+
+    al_draw_text(font, al_map_rgb(200, 200, 200), 700, 560, ALLEGRO_ALIGN_CENTRE, "Enter: start   R: rank   ESC: end");
+}
+
+void draw_rank_screen(ALLEGRO_FONT* font)
 {
     al_clear_to_color(al_map_rgb(25, 20, 20));
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), 700, 150, ALLEGRO_ALIGN_CENTRE, "RANKING");
-    // TODO: 실제 랭킹 데이터 표시하기
-    al_draw_text(g_font, al_map_rgb(200, 200, 200), 700, 520, ALLEGRO_ALIGN_CENTRE, "ESC: back");
+    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 150, ALLEGRO_ALIGN_CENTRE, "RANKING");
+    al_draw_text(font, al_map_rgb(200, 200, 200), 700, 520, ALLEGRO_ALIGN_CENTRE, "ESC: back");
 }
 
 TextBox g_name_box;
@@ -78,7 +111,7 @@ void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font) {
 
     // 텍스트(빈칸 패딩)
     float pad = 10.0f;
-    al_draw_text(font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(font)) / 2.0f, 0, tb->text[0] ? tb->text : "이름을 입력하세요");
+    al_draw_text(font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(font)) / 2.0f, 0, tb->text[0] ? tb->text : "player name");
 
     // 커서 블링킹 (0.5초 주기)
     if (tb->focused) {

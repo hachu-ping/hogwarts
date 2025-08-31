@@ -25,8 +25,6 @@
 #define RANK_FILE "ranking.txt"
 
 
-
-// ---------------------------------------------------
 int max_stage_number = 4;
 int current_stage = 0;
 
@@ -50,14 +48,13 @@ void init_game(game_state_t* gm_state) {
 
     gm_state->game_clear = false;
     gm_state->game_over = false;
-    // printf("debug - init_game : start time %f\n", gm_state->gm_start_time);
 }
 
 
 bool is_game_over(game_state_t* gm_state) {
     if (gm_state->g_cat_life <= 0) {
         gm_state->game_over = true;
-        // printf("debug - game over: life depleted\n");
+
         return true;  // 체력이 0 이하이면 종료
     }
     return false;
@@ -261,7 +258,7 @@ void play_game(void)
 
         case ALLEGRO_EVENT_TIMER:
             // === 업데이트 ===
-        
+
             update_cat();
             spawn_enemy();
             move_magic();
@@ -277,7 +274,7 @@ void play_game(void)
         // === 그리기 ===
         if (redraw && al_is_event_queue_empty(queue)) {
             redraw = false;
-            refresh_screen();
+            refresh_game_screen();
             draw_hud(font_hud, &gm_state);
         }
     }
@@ -335,7 +332,7 @@ void draw_hud(ALLEGRO_FONT* font, game_state_t* gm_state) {
     al_draw_textf(font_hud, al_map_rgb(255, 255, 255), 700, 50, 20,
         "Stage: %d   Life: %d   Time: %.1f s",
         gm_state->current_stage + 1, gm_state->g_cat_life, elapsed);
-    
+
     al_flip_display();
 }
 void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state) {

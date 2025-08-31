@@ -151,7 +151,12 @@
     <Image Include="assets\sprites\cat_sprite.png" />
     <Image Include="assets\sprites\effect_sprite.png" />
     <Image Include="assets\sprites\enemy_sprite.png" />
+    <Image Include="back.png" />
     <Image Include="placeholder.jpeg" />
+    <Image Include="stage01.jpg" />
+    <Image Include="stage02.jpg" />
+    <Image Include="stage03.jpg" />
+    <Image Include="stage04.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
