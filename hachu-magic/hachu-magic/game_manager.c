@@ -1,13 +1,15 @@
-#define	_CRT_SECURE_NO_WARNINGS  // using scanf
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+﻿#define	_CRT_SECURE_NO_WARNINGS  // using scanf
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
-
-#include "game_manager.h"
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "debug.h"
+#include "game_manager.h"
 
 #define MAX_RANK 5
 #define MAX_NAME_LEN 20
@@ -16,20 +18,19 @@
 
 // ---------------------------------------------------
 int max_stage_number = 2;
-#include "debug.h"
 int current_stage = 0;
 
-//int stage_wave_max_number[] = { 2, 3, 4 };
 int stage_wave_max_number[] = { 4,4,3,2 };
 int current_wave = 0;
 
 int stage_wave_spawn_enemy_number[] = { 6,5,4,2 };
 
-RankEntry rankings[MAX_RANK];
+rank_entry_t rankings[MAX_RANK];
 int rank_count = 0;
-GameState gm_state;
 
-void init_game(GameState* gm_state) {
+game_state_t gm_state;
+
+void init_game(game_state_t* gm_state) {
     gm_state->current_stage = 0;
     gm_state->g_cat_life = 5;
     gm_state->game_clear = false;
@@ -39,7 +40,7 @@ void init_game(GameState* gm_state) {
 }
 
 
-void is_game_over(GameState* gm_state) {
+void is_game_over(game_state_t* gm_state) {
     if (gm_state->g_cat_life <= 0) {
         gm_state->game_over = true;
         // printf("debug - game over: life depleted\n");
@@ -48,7 +49,7 @@ void is_game_over(GameState* gm_state) {
     return false;
 }
 
-void is_game_clear(GameState* gm_state) {
+void is_game_clear(game_state_t* gm_state) {
     gm_state->gm_end_time = al_get_time();
     if (gm_state->g_cat_life > 0 && gm_state->current_stage >= 2) {
         printf("debug - is game clear - true \n");
@@ -96,8 +97,8 @@ void save_rankings(void) {
 }
 
 int compare_scores(const void* a, const void* b) {
-    const RankEntry* ra = a;
-    const RankEntry* rb = b;
+    const rank_entry_t* ra = a;
+    const rank_entry_t* rb = b;
 
     if (ra->time < 0 && rb->time < 0) return 0;
     if (ra->time < 0) return 1;
@@ -147,13 +148,13 @@ void add_score(const char* name, float time) {
     }
 
     // ����
-    qsort(rankings, rank_count, sizeof(RankEntry), compare_scores);
+    qsort(rankings, rank_count, sizeof(rank_entry_t), compare_scores);
 }
 
 
 // ȭ�鿡 ��ŷ ����ϴ� �Լ�
 
-void print_rankings_screen(ALLEGRO_FONT* font, GameState* gm_state) {
+void print_rankings_screen(ALLEGRO_FONT* font, game_state_t* gm_state) {
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     if (gm_state->game_clear) {

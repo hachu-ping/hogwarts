@@ -1,4 +1,4 @@
-
+﻿
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -24,8 +24,8 @@
 
 int g_frames = 0;
 extern int rank_count;
-extern RankEntry rankings[];
-extern GameState gm_state;
+extern rank_entry_t rankings[];
+extern game_state_t gm_state;
 
 int main() {
     // 알레그로 초기화

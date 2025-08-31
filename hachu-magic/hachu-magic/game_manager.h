@@ -9,7 +9,7 @@
 
 
 // 게임 상태 구조체
-typedef struct {
+typedef struct _game_state{
     int current_stage;
     int g_cat_life;
     double gm_start_time;
@@ -17,31 +17,29 @@ typedef struct {
     bool game_clear;
     bool game_over;
     double time_taken;
-} GameState;
-
-
+} game_state_t;
 
 // 랭킹 엔트리
-typedef struct {
+typedef struct _rank_entry{
     char name[MAX_NAME_LEN];
     float time;  // -1은 실패 표시
-} RankEntry;
+} rank_entry_t;
 
 // 게임 상태 초기화
-void init_game(GameState*);
+void init_game(game_state_t*);
 
 // 게임 종료 여부 판정
-void is_game_over(GameState*);
+void is_game_over(game_state_t*);
 
 // 게임 종료 처리 (시간 계산 및 클리어 여부 설정)
-void is_game_clear(GameState*);
+void is_game_clear(game_state_t*);
 
 // 랭킹 관련 함수들
 void load_rankings(void);
 void save_rankings(void);
 int compare_scores(const void*, const void*);
 void add_score(const char*, float);
-void print_rankings_screen(ALLEGRO_FONT*, GameState*);
+void print_rankings_screen(ALLEGRO_FONT*, game_state_t*);
 
 
 
