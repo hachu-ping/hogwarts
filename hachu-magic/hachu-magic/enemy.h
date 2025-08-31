@@ -1,4 +1,4 @@
-
+﻿
 
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
@@ -65,7 +65,7 @@ void clear_enemy(void);
 /**
  * 랜덤 위치에서 적을 사방에 생성하고 적을 초기화합니다. 
  */
-void spawn_enemy(void);
+void create_enemy(void);
 
 /**
  * 모든 활성화된 적이 사라졌을 검사합니다. 

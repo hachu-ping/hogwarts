@@ -20,7 +20,7 @@ int life_by_stage[] = { 3,4,5,7 };
 extern cat_t g_cat;
 extern int stage_wave_max_number[];
 
-extern int stage_wave_spawn_enemy_number[];
+extern int stage_wave_create_enemy_number[];
 extern int life;
 extern game_state_t gm_state;
 
@@ -38,62 +38,6 @@ void DEBUG_clear_enemy(void) {
         g_enemy_list[i].size_h = ENEMY_HEIGHT[2];
     }
 }
-
-//����� �׽�Ʈ�� enemy
-//void DEBUG_init_enemy(void) {
-//    for (int i = 0; i < 5; i++) {
-//        g_enemy_list[i].type = 0;
-//        g_enemy_list[i].pos_x = 0;
-//        g_enemy_list[i].pos_y = 0;
-//        g_enemy_list[i].size_w = 50;
-//        g_enemy_list[i].size_h = 50;
-//
-//        // ?? ?????? ??? ???? ????
-//        switch (i) {
-//        case 0: {
-//            char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 1 1 2 3
-//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-//            g_enemy_list[i].life = sizeof(pattern);
-//            break;
-//        }
-//        case 1: {
-//            char pattern[] = { DIR_RIGHT, DIR_UP, DIR_RIGHT, DIR_RIGHT }; // 2 3 2 2
-//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-//            g_enemy_list[i].life = sizeof(pattern);
-//            break;
-//        }
-//        case 2: {
-//            char pattern[] = { DIR_UP, DIR_LEFT, DIR_DOWN, DIR_RIGHT }; // 3 1 4 2
-//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-//            g_enemy_list[i].life = sizeof(pattern);
-//            break;
-//        }
-//        case 3: {
-//            char pattern[] = { DIR_UP, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 3 1 2 3
-//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-//            g_enemy_list[i].life = sizeof(pattern);
-//            break;
-//        }
-//        case 4: {
-//            char pattern[] = { DIR_DOWN, DIR_RIGHT, DIR_LEFT, DIR_UP }; // 4 2 1 3
-//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-//            g_enemy_list[i].life = sizeof(pattern);
-//            break;
-//        }
-//        }
-//
-//        g_enemy_list[i].is_invincible = 0;
-//        g_enemy_list[i].received_attack_count = 0;
-//        g_enemy_list[i].is_spawned= 1;
-//        g_enemy_list[i].velocity = 1.0;
-//
-//        // ???? ??? ???? ??????? (??????)
-//        g_enemy_list[i].current_pattern = g_enemy_list[i].pattern[0];
-//
-//    }
-//}
-
-
 
 void clear_enemy(void) {
 	for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
@@ -122,15 +66,15 @@ void spawn_wave(void)
         return;
     }
 
-    for (int i = 0; i < stage_wave_spawn_enemy_number[gm_state.current_stage]; i++) {
-        spawn_enemy();
+    for (int i = 0; i < stage_wave_create_enemy_number[gm_state.current_stage]; i++) {
+        create_enemy();
     }
     gm_state.current_wave += 1;
 }
 
 //여기 2025-08-31 오늘 추가함
 
-void check_wave_spawn_delay() {
+void spawn_enemy() {
     if (!is_enemy_cleared()) {
         wave_ready_to_spawn = false;  // 적이 남아있으면 딜레이 타이머 리셋
         return;
@@ -151,7 +95,7 @@ void check_wave_spawn_delay() {
 ///
 
 
-void spawn_enemy(void) 
+void create_enemy(void) 
 {
     enemy_t temp_enemy;
 

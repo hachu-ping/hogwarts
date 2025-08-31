@@ -29,7 +29,7 @@ int current_stage = 0;
 int stage_wave_max_number[] = { 4,4,3,2 };
 int current_wave = 0;
 
-int stage_wave_spawn_enemy_number[] = { 6,5,4,2 };
+int stage_wave_create_enemy_number[] = { 6,5,4,2 };
 
 rank_entry_t rankings[MAX_RANK];
 int rank_count = 0;
@@ -257,8 +257,7 @@ void play_game(void)
         case ALLEGRO_EVENT_TIMER:
             // === 업데이트 ===
             update_cat();
-            //spawn_wave();
-            check_wave_spawn_delay();
+            spawn_enemy();
             move_magic();
             move_enemy();
             handle_magic_collision();
