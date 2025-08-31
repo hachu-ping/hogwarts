@@ -11,6 +11,24 @@
 #define SCREEN_WIDTH 1400
 #define SCREEN_HEIGHT 800
 
+extern unsigned char key[ALLEGRO_KEY_MAX];
+
+typedef enum _magic_type {
+    MAGIC_TYPE_NONE   = 0,
+    MAGIC_TYPE_FIRE   = 1,
+    MAGIC_TYPE_WATER  = 2,
+    MAGIC_TYPE_AIR    = 3,
+    MAGIC_TYPE_NATURE = 4
+} magic_type_t;
+
+typedef enum _direction {
+    DIRECTION_NONE  = 0,
+    DIRECTION_LEFT  = 1,
+    DIRECTION_RIGHT = 2,
+    DIRECTION_UP    = 3,
+    DIRECTION_DOWN  = 4
+} direction_t;
+
 
 #if defined(_MSC_VER)
 #define STRCPY_SAFE(dst, src) strncpy_s(dst, sizeof(dst), src, _TRUNCATE)

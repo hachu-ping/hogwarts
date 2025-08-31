@@ -1,35 +1,11 @@
 
-
+#include "debug.h"
 #include "enemy.h"
 #include "magic.h"
 
-// TODO: define max magic number
-magic_t g_magic_list[MAGIC_MAX_NUMBER];
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
-
-void create_magic(int pos_x, int pos_y, char type, enemy_t* target)
-{
-	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-		if (g_magic_list[i].is_spawned == false) {  // ºñ¾î ÀÖ´Â ½½·Ô ¹ß°ß
-			g_magic_list[i].pos_x = pos_x;
-			g_magic_list[i].pos_y = pos_y;
-			g_magic_list[i].size_w = 100;
-			g_magic_list[i].size_h = 100;
-			g_magic_list[i].velocity = 3.0;
-			g_magic_list[i].type = type;
-			g_magic_list[i].target_ptr = (void*)target;
-
-			g_magic_list[i].is_spawned = true;
-
-			printf("%d¿¡ ¸¶¹ý »ý¼º\n", i);
-			return;
-		}
-	}
-
-	//  ¸ðµç ½½·ÔÀÌ ²Ë Ã¡À» °æ¿ì
-	printf("[MAGIC] »ý¼º ½ÇÆÐ! »ç¿ë °¡´ÉÇÑ ¸¶¹ý ½½·ÔÀÌ ¾ø½À´Ï´Ù.\n");
-}
+magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
 void DEBUG_clear_magic(void) {
 	// for debugging
@@ -50,26 +26,48 @@ void DEBUG_clear_magic(void) {
 		g_magic_list[i].pos_y = 540;
 		g_magic_list[i].size_w = 20;
 		g_magic_list[i].size_h = 20;
-		g_magic_list[0].velocity = 4.0;
-		g_magic_list[1].velocity = 3.0;
-		g_magic_list[2].velocity = 1.0;
-		g_magic_list[3].velocity = 0.9;
-		//g_magic_list[i].velocity = 2.0;
-		//g_magic_list[i].target_ptr = &g_enemy_list[i];
 		g_magic_list[i].target_ptr = &g_enemy_list[0];
 	}
 
+	g_magic_list[0].velocity = 4.0;
+	g_magic_list[1].velocity = 3.0;
+	g_magic_list[2].velocity = 1.0;
+	g_magic_list[3].velocity = 0.9;
 }
 
-//ÀÓ½Ã -> Ãþµ¹ ½Ã½ºÅÛ
-bool is_collide_with_magic(magic_t* magic_ptr)
+void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target)
+{
+	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
+		// ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+		if (g_magic_list[i].is_spawned == false) {  
+			g_magic_list[i].pos_x = pos_x;
+			g_magic_list[i].pos_y = pos_y;
+			g_magic_list[i].size_w = MAGIC_WIDTH;
+			g_magic_list[i].size_h = MAGIC_HEIGHT;
+			g_magic_list[i].velocity = 3.0;
+			g_magic_list[i].type = type;
+			g_magic_list[i].target_ptr = (void*)target;
+
+			g_magic_list[i].is_spawned = true;
+
+			DEBUG_PRINT("%dï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½\n", i);
+			return;
+		}
+	}
+
+	//  ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ ï¿½ï¿½ï¿½
+	DEBUG_PRINT("[MAGIC] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½! ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\n");
+}
+
+// Å¸ï¿½Ù°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
+bool is_collided_with_target(magic_t* magic_ptr)
 {
 	if (magic_ptr == NULL) {
 		return false;
 	}
 
 	double ax1 = (magic_ptr->pos_x);
-	double ay1= (magic_ptr->pos_y);
+	double ay1 = (magic_ptr->pos_y);
 	double ax2 = (magic_ptr->pos_x) + (magic_ptr->size_w);
 	double ay2 = (magic_ptr->pos_y) + (magic_ptr->size_h);
 	double bx1 = (((enemy_t*)magic_ptr->target_ptr)->pos_x);
@@ -86,37 +84,39 @@ bool is_collide_with_magic(magic_t* magic_ptr)
 }
 
 
-//Ãæµ¹ Ã³¸® ÇÔ¼ö
-void collide_magic(void) 
+// ï¿½æµ¹ Ã³ï¿½ï¿½ ï¿½Ô¼ï¿½
+void handle_magic_collision(void)
 {
 	magic_t* magic_ptr = g_magic_list;
-
 	enemy_t* target;
 
 	for (int i = 0; i < MAGIC_MAX_NUMBER; ++i, ++magic_ptr) {
-		if (!(magic_ptr->is_spawned)) { //»ý¼ºµÈ ¸¶¹ý¿¡ ´ëÇØ¼­¸¸ °Ë»ç.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½.
+		if (!(magic_ptr->is_spawned)) { 
 			continue;
 		}
 
 		target = (enemy_t*)magic_ptr->target_ptr;
-		if (is_collide_with_magic(magic_ptr)) {
+		if (is_collided_with_target(magic_ptr)) {
+			// ï¿½æµ¹ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½
 			magic_ptr->is_spawned = 0;
 
+			// Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if (magic_ptr->type != target->current_pattern) {
-				// Å¸ÀÔÀÌ ÀÏÄ¡ÇÏÁö ¾ÊÀº °ø°ÝÀº ¹«½Ã
 				continue;
 			}
 
-			if (target->received_attack_count < (target->life-1)) { //ÀûÀÇ ÃÑ »ý¸íº¸´Ù ÀÛÀ»¶§ ±îÁö
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			if (target->received_attack_count < (target->life-1)) { 
 				target->received_attack_count += 1;
 				target->current_pattern = target->pattern[target->received_attack_count];
-				printf("%d %d\n", i, target->received_attack_count);
-			}
-			else {
 
-				// TODO: Enemy Á×À» ¶§ ÇÔ¼ö È£ÃâÇÏ±â
+				DEBUG_PRINT("%d %d\n", i, target->received_attack_count);
+			} else {
+				// TODO: Enemy ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ È£ï¿½ï¿½ï¿½Ï±ï¿½
 				(target->is_spawned) = 0;
-				printf("Àû Á×À½ life = %d - %d", target->received_attack_count, target->life);
+
+				DEBUG_PRINT("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ life = %d - %d", target->received_attack_count, target->life);
 			}
 		}
 	}
@@ -129,13 +129,13 @@ void clear_magic(void)
 	}
 }
 /*
-//³ªÁß¿¡ ¸¶¹ýÀÌ ¿òÁ÷ÀÌ´Â °ªÀ» º¯ÁÖÇÒ ¶§ »ç¿ë
+//ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 double delta_move_magic(void) {
 	extern g_frames;
 	return ((rand() % 5) + 1)*fabsf(sinf(0.5*g_frames)) + 0.5;
 }*/
 
-//ÇÑ ÇÁ·¹ÀÓ¸¸ »ý°¢ÇÒ °Í.
+//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.
 void move_magic(void) {
 	magic_t* magic_ptr = g_magic_list;
 
@@ -145,20 +145,26 @@ void move_magic(void) {
 		}
 
 		if (!(((enemy_t*)magic_ptr->target_ptr)->is_spawned)) {
-			// ´ë»óÀÌ »ç¶óÁö¸é ¼Ò¸ê
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½
 			magic_ptr->is_spawned = false;
 			continue;
 		}
 
-		//1. ¹æÇâ º¤ÅÍ
+		//1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		float magic_dx =  (((enemy_t*)magic_ptr->target_ptr)->pos_x) - (magic_ptr->pos_x);
 		float magic_dy =  (((enemy_t*)magic_ptr->target_ptr)->pos_y) - (magic_ptr->pos_y);
-		//2. º¤ÅÍ ±æÀÌ
+		
+		//2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		float len = (float) sqrt((magic_dx * magic_dx) + (magic_dy * magic_dy));
-		if (len == 0) continue; // ÀÌ¹Ì °ãÄ£ »óÅÂÀÏ ¶§
-		magic_dx /= len; // ´ÜÀ§ º¤ÅÍ
+		
+		// ï¿½Ì¹ï¿½ ï¿½ï¿½Ä£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+		if (len == 0) continue; 
+		
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		magic_dx /= len; 
 		magic_dy /= len;
-		//3. ¼ÓµµÀÌµ¿
+		
+		//3. ï¿½Óµï¿½ï¿½Ìµï¿½
 		magic_ptr->pos_x += (magic_dx*4 * (magic_ptr->velocity));
 		magic_ptr->pos_y += (magic_dy*4 * (magic_ptr->velocity));
 	}

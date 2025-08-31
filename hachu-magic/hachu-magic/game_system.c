@@ -9,10 +9,6 @@
 
 #include "game_system.h"
 
-
-// --- keyboard ---
-
-
 unsigned char g_key[ALLEGRO_KEY_MAX];
 
 void keyboard_update(ALLEGRO_EVENT* event)
@@ -27,29 +23,29 @@ void keyboard_update(ALLEGRO_EVENT* event)
 
     case ALLEGRO_EVENT_KEY_DOWN:
 
-        //printf("DEBUG -- Key ´­¸²: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        //printf("DEBUG -- Key ï¿½ï¿½ï¿½ï¿½: %d\n", event->keyboard.keycode);  // ï¿½ï¿½ ï¿½î¶² Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         g_key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
-        //printf("DEBUG -- Key ´­¸²: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        //printf("DEBUG -- Key ï¿½ï¿½ï¿½ï¿½: %d\n", event->keyboard.keycode);  // ï¿½ï¿½ ï¿½î¶² Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         break;
     case ALLEGRO_EVENT_KEY_UP:
-        // printf("DEBUG -- Key ¶¼Áü: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        // printf("DEBUG -- Key ï¿½ï¿½ï¿½ï¿½: %d\n", event->keyboard.keycode);  // ï¿½ï¿½ ï¿½î¶² Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         g_key[event->keyboard.keycode] &= ~KEY_DOWN;
-        //printf("DEBUG -- Key ¶¼Áü: %d\n", event->keyboard.keycode);  // ¡ç ¾î¶² Å°ÀÎÁö Ãâ·Â
+        //printf("DEBUG -- Key ï¿½ï¿½ï¿½ï¿½: %d\n", event->keyboard.keycode);  // ï¿½ï¿½ ï¿½î¶² Å°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         break;
     }
 }
 
-Scene         g_scene_screne = SCENE_TITLE;     // À¯ÀÏÇÑ Á¤ÀÇ
-ALLEGRO_FONT* g_font = NULL;            // ÆùÆ®´Â run-time¿¡ ½ÇÁ¦ »ý¼º
+Scene         g_scene_screne = SCENE_TITLE;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+ALLEGRO_FONT* g_font = NULL;            // ï¿½ï¿½Æ®ï¿½ï¿½ run-timeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 ALLEGRO_FONT* g_font_btn = NULL;
-Button        g_btn_start = { 550, 380, 300, 60, "°ÔÀÓ ½ÃÀÛ" };
-Button        g_btn_rank = { 550, 460, 300, 60, "·©Å© º¸±â" };
+Button        g_btn_start = { 550, 380, 300, 60, "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" };
+Button        g_btn_rank = { 550, 460, 300, 60, "ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½" };
 
 
 void draw_title_screen(void)
 {
     al_clear_to_color(al_map_rgb(20, 20, 25));
-    textbox_draw(&g_name_box, g_font_btn /* ¶Ç´Â g_font */);
+    textbox_draw(&g_name_box, g_font_btn /* ï¿½Ç´ï¿½ g_font */);
     al_draw_text(g_font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
 
     al_draw_filled_rectangle(g_btn_start.x, g_btn_start.y, g_btn_start.x + g_btn_start.w, g_btn_start.y + g_btn_start.h, al_map_rgb(60, 120, 250));
@@ -65,7 +61,7 @@ void draw_rank_screen(void)
 {
     al_clear_to_color(al_map_rgb(25, 20, 20));
     al_draw_text(g_font, al_map_rgb(255, 255, 255), 700, 150, ALLEGRO_ALIGN_CENTRE, "RANKING");
-    // TODO: ½ÇÁ¦ ·©Å· ¸ñ·Ï ·»´õ¸µ
+    // TODO: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å· ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     al_draw_text(g_font, al_map_rgb(200, 200, 200), 700, 520, ALLEGRO_ALIGN_CENTRE, "ESC: back");
 }
 
@@ -73,23 +69,23 @@ TextBox g_name_box;
 
 
 
-// ±×¸®±â (±ô¹ÚÀÌ´Â Ä¿¼­´Â Å¸ÀÓ±â¹Ý)
+// ï¿½×¸ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ó±ï¿½ï¿½)
 void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font) {
-    // ¹Ú½º ¹è°æ/Å×µÎ¸®
+    // ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½/ï¿½×µÎ¸ï¿½
     ALLEGRO_COLOR bg = tb->focused ? al_map_rgb(35, 40, 55) : al_map_rgb(28, 30, 40);
     ALLEGRO_COLOR brd = tb->focused ? al_map_rgb(90, 150, 255) : al_map_rgb(80, 80, 90);
     al_draw_filled_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, bg);
     al_draw_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, brd, 2.0f);
 
-    // ÅØ½ºÆ®(¿ÞÂÊ ÆÐµù)
+    // ï¿½Ø½ï¿½Æ®(ï¿½ï¿½ï¿½ï¿½ ï¿½Ðµï¿½)
     float pad = 10.0f;
-    al_draw_text(font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(font)) / 2.0f, 0, tb->text[0] ? tb->text : "ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä");
+    al_draw_text(font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(font)) / 2.0f, 0, tb->text[0] ? tb->text : "ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½");
 
-    // Ä¿¼­ ±ô¹ÚÀÓ (0.5ÃÊ °£°Ý)
+    // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (0.5ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
     if (tb->focused) {
         bool on = ((int)(al_get_time() * 2.0)) % 2 == 0;
         if (on) {
-            // ÅØ½ºÆ® Æø °è»êÇØ¼­ Ä¿¼­ À§Ä¡ Àâ±â
+            // ï¿½Ø½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Ä¿ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½
             float tw = al_get_text_width(font, tb->text);
             float cx = tb->x + pad + tw + 2.0f;
             float cy1 = tb->y + 8.0f, cy2 = tb->y + tb->h - 8.0f;
@@ -98,8 +94,8 @@ void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font) {
     }
 }
 
-// ÀÌº¥Æ® Ã³¸® (¸¶¿ì½º Æ÷Ä¿½Ì + Å° ÀÔ·Â)
-// - ASCII¸¸ ´Ù·ì´Ï´Ù(¿µ¹®/¼ýÀÚ/±âÈ£).
+// ï¿½Ìºï¿½Æ® Ã³ï¿½ï¿½ (ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Ä¿ï¿½ï¿½ + Å° ï¿½Ô·ï¿½)
+// - ASCIIï¿½ï¿½ ï¿½Ù·ï¿½Ï´ï¿½(ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½È£).
 bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
     bool changed = false;
 
@@ -109,7 +105,7 @@ bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
         bool inside = (mx >= tb->x && mx <= tb->x + tb->w && my >= tb->y && my <= tb->y + tb->h);
         bool prev = tb->focused;
         tb->focused = inside;
-        changed = (tb->focused != prev); // Å×µÎ¸® »ö µî º¯È­
+        changed = (tb->focused != prev); // ï¿½×µÎ¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È­
     } break;
 
     case ALLEGRO_EVENT_KEY_CHAR:
@@ -123,13 +119,13 @@ bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
         }
         else if (ev->keyboard.keycode == ALLEGRO_KEY_ENTER ||
             ev->keyboard.keycode == ALLEGRO_KEY_PAD_ENTER) {
-            // ¿£ÅÍ ¡æ Æ÷Ä¿½º ÇØÁ¦(¼±ÅÃ»çÇ×)
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½)
             tb->focused = false;
             changed = true;
         }
         else {
             int ch = ev->keyboard.unichar;
-            // °£´ÜÈ÷ ASCII ÀÎ¼â °¡´ÉÇÑ ¹®ÀÚ¸¸ Çã¿ë
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ASCII ï¿½Î¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½
             if (ch >= 32 && ch < 127 && tb->len < tb->maxlen) {
                 tb->text[tb->len++] = (char)ch;
                 tb->text[tb->len] = '\0';

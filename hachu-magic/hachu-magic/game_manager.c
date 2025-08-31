@@ -1,4 +1,4 @@
-#include <allegro5/allegro_font.h>
+ï»¿#include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
@@ -6,13 +6,14 @@
 #include <allegro5/allegro_image.h>
 
 #include "cat.h"
+#include "debug.h"
 #include "enemy.h"
 #include "initializer.h"
 #include "magic.h"
 #include "sprites.h"
 #include "game_system.h"
 
-//º¯¼ö ºÎ ½ÃÀÛ
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 int max_stage_number = 2;
 int current_stage = 0;
 
@@ -26,7 +27,7 @@ int g_frames = 0;
 char g_player_name[64] = { 0 };
 
 
-//ÇÔ¼ö ºÎ ½ÃÀÛ
+//ï¿½Ô¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 void clear_data(void)
 {
     current_stage = 0;
@@ -50,7 +51,7 @@ void play_game(void)
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
-    // ¡Ú µð½ºÇÃ·¹ÀÌ ¼Ò½ºµµ µî·ÏÇØ¾ß DISPLAY_CLOSE¸¦ ¹Þ½À´Ï´Ù.
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ DISPLAY_CLOSEï¿½ï¿½ ï¿½Þ½ï¿½ï¿½Ï´ï¿½.
     ALLEGRO_DISPLAY* disp = al_get_current_display();
     al_register_event_source(queue, al_get_display_event_source(disp));
 
@@ -60,7 +61,7 @@ void play_game(void)
     al_start_timer(timer);
 
     bool is_game_over = false;
-    bool redraw = true;   // Ã¹ ÇÁ·¹ÀÓ °­Á¦ ·»´õ
+    bool redraw = true;   // Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     while (!is_game_over) {
         g_frames++;
@@ -81,18 +82,18 @@ void play_game(void)
             break;
 
         case ALLEGRO_EVENT_TIMER:
-            // === ¾÷µ¥ÀÌÆ® ===
+            // === ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ===
             update_cat();
             spawn_wave();
             move_magic();
             move_enemy();
-            collide_magic();
+            handle_magic_collision();
 
-            redraw = true;       // ÀÌ Æ½¿¡¼­ ÇÑ ¹ø ±×¸®±â
+            redraw = true;       // ï¿½ï¿½ Æ½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½
             break;
         }
 
-        // === ·»´õ ===
+        // === ï¿½ï¿½ï¿½ï¿½ ===
         if (redraw && al_is_event_queue_empty(queue)) {
             redraw = false;
             refresh_screen();
@@ -107,7 +108,7 @@ extern void play_game(void);
 
 void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue)
 {
-    // ÇöÀç ¾À ÀúÀå(¿øÇÏ¸é º¹±Í ½Ã »ç¿ë)
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½)
     Scene prev = g_scene_screne;
 
     g_scene_screne = SCENE_PLAY;
@@ -120,4 +121,17 @@ void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue)
     }
 
     g_scene_screne = SCENE_TITLE;
+}
+int life = 5;
+
+void apply_damage(int damage)
+{
+	life -= damage;
+
+	DEBUG_PRINT("ï¿½æµ¹ ï¿½ß»ï¿½ life -> %d\n", life);
+
+	if (life <= 0) {
+		// TODO: ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï±ï¿½
+		DEBUG_PRINT("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½\n");
+	}
 }

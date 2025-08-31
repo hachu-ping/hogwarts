@@ -1,22 +1,27 @@
+ï»¿
+
+#include <allegro5/allegro5.h>
+#include <allegro5/keycodes.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_primitives.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
 #include <time.h>
-#include <allegro5/allegro5.h>
 
 #include "cat.h"
 #include "enemy.h"
+#include "game_system.h"
+#include "game_manager.h"
 #include "initializer.h"
+#include "magic.h"
 #include "sprites.h"
 #include "utils.h"
 #include "magic.h"
 #include "game_system.h"
 #include "game_manager.h"
 
-#include <allegro5/keycodes.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_primitives.h>
 
 
 
@@ -28,7 +33,7 @@ int main() {
 
     init_data();
 
-    // ¹öÆ° À§¿¡ ÅØ½ºÆ®¹Ú½º ¹èÄ¡
+    // ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½Ú½ï¿½ ï¿½ï¿½Ä¡
     textbox_init(&g_name_box, g_btn_start.x, g_btn_start.y - 60, g_btn_start.w, 40, 32);
 
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
@@ -37,12 +42,12 @@ int main() {
     g_font = al_create_builtin_font();
     g_font_btn = al_create_builtin_font();
 
-    // ÀÌº¥Æ® ¼Ò½º µî·Ï
+    // ï¿½Ìºï¿½Æ® ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_mouse_event_source());
 
-    // Ã¹ È­¸é
+    // Ã¹ È­ï¿½ï¿½
     g_scene_screne = SCENE_TITLE;
     draw_title_screen();
     al_flip_display();
@@ -51,6 +56,7 @@ int main() {
 
     while (!is_done) {
         ALLEGRO_EVENT event;
+        
         al_wait_for_event(queue, &event);
         keyboard_update(&event);
 
@@ -58,37 +64,39 @@ int main() {
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             is_done = true;
             break;
+        //TODO : ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+        //TODO : switchï¿½ï¿½ g_scene_screne ï¿½ï¿½ï¿½ï¿½
 
-            // ¡ÚÅ¸ÀÌÆ²¿¡¼­ ÅØ½ºÆ®¹Ú½º/¹öÆ° ÀÔ·Â Ã³¸®: ¸¶¿ì½º/¹®ÀÚ ÀÔ·ÂÀ» ÇÑ ºí·Ï¿¡¼­
+            // ï¿½ï¿½Å¸ï¿½ï¿½Æ²ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½Ú½ï¿½/ï¿½ï¿½Æ° ï¿½Ô·ï¿½ Ã³ï¿½ï¿½: ï¿½ï¿½ï¿½ì½º/ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
         case ALLEGRO_EVENT_KEY_CHAR: {
             if (g_scene_screne != SCENE_TITLE) break;
 
             bool changed = false;
 
-            // 1) ÅØ½ºÆ®¹Ú½º¿¡ ¸ÕÀú ÀÌº¥Æ® Àü´Þ(Æ÷Ä¿½º/¹®ÀÚ ÆíÁý)
+            // 1) ï¿½Ø½ï¿½Æ®ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Ä¿ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             changed |= textbox_handle_event(&g_name_box, &event);
 
-            // 2) ¸¶¿ì½º Å¬¸¯ÀÌ¸é ¹öÆ° Ã³¸®
+            // 2) ï¿½ï¿½ï¿½ì½º Å¬ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½Æ° Ã³ï¿½ï¿½
             if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
                 float mx = event.mouse.x, my = event.mouse.y;
 
                 if (point_in_button(mx, my, &g_btn_start)) {
-                    handle_start_from_title(queue);  // ¡Ú ÀÌ¸§ ÀúÀå(ºó °æ¿ì guset) + ½ÃÀÛ + º¹±Í
+                    handle_start_from_title(queue);  // ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ ï¿½ï¿½ï¿½ guset) + ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½ï¿½
                     printf("%s\n", g_player_name);
                     start_play_stage(queue);
-                    changed = true;                  // Å¸ÀÌÆ² Àç·»´õ
+                    changed = true;                  // Å¸ï¿½ï¿½Æ² ï¿½ç·»ï¿½ï¿½
                 }
                 else if (point_in_button(mx, my, &g_btn_rank)) {
                     g_scene_screne = SCENE_RANK;
                     changed = true;
                 }
             }
-            // 3) ¹®ÀÚÀÔ·Â: ¿£ÅÍ·Î ½ÃÀÛ
+            // 3) ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½: ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ï¿½ï¿½ï¿½
             else { // ALLEGRO_EVENT_KEY_CHAR
                 int key = event.keyboard.keycode;
                 if (key == ALLEGRO_KEY_ENTER || key == ALLEGRO_KEY_PAD_ENTER) {
-                    handle_start_from_title(queue);  // ¡Ú µ¿ÀÏ Ã³¸®
+                    handle_start_from_title(queue);  // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
                     printf("%s\n", g_player_name);
                     start_play_stage(queue);
                     changed = true;
