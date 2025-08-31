@@ -257,7 +257,8 @@ void play_game(void)
         case ALLEGRO_EVENT_TIMER:
             // === 업데이트 ===
             update_cat();
-            spawn_wave();
+            //spawn_wave();
+            check_wave_spawn_delay();
             move_magic();
             move_enemy();
             handle_magic_collision();

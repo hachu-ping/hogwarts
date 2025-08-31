@@ -20,7 +20,11 @@ typedef struct _game_state{
     bool game_clear;
     bool game_over;
     double time_taken;
+  
+
 } game_state_t;
+
+
 
 // 랭킹 엔트리
 typedef struct _rank_entry{
