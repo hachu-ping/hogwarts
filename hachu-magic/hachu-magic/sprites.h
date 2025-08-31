@@ -12,6 +12,8 @@
 
 static const int SPRITE_ENEMY_WIDTH[] = { 140, 180, 220, 320 };
 static const int SPRITE_ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
+static const int SPRITE_BACK_WIDTH[] = { 2502, 2502, 2502, 2502, 1536 };//1536, 1024
+static const int SPRITE_BACK_HEIGHT[] = { 1668, 1668, 1668,1668, 1024 };
 
 #define SPRITE_ENEMY_TYPE_NUMBER 4
 #define SPRITE_ENEMY_FRAME_NUMBER 2
@@ -33,7 +35,7 @@ static const int SPRITE_ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 #define SPRITE_EXPLOSION_FRAME_NUMBER 4
 
 
-#define BACKGROUND_NUMBER 4
+#define BACKGROUND_NUMBER 5
 
 typedef struct _sprites
 {
@@ -68,7 +70,8 @@ typedef enum _background_type {
     BACKGROUND_TYPE_ST1   = 0,
     BACKGROUND_TYPE_ST2   = 1,
     BACKGROUND_TYPE_ST3   = 2,
-    BACKGROUND_TYPE_START = 3
+    BACKGROUND_TYPE_ST4 = 3,
+    BACKGROUND_TYPE_START = 4
 } background_type_t;
 
 /**
