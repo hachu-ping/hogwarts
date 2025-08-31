@@ -14,7 +14,7 @@ static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 typedef struct _enemy {
 	// TODO: change into enum (char)
 	// 적의 종류
-	int type;
+	char type;
 
 	// 적의 x좌표 (중심 좌표)
 	double pos_x;

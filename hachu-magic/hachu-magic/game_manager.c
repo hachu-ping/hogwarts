@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "audio.h"
 #include "debug.h"
 #include "game_manager.h"
 #include "enemy.h"
@@ -44,7 +45,6 @@ void init_game(game_state_t* gm_state) {
     gm_state->current_stage = 0;
     gm_state->current_wave = 0;
     gm_state->g_cat_life = 5;
-    gm_state->game_clear = false;
     gm_state->gm_start_time = al_get_time();
     gm_state->gm_end_time = 0;
 
@@ -316,6 +316,7 @@ void apply_damage(int damage)
 {
     gm_state.g_cat_life -= damage;
 
+    play_sound(GAME_SOUND_CAT_DAMAGED);
     DEBUG_PRINT("충돌 발생 life -> %d %d\n", damage, gm_state.g_cat_life);
 
     is_game_over(&gm_state);

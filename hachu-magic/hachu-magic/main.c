@@ -8,6 +8,7 @@
 #include <allegro5/allegro_primitives.h>
 
 
+#include "audio.h"
 #include "cat.h"
 #include "enemy.h"
 #include "fx.h"
@@ -35,6 +36,10 @@ int main() {
     // 애드온 초기화
     init_addons();
     install_driver();
+
+    must_init(al_install_audio(), "audio");
+    must_init(al_init_acodec_addon(), "audio codecs");
+    must_init(al_reserve_samples(32), "reserve samples");  //샘플의 키홀드값
 
     // 데이터 초기화
     init_data();
@@ -82,6 +87,8 @@ int main() {
     load_rankings();
 
     bool is_done = false;
+
+    play_sound(GAME_SOUND_BACKGROUND, 0);
 
     while (!is_done) {
         ALLEGRO_EVENT event;

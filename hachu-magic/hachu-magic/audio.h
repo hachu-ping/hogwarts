@@ -20,7 +20,7 @@ typedef enum _game_sound {
 typedef struct _samples
 {
     ALLEGRO_SAMPLE* background[BGM_TYPE_NUMBER];
-    ALLEGRO_SAMPLE_ID* bgm_id;
+    ALLEGRO_SAMPLE_INSTANCE* bgm_instance;
 
     ALLEGRO_SAMPLE* cat_damaged;
 
