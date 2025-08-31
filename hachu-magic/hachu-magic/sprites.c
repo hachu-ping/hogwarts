@@ -58,9 +58,10 @@ static ALLEGRO_BITMAP* sprite_grab(ALLEGRO_BITMAP* sheet, int x, int y, int w, i
 void init_sprites(void)
 {
     
-    g_sprites.background[BACKGROUND_TYPE_ST1] = load_bitmap("back_ex.jpeg");
-    g_sprites.background[BACKGROUND_TYPE_ST2] = load_bitmap("back_ex.jpeg");
-    g_sprites.background[BACKGROUND_TYPE_ST3] = load_bitmap("back_ex.jpeg");
+    g_sprites.background[BACKGROUND_TYPE_ST1] = load_bitmap("stage01.jpg");
+    g_sprites.background[BACKGROUND_TYPE_ST2] = load_bitmap("stage02.jpg");
+    g_sprites.background[BACKGROUND_TYPE_ST3] = load_bitmap("stage03.jpg");
+    g_sprites.background[BACKGROUND_TYPE_ST4] = load_bitmap("stage04.jpg");
     g_sprites.background[BACKGROUND_TYPE_START] = load_bitmap("back.png");
 
     g_sprites._cat_sheet = load_bitmap("assets/sprites/cat_sprite.png");
@@ -124,7 +125,7 @@ void draw_background_save(void)
 void draw_background(game_state_t* state)
 {
 	int st_save = state->current_stage;
-    al_draw_scaled_bitmap(g_sprites.background[st_save], 0, 0, 1536, 1024, 0, 0, 1400, 800, 0);
+    al_draw_scaled_bitmap(g_sprites.background[st_save], 0, 0, SPRITE_BACK_WIDTH[st_save], SPRITE_BACK_HEIGHT[st_save], 0, 0, 1400, 800, 0);
 }
 
 void draw_cat(void)

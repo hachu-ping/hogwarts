@@ -80,7 +80,7 @@ static bool button_contains(const Button* btn, float mx, float my)
 
 void draw_title_screen(ALLEGRO_FONT* font, ALLEGRO_FONT* font_title)
 {
-	al_draw_bitmap(g_sprites.background[3], 0, 0, 0);
+	al_draw_bitmap(g_sprites.background[4], 0, 0, 0);
     //al_clear_to_color(al_map_rgb(20, 20, 25));
     textbox_draw(&g_name_box, font /* �Ǵ� g_font */);
     al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
