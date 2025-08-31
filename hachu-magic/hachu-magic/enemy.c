@@ -109,6 +109,10 @@ void spawn_wave(void)
     if (stage_wave_max_number[gm_state.current_stage] == gm_state.current_wave) {
         gm_state.current_wave = 0;
         gm_state.current_stage += 1;
+        // 스테이지가 증가했을 때 알림 띄우기
+        if (gm_state.current_stage < MAX_STAGE_NUMBER) {
+            draw_stage_announce(font_stage, &gm_state);
+        }
     }
     
     if (MAX_STAGE_NUMBER <= gm_state.current_stage)

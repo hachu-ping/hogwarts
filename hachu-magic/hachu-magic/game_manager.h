@@ -2,6 +2,7 @@
 #define __GAME_MANAGER_H__
 
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <stdbool.h>
 
 #define MAX_RANK 10
@@ -9,7 +10,8 @@
 
 #define MAX_STAGE_NUMBER 4
 
-
+extern ALLEGRO_FONT* font_hud;
+extern ALLEGRO_FONT* font_stage;
 // 게임 상태 구조체
 typedef struct _game_state{
     int current_stage;
@@ -43,6 +45,8 @@ void save_rankings(void);
 int compare_scores(const void*, const void*);
 void add_score(const char*, float);
 void print_rankings_screen(ALLEGRO_FONT*, game_state_t*);
+void draw_hud(ALLEGRO_FONT*, game_state_t*);
+
 
 
 
