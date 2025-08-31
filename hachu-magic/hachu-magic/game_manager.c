@@ -10,6 +10,11 @@
 
 #include "debug.h"
 #include "game_manager.h"
+#include "enemy.h"
+#include "initializer.h"
+#include "magic.h"
+#include "sprites.h"
+#include "game_system.h"
 
 #define MAX_RANK 5
 #define MAX_NAME_LEN 20
@@ -44,7 +49,7 @@ void is_game_over(game_state_t* gm_state) {
     if (gm_state->g_cat_life <= 0) {
         gm_state->game_over = true;
         // printf("debug - game over: life depleted\n");
-        return true;  // ������ ����� 0�̸� ����
+        return true;  // 체력이 0 이하이면 종료
     }
     return false;
 }
@@ -67,9 +72,9 @@ void is_game_clear(game_state_t* gm_state) {
 void load_rankings(void) {
     printf("debug - load_rankings\n");
     FILE* fp = fopen(RANK_FILE, "r");
-    if (!fp) return;   // �ش� ���� ������ ����
+    if (!fp) return;   // 해당 파일 존재하지 않음
     rank_count = 0;
-    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // �̸� ���ڿ� + ���(float) �� ���� ��� ���������� �о��� ���� ó��
+    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // 이름 문자열 + 시간(float) 두 개가 모두 성공적으로 읽어진 경우 처리
         rank_count++;
         if (rank_count >= MAX_RANK) break;
     }
@@ -77,13 +82,13 @@ void load_rankings(void) {
 
 }
 /*
-ranking.txt ����
+ranking.txt 형식
 
-�ٸ��� �̸� �ð� �о �迭�� ����
+플레이어 이름 시간 읽어 배열에 저장
 
-�ִ� 10������ ����
+최대 10개까지 저장
 
-���� �ݰ� ��*/
+파일 열고 닫기*/
 
 void save_rankings(void) {
     printf("debug - save_rankings\n");
@@ -106,20 +111,20 @@ int compare_scores(const void* a, const void* b) {
     return (ra->time > rb->time) - (ra->time < rb->time);
 }
 /*
-������ ��� (time == -1) �� ��ŷ �� �ڷ� ���� ��
+게임을 실패 (time == -1) 한 랭킹 은 자료 맨뒤로 보내 주기
 
-������ ��ϳ����� ���� �ð� ������ ����
+게임을 완료한것만 짧은 시간 순서로 정렬
 */
 
 void add_score(const char* name, float time) {
-    // �ڸ� ���� ������ �׳� �߰�
+    // 자리 여유 있으면 그냥 추가
     if (rank_count < MAX_RANK) {
         strncpy(rankings[rank_count].name, name, MAX_NAME_LEN);
         rankings[rank_count].time = time;
         rank_count++;
     }
     else {
-        // �� �� ���: ���� ����� �ִ��� ���� ã��
+        // 가득 찬 경우: 실패 기록이 있는지 먼저 찾기
         int fail_index = -1;
         for (int i = 0; i < MAX_RANK; i++) {
             if (rankings[i].time < 0) {
@@ -129,30 +134,30 @@ void add_score(const char* name, float time) {
         }
 
         if (fail_index != -1) {
-            // ���� ����� �ִٸ�, ������ �����
+            // 실패 기록이 있다면, 이것을 교체함
             strncpy(rankings[fail_index].name, name, MAX_NAME_LEN);
             rankings[fail_index].time = time;
         }
         else {
-            // ���� ��� ������, �־��� ���� ��ϰ� ��
+            // 모두 다 성공함, 주어진 점수 비교해 보기
             int worst_index = MAX_RANK - 1;
             float worst_time = rankings[worst_index].time;
 
-            if (time < 0) return; // ������ ����� ����
-            if (time >= worst_time) return; // �� ���� ����̸� ����
+            if (time < 0) return; // 게임을 실패한 경우
+            if (time >= worst_time) return; // 더 느린 점수이면 무시
 
-            // �����
+            // 교체함
             strncpy(rankings[worst_index].name, name, MAX_NAME_LEN);
             rankings[worst_index].time = time;
         }
     }
 
-    // ����
+    // 정렬
     qsort(rankings, rank_count, sizeof(rank_entry_t), compare_scores);
 }
 
 
-// ȭ�鿡 ��ŷ ����ϴ� �Լ�
+// 화면에 랭킹 출력하는 함수
 
 void print_rankings_screen(ALLEGRO_FONT* font, game_state_t* gm_state) {
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -169,11 +174,11 @@ void print_rankings_screen(ALLEGRO_FONT* font, game_state_t* gm_state) {
     for (int i = 0; i < rank_count; i++) {
         if (rankings[i].time < 0) {
             al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
-                "%2d. %-10s  --��", i + 1, rankings[i].name);
+                "%2d. %-10s  --초", i + 1, rankings[i].name);
         }
         else {
             al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
-                "%2d. %-10s  %.2f��", i + 1, rankings[i].name, rankings[i].time);
+                "%2d. %-10s  %.2f초", i + 1, rankings[i].name, rankings[i].time);
         }
     }
 
@@ -184,16 +189,116 @@ void print_rankings_screen(ALLEGRO_FONT* font, game_state_t* gm_state) {
 
 
 
+int g_frames = 0;
+
+char g_player_name[64] = { 0 };
+
+
+//함수 별 초기화
+void clear_data(void)
+{
+    current_stage = 0;
+    current_wave = 0;
+
+#if __DEBUG_MODE__
+    DEBUG_clear_cat();
+    DEBUG_clear_enemy();
+    DEBUG_clear_magic();
+#else
+    clear_cat();
+    clear_enemy();
+    clear_magic();
+#endif	
+}
+
+void play_game(void)
+{
+    clear_data();
+
+    ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
+    ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
+
+    // 현 디스플레이 소스를 등록해야 DISPLAY_CLOSE를 받습니다.
+    ALLEGRO_DISPLAY* disp = al_get_current_display();
+    al_register_event_source(queue, al_get_display_event_source(disp));
+
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_keyboard_event_source());
+
+    al_start_timer(timer);
+
+    bool is_game_over = false;
+    bool redraw = true;   // 첫 프레임 무조건 그리기
+
+    while (!is_game_over) {
+        g_frames++;
+
+        ALLEGRO_EVENT ev;
+        al_wait_for_event(queue, &ev);
+        keyboard_update(&ev);
+
+        switch (ev.type) {
+        case ALLEGRO_EVENT_DISPLAY_CLOSE:
+            is_game_over = true;
+            break;
+
+        case ALLEGRO_EVENT_KEY_DOWN:
+            if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                is_game_over = true;
+            }
+            break;
+
+        case ALLEGRO_EVENT_TIMER:
+            // === 업데이트 ===
+            update_cat();
+            spawn_wave();
+            move_magic();
+            move_enemy();
+            handle_magic_collision();
+
+            redraw = true;       // 매 틱마다 다 시 그리기
+            break;
+        }
+
+        // === 그리기 ===
+        if (redraw && al_is_event_queue_empty(queue)) {
+            redraw = false;
+            refresh_screen();
+        }
+    }
+
+    al_destroy_timer(timer);
+    al_destroy_event_queue(queue);
+}
+
+extern void play_game(void);
+
+void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue)
+{
+    // 원래 씬 기록(나중에 돌아 올 때용)
+    Scene prev = g_scene_screne;
+
+    g_scene_screne = SCENE_PLAY;
+
+    if (main_queue) al_pause_event_queue(main_queue, true);
+    play_game();
+    if (main_queue) {
+        al_pause_event_queue(main_queue, false);
+        al_flush_event_queue(main_queue);
+    }
+
+    g_scene_screne = SCENE_TITLE;
+}
 int life = 5;
 
 void apply_damage(int damage)
 {
-	life -= damage;
+    life -= damage;
 
-	DEBUG_PRINT("충돌 발생 life -> %d\n", life);
+    DEBUG_PRINT("충돌 발생 life -> %d\n", life);
 
-	if (life <= 0) {
-		// TODO: 게임오버 처리하기
-		DEBUG_PRINT("게임 종료\n");
-	}
+    if (life <= 0) {
+        // TODO: 게임오버 처리하기
+        DEBUG_PRINT("게임 종료\n");
+    }
 }

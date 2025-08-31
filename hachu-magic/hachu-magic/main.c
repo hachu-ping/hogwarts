@@ -1,8 +1,6 @@
-﻿
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
 #include <time.h>
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>
@@ -13,16 +11,16 @@
 #include "cat.h"
 #include "enemy.h"
 #include "fx.h"
+#include "game_system.h"
+#include "game_manager.h"
 #include "initializer.h"
+#include "magic.h"
 #include "sprites.h"
 #include "utils.h"
 #include "magic.h"
 #include "game_manager.h"
 
-#include <allegro5/keycodes.h>
 
-
-int g_frames = 0;
 extern int rank_count;
 extern rank_entry_t rankings[];
 extern game_state_t gm_state;
@@ -40,109 +38,120 @@ int main() {
     // 데이터 초기화
     init_data();
 
-    ALLEGRO_FONT* font = al_load_ttf_font("NanumGothic.ttf", 24, 0);
-    // ALLEGRO_FONT* font = al_create_builtin_font();  // ���� �⺻ ��Ʈ ���  
+    ALLEGRO_FONT* font = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
+    // ALLEGRO_FONT* font = al_create_builtin_font();  // 기본 내장 폰트 사용  
     if (!font) {
-        fprintf(stderr, "��Ʈ �ε� ����!\n");
+        fprintf(stderr, "폰트 로드 실패!\n");
         return -1;
     }
 
     // 리소스 초기화
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
+    textbox_init(&g_name_box, g_btn_start.x, g_btn_start.y - 60, g_btn_start.w, 40, 32);
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
+    g_font = al_create_builtin_font();
+    g_font_btn = al_create_builtin_font();
 
     // 이벤트 큐 등록
     al_register_event_source(queue, al_get_display_event_source(disp));
-    al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
+    al_register_event_source(queue, al_get_mouse_event_source());
 
-   
-    // 타이머 시작
-    al_start_timer(timer);
+    // 첫 화면
+    g_scene_screne = SCENE_TITLE;
+    draw_title_screen();
+    al_flip_display();
+
+    // TODO: 등수 로딩하는 코드, 이거 나중에 위치 옮기기
+    load_rankings();
 
     bool is_done = false;
-    bool should_redraw = false;
-
 
     while (!is_done) {
-        g_frames += 1;
         ALLEGRO_EVENT event;
 
         al_wait_for_event(queue, &event);
-
-        keyboard_update(&event);  // 키 입력 처리
+        keyboard_update(&event);
 
         switch (event.type) {
-
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             // 창 닫기
             is_done = true;
             break;
+            //TODO : 이동할 함수를 만들자.
+            //TODO : switch문 g_scene_screne 기준
 
-        case ALLEGRO_EVENT_TIMER:
-            // 게임 로직마다 처리합니다.
+                // 메인타이틀화면 텍스트박스/버튼 입력 처리: 마우스/키보드 입력을 둘 다하여야함
+        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+        case ALLEGRO_EVENT_KEY_CHAR: {
+            if (g_scene_screne != SCENE_TITLE) break;
 
-            // *** 게임 로직 업데이트
-            // - 플레이어 액션 (입력 처리)
-            update_cat();
+            bool changed = false;
 
-            // - 적 생성
-            spawn_wave();
+            // 1) 텍스트박스에 대한 이벤트 처리(포커스/문자 입력)
+            changed |= textbox_handle_event(&g_name_box, &event);
 
-            // - 마법 탄환 이동
-            move_magic();
+            // 2) 마우스 클릭이면 버튼 처리
+            if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+                float mx = event.mouse.x, my = event.mouse.y;
 
-            // - 적 이동
-            move_enemy();
+                if (point_in_button(mx, my, &g_btn_start)) {
+                    handle_start_from_title(queue);  // 플 이름 설정(빈 값은 guset) + 초기화 + 시작
+                    printf("%s\n", g_player_name);
+                    start_play_stage(queue);
+                    changed = true;                  // 타이틀 재그리기
+                }
+                else if (point_in_button(mx, my, &g_btn_rank)) {
+                    g_scene_screne = SCENE_RANK;
+                    changed = true;
+                }
+            }
+            // 3) 키보드입력: 엔터로 시작
+            else { // ALLEGRO_EVENT_KEY_CHAR
+                int key = event.keyboard.keycode;
+                if (key == ALLEGRO_KEY_ENTER || key == ALLEGRO_KEY_PAD_ENTER) {
+                    handle_start_from_title(queue);  // 플 시작 처리
+                    printf("%s\n", g_player_name);
+                    start_play_stage(queue);
+                    changed = true;
+                }
+            }
 
-            // - 적-마법 충돌 처리
-            handle_magic_collision();
+            if (changed) {
+                if (g_scene_screne == SCENE_TITLE)      draw_title_screen();
+                else if (g_scene_screne == SCENE_RANK)  print_rankings_screen(font, &gm_state);
+                al_flip_display();
+            }
+        } break;
 
-            // - 적-플레이어 충돌 처리
-            handle_enemy_collision();
 
-            update_explosion();
-
-            should_redraw = true;
-            break;
+        case ALLEGRO_EVENT_KEY_DOWN: {
+            int k = event.keyboard.keycode;
+            switch (k) {
+            case ALLEGRO_KEY_ESCAPE:
+                if (g_scene_screne == SCENE_TITLE) {
+                    is_done = true;
+                }
+                else {
+                    g_scene_screne = SCENE_TITLE;
+                    draw_title_screen();
+                    al_flip_display();
+                }
+                break;
+            default: break;
+            }
+        } break;
 
         default:
             break;
-
         }
- 
-        // *** 화면 그리기 업데이트
-        // 게임 로직 업데이트 완료 후 + event 처리가 완료되었을 때 화면 그리기 업데이트
-        if (should_redraw && al_is_event_queue_empty(queue)) {
-
-            refresh_screen();
-
-            should_redraw = false;
-        }
-
     }
-    
 
-    load_rankings();
-    add_score("test", gm_state.time_taken);
-    save_rankings();
-
-    // ��ŷ ȭ�� ���
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-
-    print_rankings_screen(font, &gm_state);
-    al_flip_display();
-
-    al_rest(15.0);
-
-    al_destroy_font(font);
-    al_destroy_timer(timer);
+    if (g_font)     al_destroy_font(g_font);
+    if (g_font_btn) al_destroy_font(g_font_btn);
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
-    
-
     return 0;
 }
-

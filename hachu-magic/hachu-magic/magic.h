@@ -42,12 +42,12 @@ typedef struct _magic {
 /**
  * 디버깅용 마법을 생성할 때 사용할 함수
  */
-void DEBUG_init_magic(void);
+void DEBUG_clear_magic(void);
 
 /**
  * magic 배열의 is_spawned 값들 초기화합니다.
  */
-void init_magic(void);
+void clear_magic(void);
 
 /**
  * 사용가능한 magic 슬롯에 마법의 초기값을 넣습니다.

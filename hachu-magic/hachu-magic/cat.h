@@ -27,15 +27,16 @@ typedef struct _cat {
 	double attack_cooldown_time;
 } cat_t;
 
+
 /*
  * 디버깅용 고양이 생성을 위한 초기화.
  */
-void DEBUG_init_cat(void);
+void DEBUG_clear_cat(void);
 
 /**
  * 고양이를 초기 초기화합니다.
  */
-void init_cat(void);
+void clear_cat(void);
 
 /**
  * 고양이가 매프레임 할 수 있는 내용들 업데이트합니다.

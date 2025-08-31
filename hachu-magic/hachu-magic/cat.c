@@ -18,17 +18,8 @@ extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
 cat_t g_cat;
 
-void DEBUG_init_cat(void)
-{
-    g_cat.size_w = CAT_SIZE_W;
-    g_cat.size_h = CAT_SIZE_H;
-    g_cat.pos_x = 500;
-    g_cat.pos_y = 500;
-    g_cat.last_attack_time = al_get_time();
-    g_cat.attack_cooldown_time = DEFAULT_ATTACK_COOLDOWN_TIME;
-}
 
-void init_cat()
+void clear_cat()
 {
     // 고양이의 위치
     g_cat.pos_x = 700;
@@ -113,3 +104,13 @@ void cast_magic(direction_t direction)
 
 
 
+
+void DEBUG_clear_cat(void)
+{
+	// TODO: Modify to valid values
+	g_cat.size_w = 200;
+	g_cat.size_h = 200;
+	g_cat.pos_x = 500;
+	g_cat.pos_y = 500;
+	g_cat.last_attack_time = 0.2;
+}

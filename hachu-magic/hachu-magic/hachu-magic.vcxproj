@@ -167,6 +167,7 @@
     <ClInclude Include="magic.h" />
   </ItemGroup>
   <ItemGroup>
+    <Font Include="assets\fonts\DotGothic16-Regular.ttf" />
     <Font Include="NanumGothic.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

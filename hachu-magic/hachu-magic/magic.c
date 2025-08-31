@@ -1,4 +1,4 @@
-
+﻿
 #include "debug.h"
 #include "enemy.h"
 #include "fx.h"
@@ -8,8 +8,9 @@ extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
 magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
-// for debugging
-void DEBUG_init_magic(void) {
+void DEBUG_clear_magic(void) {
+	// for debugging
+
 	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
 		g_magic_list[i].is_spawned = 0;
 	}
@@ -33,13 +34,6 @@ void DEBUG_init_magic(void) {
 	g_magic_list[1].velocity = 3.0;
 	g_magic_list[2].velocity = 1.0;
 	g_magic_list[3].velocity = 0.9;
-}
-
-void init_magic(void)
-{
-	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-		g_magic_list[i].is_spawned = false;
-	}
 }
 
 void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target)
@@ -131,6 +125,12 @@ void handle_magic_collision(void)
 	}
 }
 
+void clear_magic(void)
+{
+	for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
+		g_magic_list[i].is_spawned = 0;
+	}
+}
 /*
 //나중에 마법에 다이나믹한 움직임을 줄 수 있는 함수
 double delta_move_magic(void) {

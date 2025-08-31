@@ -55,12 +55,12 @@ typedef struct _enemy {
 /**
  * 디버깅용 적을 위한 리스트 초기화
  */
- void DEBUG_init_enemy(void);
+ void DEBUG_clear_enemy(void);
 
 /**
  * 게임 시작시 모든 enemies 리스트를 초기화합니다.
  */
-void init_enemy(void);
+void clear_enemy(void);
 
 /**
  * 랜덤 위치에서 적을 사방에 생성하고 적을 초기화합니다. 

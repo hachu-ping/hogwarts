@@ -1,4 +1,4 @@
-﻿#ifndef __GAME_MANAGER_H__
+#ifndef __GAME_MANAGER_H__
 #define __GAME_MANAGER_H__
 
 #include <allegro5/allegro_font.h>
@@ -51,6 +51,8 @@ void print_rankings_screen(ALLEGRO_FONT*, game_state_t*);
  * @params damage: ?뚮젅?댁뼱媛 諛쏆쓣 ?곕?吏 ?섏튂
  */
 void apply_damage(int damage);
+void clear_data(void);
+void play_game(void);
 
 #endif /* __GAME_MANAGER_H__ */
 

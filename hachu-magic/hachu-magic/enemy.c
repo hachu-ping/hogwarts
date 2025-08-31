@@ -1,4 +1,4 @@
-﻿
+
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -23,7 +23,7 @@ extern int current_wave;
 extern int stage_wave_spawn_enemy_number[];
 extern int life;
 
-void DEBUG_init_enemy(void) {
+void DEBUG_clear_enemy(void) {
     for (int i = 0; i < 5; i++) {
         g_enemy_list[i].type = 0;
         g_enemy_list[i].pos_x = rand() % 1400;
@@ -89,7 +89,7 @@ void DEBUG_init_enemy(void) {
 
 
 
-void init_enemy(void) {
+void clear_enemy(void) {
 	for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
 		g_enemy_list[i].is_spawned = 0;
 	}

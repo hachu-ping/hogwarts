@@ -1,8 +1,11 @@
-#ifndef __initializer_H__
+﻿#ifndef __initializer_H__
 #define __initializer_H__
 
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_font.h>
+
 #include <stdbool.h>
+#include "game_system.h"
 
 /**
  * Allegro가 동작하도록 초기화합니다.
@@ -51,10 +54,18 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void);
  */
 void init_keyboard(void);
 
+/**
+ * 프로그램 실행에 필요한 폰트를 설정합니다.
+ * 해당 폰트를 사용하여 ttf 파일 등을 생성합니다.
+ * 폰트 초기화 완료 후 프로그램을 실행합니다.
+*/
+ALLEGRO_FONT* init_builtin_font(void);
+
 
 /**
  * 프로그램 실행에 필요한 기본 데이터를 초기화합니다.
  */
 void init_data(void);
+void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen);
 
 #endif /* __initializer_H__ */
