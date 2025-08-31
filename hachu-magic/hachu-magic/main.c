@@ -39,6 +39,7 @@ int main() {
     init_data();
 
     ALLEGRO_FONT* font = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
+    ALLEGRO_FONT* font_title = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
     // ALLEGRO_FONT* font = al_create_builtin_font();  // 기본 내장 폰트 사용  
     if (!font) {
         fprintf(stderr, "폰트 로드 실패!\n");
@@ -51,8 +52,7 @@ int main() {
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
-    g_font = al_create_builtin_font();
-    g_font_btn = al_create_builtin_font();
+
 
     // 이벤트 큐 등록
     al_register_event_source(queue, al_get_display_event_source(disp));
@@ -61,7 +61,7 @@ int main() {
 
     // 첫 화면
     g_scene_screne = SCENE_TITLE;
-    draw_title_screen();
+    draw_title_screen(font, font_title);
     al_flip_display();
 
     // TODO: 등수 로딩하는 코드, 이거 나중에 위치 옮기기
@@ -123,7 +123,7 @@ int main() {
             }
 
             if (changed) {
-                if (g_scene_screne == SCENE_TITLE)      draw_title_screen();
+                if (g_scene_screne == SCENE_TITLE)      draw_title_screen(font, font_title);
                 else if (g_scene_screne == SCENE_RANK)  print_rankings_screen(font, &gm_state);
                 al_flip_display();
             }
@@ -139,7 +139,7 @@ int main() {
                 }
                 else {
                     g_scene_screne = SCENE_TITLE;
-                    draw_title_screen();
+                    draw_title_screen(font, font_title);
                     al_flip_display();
                 }
                 break;
@@ -152,8 +152,7 @@ int main() {
         }
     }
 
-    if (g_font)     al_destroy_font(g_font);
-    if (g_font_btn) al_destroy_font(g_font_btn);
+
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
     return 0;

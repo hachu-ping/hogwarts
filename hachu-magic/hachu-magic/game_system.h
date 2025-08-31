@@ -47,28 +47,29 @@ static inline bool point_in_button(float mx, float my, Button* b) {
     return (mx >= b->x && mx <= b->x + b->w && my >= b->y && my <= b->y + b->h);
 }
 
-// ÅØ½ºÆ® ¹Ú½º
+// ï¿½Ø½ï¿½Æ® ï¿½Ú½ï¿½
 typedef struct {
     float x, y, w, h;
     bool  focused;
     int   maxlen;
     int   len;
-    char  text[64];   // ÃÖ´ë 63ÀÚ + '\0' (¿øÇÏ¸é Å©±â ´Ã¸®¼¼¿ä)
+    char  text[64];   // ï¿½Ö´ï¿½ 63ï¿½ï¿½ + '\0' (ï¿½ï¿½ï¿½Ï¸ï¿½ Å©ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½)
 } TextBox;
 
-extern TextBox g_name_box;        // Àü¿ª ÅØ½ºÆ®¹Ú½º
-extern char    g_player_name[64]; // ½ÃÀÛ ½Ã º¹»çÇØµÑ ÇÃ·¹ÀÌ¾î ÀÌ¸§
+extern TextBox g_name_box;        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½Ú½ï¿½
+extern char    g_player_name[64]; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ì¸ï¿½
 
-// ÇÔ¼ö ¼±¾ð
+// ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen);
 void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font);
-bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev); // º¯°æ ÀÖÀ¸¸é true
+bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ true
 
 
-//¿ÜºÎ º¯¼ö ¼±¾ð
+//ï¿½Üºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 extern Scene g_scene_screne;
-extern ALLEGRO_FONT* g_font;  // ³»Àå ÆùÆ®(º°µµ TTF ¾øÀÌ)
-extern ALLEGRO_FONT* g_font_btn;
+extern ALLEGRO_FONT* font;
+extern ALLEGRO_FONT* font_title;
+
 extern Button g_btn_start;
 extern Button g_btn_rank;
 
@@ -78,8 +79,9 @@ extern Button g_btn_rank;
  */
 void keyboard_update(ALLEGRO_EVENT* event);
 
-void draw_title_screen(void);
-void draw_rank_screen(void);
+static void draw_button(Button* btn, ALLEGRO_FONT* font, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px);
+void draw_title_screen(ALLEGRO_FONT* font, ALLEGRO_FONT* font_title);
+void draw_rank_screen(ALLEGRO_FONT* font);
 void textbox_clear(TextBox* tb);
 void handle_start_from_title(ALLEGRO_EVENT_QUEUE* main_queue);
 

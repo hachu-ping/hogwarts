@@ -271,7 +271,7 @@ void play_game(void)
         // === 그리기 ===
         if (redraw && al_is_event_queue_empty(queue)) {
             redraw = false;
-            refresh_screen();
+            refresh_game_screen();
         }
     }
 

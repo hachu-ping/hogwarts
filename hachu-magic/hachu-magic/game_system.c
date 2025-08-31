@@ -1,4 +1,4 @@
-#include <allegro5/allegro5.h>
+﻿#include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
@@ -7,6 +7,9 @@
 #include <ctype.h> 
 
 #include "game_system.h"
+#include "sprites.h"
+
+extern sprites_t g_sprites;
 
 unsigned char g_key[ALLEGRO_KEY_MAX];
 
@@ -35,56 +38,83 @@ void keyboard_update(ALLEGRO_EVENT* event)
 }
 
 Scene         g_scene_screne = SCENE_TITLE;     // ������ ����
-ALLEGRO_FONT* g_font = NULL;            // ��Ʈ�� run-time�� ���� ����
-ALLEGRO_FONT* g_font_btn = NULL;
-Button        g_btn_start = { 550, 380, 300, 60, "���� ����" };
-Button        g_btn_rank = { 550, 460, 300, 60, "��ũ ����" };
+ALLEGRO_FONT* font = NULL;
+ALLEGRO_FONT* font_title;
 
+Button        g_btn_start = { 550, 380, 300, 60, "start" };
+Button        g_btn_rank = { 550, 460, 300, 60, "rank" };
 
-void draw_title_screen(void)
+// 버튼 안에 텍스트를 정확히 가운데 정렬해서 그려주는 유틸
+static void draw_button(Button* btn, ALLEGRO_FONT* font, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px)
 {
-    al_clear_to_color(al_map_rgb(20, 20, 25));
-    textbox_draw(&g_name_box, g_font_btn /* �Ǵ� g_font */);
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
+    // 1) 버튼 박스
+    al_draw_filled_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, fill);
+    if (border_px > 0.0f) {
+        al_draw_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, al_map_rgb(255, 255, 255), border_px);
+    }
 
-    al_draw_filled_rectangle(g_btn_start.x, g_btn_start.y, g_btn_start.x + g_btn_start.w, g_btn_start.y + g_btn_start.h, al_map_rgb(60, 120, 250));
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), g_btn_start.x + g_btn_start.w / 2, g_btn_start.y + 20, ALLEGRO_ALIGN_CENTRE, g_btn_start.label);
+    // 2) 문자열 크기
+    int tw = al_get_text_width(font, btn->label);
+    int th = al_get_font_line_height(font);
 
-    al_draw_filled_rectangle(g_btn_rank.x, g_btn_rank.y, g_btn_rank.x + g_btn_rank.w, g_btn_rank.y + g_btn_rank.h, al_map_rgb(80, 180, 120));
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), g_btn_rank.x + g_btn_rank.w / 2, g_btn_rank.y + 20, ALLEGRO_ALIGN_CENTRE, g_btn_rank.label);
+    // 3) 가운데 좌표(가로/세로)
+    float tx = btn->x + (btn->w - tw) * 0.5f;
+    float ty = btn->y + (btn->h - th) * 0.5f;
 
-    al_draw_text(g_font, al_map_rgb(200, 200, 200), 700, 560, ALLEGRO_ALIGN_CENTRE, "Enter: start   R: rank   ESC: end");
+    // 4) 텍스트
+    al_draw_text(font, textc, tx, ty, 0, btn->label);
 }
 
-void draw_rank_screen(void)
+// 마우스가 버튼 위에 올라왔는지 체크 (hover 용)
+static bool button_contains(const Button* btn, float mx, float my)
+{
+    return (mx >= btn->x && mx <= btn->x + btn->w &&
+        my >= btn->y && my <= btn->y + btn->h);
+}
+
+
+void draw_title_screen(ALLEGRO_FONT* font, ALLEGRO_FONT* font_title)
+{
+	al_draw_bitmap(g_sprites.background[3], 0, 0, 0);
+    //al_clear_to_color(al_map_rgb(20, 20, 25));
+    textbox_draw(&g_name_box, font /* �Ǵ� g_font */);
+    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
+
+    draw_button(&g_btn_start, font, al_map_rgb(60, 120, 250), al_map_rgb(255, 255, 255), 2.0f);
+    draw_button(&g_btn_rank, font, al_map_rgb(80, 180, 120), al_map_rgb(255, 255, 255), 2.0f);
+
+
+    al_draw_text(font, al_map_rgb(200, 200, 200), 700, 560, ALLEGRO_ALIGN_CENTRE, "Enter: start   R: rank   ESC: end");
+}
+
+void draw_rank_screen(ALLEGRO_FONT* font)
 {
     al_clear_to_color(al_map_rgb(25, 20, 20));
-    al_draw_text(g_font, al_map_rgb(255, 255, 255), 700, 150, ALLEGRO_ALIGN_CENTRE, "RANKING");
-    // TODO: ���� ��ŷ ��� ������
-    al_draw_text(g_font, al_map_rgb(200, 200, 200), 700, 520, ALLEGRO_ALIGN_CENTRE, "ESC: back");
+    al_draw_text(font, al_map_rgb(255, 255, 255), 700, 150, ALLEGRO_ALIGN_CENTRE, "RANKING");
+    al_draw_text(font, al_map_rgb(200, 200, 200), 700, 520, ALLEGRO_ALIGN_CENTRE, "ESC: back");
 }
 
 TextBox g_name_box;
 
 
 
-// �׸��� (�����̴� Ŀ���� Ÿ�ӱ��)
+
 void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font) {
-    // �ڽ� ���/�׵θ�
+ 
     ALLEGRO_COLOR bg = tb->focused ? al_map_rgb(35, 40, 55) : al_map_rgb(28, 30, 40);
     ALLEGRO_COLOR brd = tb->focused ? al_map_rgb(90, 150, 255) : al_map_rgb(80, 80, 90);
     al_draw_filled_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, bg);
     al_draw_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, brd, 2.0f);
 
-    // �ؽ�Ʈ(���� �е�)
+  
     float pad = 10.0f;
-    al_draw_text(font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(font)) / 2.0f, 0, tb->text[0] ? tb->text : "�̸��� �Է��ϼ���");
+    al_draw_text(font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(font)) / 2.0f, 0, tb->text[0] ? tb->text : "player name");
 
-    // Ŀ�� ������ (0.5�� ����)
+    
     if (tb->focused) {
         bool on = ((int)(al_get_time() * 2.0)) % 2 == 0;
         if (on) {
-            // �ؽ�Ʈ �� ����ؼ� Ŀ�� ��ġ ���
+            
             float tw = al_get_text_width(font, tb->text);
             float cx = tb->x + pad + tw + 2.0f;
             float cy1 = tb->y + 8.0f, cy2 = tb->y + tb->h - 8.0f;
@@ -93,8 +123,7 @@ void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font) {
     }
 }
 
-// �̺�Ʈ ó�� (���콺 ��Ŀ�� + Ű �Է�)
-// - ASCII�� �ٷ�ϴ�(����/����/��ȣ).
+
 bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
     bool changed = false;
 
@@ -104,7 +133,7 @@ bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
         bool inside = (mx >= tb->x && mx <= tb->x + tb->w && my >= tb->y && my <= tb->y + tb->h);
         bool prev = tb->focused;
         tb->focused = inside;
-        changed = (tb->focused != prev); // �׵θ� �� �� ��ȭ
+        changed = (tb->focused != prev); 
     } break;
 
     case ALLEGRO_EVENT_KEY_CHAR:
@@ -118,13 +147,13 @@ bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev) {
         }
         else if (ev->keyboard.keycode == ALLEGRO_KEY_ENTER ||
             ev->keyboard.keycode == ALLEGRO_KEY_PAD_ENTER) {
-            // ���� �� ��Ŀ�� ����(���û���)
+  
             tb->focused = false;
             changed = true;
         }
         else {
             int ch = ev->keyboard.unichar;
-            // ������ ASCII �μ� ������ ���ڸ� ���
+           
             if (ch >= 32 && ch < 127 && tb->len < tb->maxlen) {
                 tb->text[tb->len++] = (char)ch;
                 tb->text[tb->len] = '\0';

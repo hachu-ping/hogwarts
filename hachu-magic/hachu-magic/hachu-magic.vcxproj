@@ -151,6 +151,8 @@
     <Image Include="assets\sprites\cat_sprite.png" />
     <Image Include="assets\sprites\effect_sprite.png" />
     <Image Include="assets\sprites\enemy_sprite.png" />
+    <Image Include="back.png" />
+    <Image Include="back_ex.jpeg" />
     <Image Include="placeholder.jpeg" />
   </ItemGroup>
   <ItemGroup>
