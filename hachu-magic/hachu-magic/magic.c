@@ -8,6 +8,11 @@ extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
 magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
+inline const magic_t* get_magic_list(void)
+{
+	return &g_magic_list;
+}
+
 void DEBUG_clear_magic(void) {
 	// for debugging
 

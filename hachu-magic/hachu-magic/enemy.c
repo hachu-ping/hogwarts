@@ -1,4 +1,4 @@
-
+﻿
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -28,6 +28,11 @@ extern game_state_t gm_state;
 double last_wave_clear_time = 0;
 bool wave_ready_to_spawn = false;
 //여기까지
+
+inline const enemy_t* get_enemy_list(void)
+{
+    return &g_enemy_list;
+}
 
 void DEBUG_clear_enemy(void) {
     for (int i = 0; i < 5; i++) {

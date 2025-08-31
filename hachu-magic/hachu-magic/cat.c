@@ -1,4 +1,4 @@
-
+﻿
 #include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <stdio.h>
@@ -18,6 +18,10 @@ extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
 cat_t g_cat;
 
+inline const cat_t* get_cat()
+{
+    return &g_cat;
+}
 
 void clear_cat()
 {

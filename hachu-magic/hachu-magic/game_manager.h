@@ -15,6 +15,7 @@ extern ALLEGRO_FONT* font_stage;
 
 // 게임 상태 구조체
 typedef struct _game_state {
+    char player_name[MAX_NAME_LEN];
     int current_stage;
     int current_wave;
     int g_cat_life;
@@ -25,6 +26,7 @@ typedef struct _game_state {
     double time_taken;
 } game_state_t;
 
+inline const game_state_t* get_game_state(void);
 
 
 // 랭킹 엔트리
@@ -50,6 +52,7 @@ void add_score(const char*, float);
 void print_rankings_screen(ALLEGRO_FONT*, game_state_t*);
 void draw_hud(ALLEGRO_FONT*, game_state_t*);
 
+void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue);
 
 
 void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state);

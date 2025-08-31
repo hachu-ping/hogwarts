@@ -22,6 +22,8 @@ typedef struct _explosion {
 	int current_frame;
 } explosion_t;
 
+const explosion_t* get_explosion_list(void);
+
 extern explosion_t g_explosion_list[EXPLOSION_MAX_NUMBER];
 
 /**

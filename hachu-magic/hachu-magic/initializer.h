@@ -66,6 +66,6 @@ ALLEGRO_FONT* init_builtin_font(void);
  * 프로그램 실행에 필요한 기본 데이터를 초기화합니다.
  */
 void init_data(void);
-void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen);
+void textbox_init(text_box_t* tb, float x, float y, float w, float h, int maxlen);
 
 #endif /* __initializer_H__ */

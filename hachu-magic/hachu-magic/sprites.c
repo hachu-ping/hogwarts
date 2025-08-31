@@ -16,25 +16,23 @@
 
 #include "game_manager.h"
 
-extern cat_t g_cat;
-extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
-extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
-extern game_state_t gm_state;
-
 extern int g_frames;
 
-sprites_t g_sprites;
+static sprites_t sprites;
+static fonts_t fonts;
 
 // internal 함수 선언
 static ALLEGRO_BITMAP* load_bitmap(const char* file_name);
 static ALLEGRO_BITMAP* sprite_grab(ALLEGRO_BITMAP* sheet, int x, int y, int w, int h);
+static ALLEGRO_FONT* load_font(const char* file_name, int size);
+
 
 static ALLEGRO_BITMAP* load_bitmap(const char* file_name)
 {
     ALLEGRO_BITMAP* temp = al_load_bitmap(file_name);
     must_init(temp, "load sprite");
-    return temp;
 
+    return temp;
 }
 
 /**
@@ -54,175 +52,203 @@ static ALLEGRO_BITMAP* sprite_grab(ALLEGRO_BITMAP* sheet, int x, int y, int w, i
     return sprite;
 }
 
-
-void init_sprites(void)
+static ALLEGRO_FONT* load_font(const char* file_name, int size)
 {
-    
-    g_sprites.background[BACKGROUND_TYPE_ST1] = load_bitmap("stage01.jpg");
-    g_sprites.background[BACKGROUND_TYPE_ST2] = load_bitmap("stage02.jpg");
-    g_sprites.background[BACKGROUND_TYPE_ST3] = load_bitmap("stage03.jpg");
-    g_sprites.background[BACKGROUND_TYPE_ST4] = load_bitmap("stage04.jpg");
-    g_sprites.background[BACKGROUND_TYPE_START] = load_bitmap("back.png");
-
-    g_sprites._cat_sheet = load_bitmap("assets/sprites/cat_sprite.png");
-    g_sprites.cat[0] = sprite_grab(g_sprites._cat_sheet, SPRITE_CAT_WIDTH * 0, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
-    g_sprites.cat[1] = sprite_grab(g_sprites._cat_sheet, SPRITE_CAT_WIDTH * 1, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
-    g_sprites.cat[2] = sprite_grab(g_sprites._cat_sheet, SPRITE_CAT_WIDTH * 2, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
-
-    g_sprites._enemy_sheet = load_bitmap("assets/sprites/enemy_sprite.png");
-    g_sprites.enemies[0][0] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 0, 0, SPRITE_ENEMY_WIDTH[0], SPRITE_ENEMY_HEIGHT[0]);
-    g_sprites.enemies[0][1] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 1, 0, SPRITE_ENEMY_WIDTH[0], SPRITE_ENEMY_HEIGHT[0]);
-    g_sprites.enemies[1][0] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 2 + SPRITE_ENEMY_WIDTH[1] * 0, 0, SPRITE_ENEMY_WIDTH[1], SPRITE_ENEMY_HEIGHT[1]);
-    g_sprites.enemies[1][1] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 2 + SPRITE_ENEMY_WIDTH[1] * 1, 0, SPRITE_ENEMY_WIDTH[1], SPRITE_ENEMY_HEIGHT[1]);
-    g_sprites.enemies[2][0] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[2] * 0, SPRITE_ENEMY_HEIGHT[1], SPRITE_ENEMY_WIDTH[2], SPRITE_ENEMY_HEIGHT[2]);
-    g_sprites.enemies[2][1] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[2] * 1, SPRITE_ENEMY_HEIGHT[1], SPRITE_ENEMY_WIDTH[2], SPRITE_ENEMY_HEIGHT[2]);
-    g_sprites.enemies[3][0] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[3] * 0, SPRITE_ENEMY_HEIGHT[1] + SPRITE_ENEMY_HEIGHT[2], SPRITE_ENEMY_WIDTH[3], SPRITE_ENEMY_HEIGHT[3]);
-    g_sprites.enemies[3][1] = sprite_grab(g_sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[3] * 1, SPRITE_ENEMY_HEIGHT[1] + SPRITE_ENEMY_HEIGHT[2], SPRITE_ENEMY_WIDTH[3], SPRITE_ENEMY_HEIGHT[3]);
-
-    g_sprites._effect_sheet = load_bitmap("assets/sprites/effect_sprite.png");
-    g_sprites.arrows[1] = sprite_grab(g_sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 0, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
-    g_sprites.arrows[2] = sprite_grab(g_sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 1, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
-    g_sprites.arrows[3] = sprite_grab(g_sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 2, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
-    g_sprites.arrows[4] = sprite_grab(g_sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 3, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
-    g_sprites.life = sprite_grab(g_sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 4, SPRITE_LIFE_WIDTH, SPRITE_LIFE_HEIGHT);
-    g_sprites.magics[1][0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[1][1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[1][2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[2][0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[2][1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[2][2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[3][0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[3][1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[3][2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[4][0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[4][1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.magics[4][2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    g_sprites.explosion[0] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
-    g_sprites.explosion[1] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
-    g_sprites.explosion[2] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
-    g_sprites.explosion[3] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    ALLEGRO_FONT* temp = al_load_ttf_font(file_name, size, 0);
+    must_init(temp, "load font");
+    return temp;
 }
 
-// TODO: refresh_game_scrren 같은 이름으로 바꾸기
-void refresh_game_screen(void)
+void load_sprites(void)
 {
-    //draw_background();
-    draw_background(&gm_state);
-    draw_enemies();
-    draw_cat();
-    draw_magics();
-    draw_fxs();
+    sprites.background[0] = load_bitmap("stage01.jpg");
+    sprites.background[1] = load_bitmap("stage02.jpg");
+    sprites.background[2] = load_bitmap("stage03.jpg");
+    sprites.background[3] = load_bitmap("stage04.jpg");
+    sprites.background[4] = load_bitmap("back.png");
 
-    al_flip_display();
+    sprites._cat_sheet = load_bitmap("assets/sprites/cat_sprite.png");
+    sprites.cat[0] = sprite_grab(sprites._cat_sheet, SPRITE_CAT_WIDTH * 0, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
+    sprites.cat[1] = sprite_grab(sprites._cat_sheet, SPRITE_CAT_WIDTH * 1, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
+    sprites.cat[2] = sprite_grab(sprites._cat_sheet, SPRITE_CAT_WIDTH * 2, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
+
+    sprites._enemy_sheet = load_bitmap("assets/sprites/enemy_sprite.png");
+    sprites.enemies[0][0] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 0, 0, SPRITE_ENEMY_WIDTH[0], SPRITE_ENEMY_HEIGHT[0]);
+    sprites.enemies[0][1] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 1, 0, SPRITE_ENEMY_WIDTH[0], SPRITE_ENEMY_HEIGHT[0]);
+    sprites.enemies[1][0] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 2 + SPRITE_ENEMY_WIDTH[1] * 0, 0, SPRITE_ENEMY_WIDTH[1], SPRITE_ENEMY_HEIGHT[1]);
+    sprites.enemies[1][1] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[0] * 2 + SPRITE_ENEMY_WIDTH[1] * 1, 0, SPRITE_ENEMY_WIDTH[1], SPRITE_ENEMY_HEIGHT[1]);
+    sprites.enemies[2][0] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[2] * 0, SPRITE_ENEMY_HEIGHT[1], SPRITE_ENEMY_WIDTH[2], SPRITE_ENEMY_HEIGHT[2]);
+    sprites.enemies[2][1] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[2] * 1, SPRITE_ENEMY_HEIGHT[1], SPRITE_ENEMY_WIDTH[2], SPRITE_ENEMY_HEIGHT[2]);
+    sprites.enemies[3][0] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[3] * 0, SPRITE_ENEMY_HEIGHT[1] + SPRITE_ENEMY_HEIGHT[2], SPRITE_ENEMY_WIDTH[3], SPRITE_ENEMY_HEIGHT[3]);
+    sprites.enemies[3][1] = sprite_grab(sprites._enemy_sheet, SPRITE_ENEMY_WIDTH[3] * 1, SPRITE_ENEMY_HEIGHT[1] + SPRITE_ENEMY_HEIGHT[2], SPRITE_ENEMY_WIDTH[3], SPRITE_ENEMY_HEIGHT[3]);
+
+    sprites._effect_sheet = load_bitmap("assets/sprites/effect_sprite.png");
+    sprites.arrows[1] = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 0, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
+    sprites.arrows[2] = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 1, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
+    sprites.arrows[3] = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 2, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
+    sprites.arrows[4] = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 3, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
+    sprites.life = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 4, SPRITE_LIFE_WIDTH, SPRITE_LIFE_HEIGHT);
+    sprites.magics[1][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[1][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[1][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[2][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[2][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[2][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[3][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[3][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[3][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[4][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[4][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[4][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.explosion[0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    sprites.explosion[1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    sprites.explosion[2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
+    sprites.explosion[3] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
 }
 
-/*
-void draw_background_save(void)
+void load_fonts(void)
 {
-    al_draw_scaled_bitmap(g_sprites.background[0], 0, 0, 640, 437, 0, 0, 1400, 800, 0);
-}
-*/
-void draw_background(game_state_t* state)
-{
-	int st_save = state->current_stage;
-    al_draw_scaled_bitmap(g_sprites.background[st_save], 0, 0, SPRITE_BACK_WIDTH[st_save], SPRITE_BACK_HEIGHT[st_save], 0, 0, 1400, 800, 0);
+    fonts.font = load_font("assets/fonts/DotGothic16-Regular.ttf", FONT_DEFAULT_SIZE);
+    fonts.font_title = load_font("assets/fonts/DotGothic16-Regular.ttf", FONT_TITLE_SIZE);
+    fonts.font_hud = load_font("assets/fonts/DotGothic16-Regular.ttf", FONT_HUD_SIZE);
+    fonts.font_stage = load_font("assets/fonts/DotGothic16-Regular.ttf", FONT_STAGE_SIZE);
 }
 
-void draw_cat(void)
+void draw_background(int current_stage)
 {
-    int x_offset = (g_cat.size_w - SPRITE_CAT_WIDTH) * 0.5;
-    int y_offset = (g_cat.size_h - SPRITE_CAT_HEIGHT) * 0.5;
+    al_draw_scaled_bitmap(sprites.background[current_stage], 0, 0, SPRITE_BACK_WIDTH[current_stage], SPRITE_BACK_HEIGHT[current_stage], 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+}
+
+void draw_cat(double pos_x, double pos_y, double size_w, double size_h)
+{
+    int x_offset = (size_w - SPRITE_CAT_WIDTH) * 0.5;
+    int y_offset = (size_h - SPRITE_CAT_HEIGHT) * 0.5;
 
     al_draw_bitmap(
-        g_sprites.cat[g_frames / 12 % SPRITE_CAT_FRAME_NUMBER],
-        g_cat.pos_x + x_offset,
-        g_cat.pos_y + y_offset,
+        sprites.cat[g_frames / 12 % SPRITE_CAT_FRAME_NUMBER],
+        pos_x + x_offset,
+        pos_y + y_offset,
         0
     );
 
 #ifdef DEBUG_MODE
     // 충돌 영역 표시
-    al_draw_rectangle(g_cat.pos_x, g_cat.pos_y, g_cat.pos_x + g_cat.size_w, g_cat.pos_y + g_cat.size_h, al_map_rgb(0, 255, 0), 3);
+    al_draw_rectangle(pos_x, pos_y, pos_x + size_w, pos_y +size_h, al_map_rgb(0, 255, 0), 3);
 #endif
 }
 
-void draw_enemies(void)
+void draw_enemy(double pos_x, double pos_y, int size_w, int size_h, int type)
 {
-    int bitmap_size_w;
-    int bitmap_size_h;
+    int x_offset = (size_w - SPRITE_ENEMY_WIDTH[type]) * 0.5;
+    int y_offset = (size_h - SPRITE_ENEMY_HEIGHT[type]) * 0.5;
 
-    // 적 
-    for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
-        enemy_t* enemy = g_enemy_list + i;
-        if (enemy->is_spawned) {
-            int x_offset = (enemy->size_w - SPRITE_ENEMY_WIDTH[enemy->type]) * 0.5;
-            int y_offset = (enemy->size_h - SPRITE_ENEMY_HEIGHT[enemy->type]) * 0.5;
-
-            al_draw_bitmap(
-                g_sprites.enemies[enemy->type][g_frames / 16 % SPRITE_ENEMY_FRAME_NUMBER],
-                enemy->pos_x + x_offset,
-                enemy->pos_y + y_offset,
-                0
-            );
+    al_draw_bitmap(
+        sprites.enemies[type][g_frames / 16 % SPRITE_ENEMY_FRAME_NUMBER],
+        pos_x + x_offset,
+        pos_y + y_offset,
+        0
+    );
 #ifdef DEBUG_MODE
-            // 충돌 영역 표시
-            al_draw_rectangle(enemy->pos_x, enemy->pos_y, enemy->pos_x + enemy->size_w, enemy->pos_y + enemy->size_h, al_map_rgb(255, 0, 0), 3);
+    // 충돌 영역 표시
+    al_draw_rectangle(pos_x, pos_y, pos_x + size_w, pos_y + size_h, al_map_rgb(255, 0, 0), 3);
 #endif
-        }
-    }
+}
 
-    // 적 머리위 화살 (마법 패턴에 따른 순서 안내 화살)
-    for (int i = 0; i < ENEMY_MAX_NUMBER; ++i) {
-        enemy_t* enemy = g_enemy_list + i;
-        if (enemy->is_spawned) {
-            for (int ii = enemy->received_attack_count; ii < enemy->life; ++ii) {
-                double arrow_pos_x_offset = 0.5 * enemy->size_w + (-0.5 * (enemy->life - enemy->received_attack_count)) * SPRITE_ARROW_WIDTH + (ii - enemy->received_attack_count) * SPRITE_ARROW_WIDTH;
-                double arrow_pos_y_offset = (enemy->size_h - SPRITE_ENEMY_HEIGHT[enemy->type]) * 0.5 - (SPRITE_ARROW_HEIGHT * 0.8);
-                al_draw_bitmap(
-                    g_sprites.arrows[enemy->pattern[ii]],
-                    enemy->pos_x + arrow_pos_x_offset,
-                    enemy->pos_y + arrow_pos_y_offset,
-                    0
-                );
-            }
-        }
+void draw_enemy_arrow(double pos_x, double pos_y, int size_w, int size_h, int type, const char* pattern, int max_life, int damaged_amount)
+{
+    double arrow_pos_x_offset = 0.5 * size_w + (-0.5 * (max_life - damaged_amount)) * SPRITE_ARROW_WIDTH + (-damaged_amount) * SPRITE_ARROW_WIDTH;
+    double arrow_pos_y_offset = (size_h - SPRITE_ENEMY_HEIGHT[type]) * 0.5 - (SPRITE_ARROW_HEIGHT * 0.8);
+
+    for (int i = damaged_amount; i < max_life; ++i) {
+        al_draw_bitmap(
+            sprites.arrows[pattern[i]],
+            pos_x + arrow_pos_x_offset + i * SPRITE_ARROW_WIDTH,
+            pos_y + arrow_pos_y_offset,
+            0
+        );
     }
 }
 
-void draw_magics(void)
+void draw_magics(double pos_x, double pos_y, int size_w, int size_h, int type)
 {
-    for (int i = 0; i < MAGIC_MAX_NUMBER; i++) {
-        magic_t* temp = g_magic_list + i;
-        if (temp->is_spawned)
-        {
-            al_draw_bitmap(
-                g_sprites.magics[temp->type][g_frames / 16 % SPRITE_MAGIC_FRAME_NUMBER],
-                temp->pos_x,
-                temp->pos_y,
-                0
-            );
-            
+    al_draw_bitmap(
+        sprites.magics[type][g_frames / 16 % SPRITE_MAGIC_FRAME_NUMBER],
+        pos_x,
+        pos_y,
+        0
+    );
+
 #ifdef DEBUG_MODE
-            // 충돌 영역 표시
-            al_draw_rectangle(temp->pos_x, temp->pos_y, temp->pos_x + temp->size_w, temp->pos_y + temp->size_h, al_map_rgb(0, 0, 255), 3);
+    // 충돌 영역 표시
+    al_draw_rectangle(pos_x, pos_y,pos_x + size_w,pos_y + size_h, al_map_rgb(0, 0, 255), 3);
 #endif
+}
+
+void draw_fxs(int pos_x, int pos_y, int current_frame)
+{
+    al_draw_bitmap(
+        sprites.explosion[current_frame / SPRITE_EXPLOSION_FRAME_NUMBER],
+        pos_x,
+        pos_y,
+        0
+    );
+}
+
+//button_t g_btn_start = { 550, 380, 300, 60, "start" };
+//button_t g_btn_rank = { 550, 460, 300, 60, "rank" };
+
+
+// 그리기 (블링킹 커서의 타이밍용)
+void draw_textbox(const text_box_t* tb) {
+    // 박스 배경/테두리
+    ALLEGRO_COLOR bg = tb->focused ? al_map_rgb(35, 40, 55) : al_map_rgb(28, 30, 40);
+    ALLEGRO_COLOR brd = tb->focused ? al_map_rgb(90, 150, 255) : al_map_rgb(80, 80, 90);
+    al_draw_filled_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, bg);
+    al_draw_rectangle(tb->x, tb->y, tb->x + tb->w, tb->y + tb->h, brd, 2.0f);
+
+    // 텍스트(빈칸 패딩)
+    float pad = 10.0f;
+    al_draw_text(fonts.font, al_map_rgb(255, 255, 255), tb->x + pad, tb->y + (tb->h - al_get_font_line_height(fonts.font)) / 2.0f, 0, tb->text[0] ? tb->text : "player name");
+
+    // 커서 블링킹 (0.5초 주기)
+    if (tb->focused) {
+        bool on = ((int)(al_get_time() * 2.0)) % 2 == 0;
+        if (on) {
+            // 텍스트 너비 계산해서 커서 위치 구함
+            float tw = al_get_text_width(fonts.font, tb->text);
+            float cx = tb->x + pad + tw + 2.0f;
+            float cy1 = tb->y + 8.0f, cy2 = tb->y + tb->h - 8.0f;
+            al_draw_line(cx, cy1, cx, cy2, al_map_rgb(255, 255, 255), 1.0f);
         }
     }
 }
 
-void draw_fxs(void)
+// 버튼 안에 텍스트를 정확히 가운데 정렬해서 그려주는 유틸
+void draw_button(button_t* btn, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px)
 {
-
-    for (int i = 0; i < EXPLOSION_MAX_NUMBER; i++) {
-        explosion_t* temp = g_explosion_list + i;
-        if (temp->is_spawned)
-        {
-            al_draw_bitmap(
-                g_sprites.explosion[temp->current_frame / SPRITE_EXPLOSION_FRAME_NUMBER],
-                temp->pos_x,
-                temp->pos_y,
-                0
-            );
-        }
+    // 1) 버튼 박스
+    al_draw_filled_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, fill);
+    if (border_px > 0.0f) {
+        al_draw_rectangle(btn->x, btn->y, btn->x + btn->w, btn->y + btn->h, al_map_rgb(255, 255, 255), border_px);
     }
+    //al_clear_to_color(al_map_rgb(20, 20, 25));
+    //textbox_draw(&g_name_box, fonts.font);
+    //al_draw_text(fonts.font, al_map_rgb(255, 255, 255), 700, 250, ALLEGRO_ALIGN_CENTRE, "CAT vs MICE");
+
+    // 2) 문자열 크기
+    int tw = al_get_text_width(fonts.font, btn->label);
+    int th = al_get_font_line_height(fonts.font);
+
+    // 3) 가운데 좌표(가로/세로)
+    float tx = btn->x + (btn->w - tw) * 0.5f;
+    float ty = btn->y + (btn->h - th) * 0.5f;
+
+    // 4) 텍스트
+    al_draw_text(fonts.font, textc, tx, ty, 0, btn->label);
+}
+
+void draw_text(float pos_x, float pos_y, const char* string)
+{
+    al_draw_text(fonts.font, al_map_rgb(255, 255, 255), pos_x, pos_y, ALLEGRO_ALIGN_CENTRE, string);
+
 }

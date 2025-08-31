@@ -37,7 +37,7 @@ extern samples_t g_samples;
  * 사운드 에셋을 로드해 저장합니다.
  * 사운드 로드에 실패할 경우 프로그램을 종료합니다.
  */
-void init_sample(void);
+void load_audios(void);
 
 /**
  * 전달한 타입의 사운드를 출력합니다.

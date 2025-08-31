@@ -38,6 +38,11 @@ int rank_count = 0;
 
 game_state_t gm_state;
 
+inline const game_state_t* get_game_state(void)
+{
+    return &gm_state;
+}
+
 void init_game(game_state_t* gm_state) {
     gm_state->current_stage = 0;
     gm_state->current_wave = 0;
@@ -295,21 +300,13 @@ extern void play_game(void);
 
 void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue)
 {
-    // 원래 씬 기록(나중에 돌아 올 때용)
-    Scene prev = g_scene_screne;
-
-    g_scene_screne = SCENE_PLAY;
-
     if (main_queue) al_pause_event_queue(main_queue, true);
     play_game();
     if (main_queue) {
         al_pause_event_queue(main_queue, false);
         al_flush_event_queue(main_queue);
     }
-
-    g_scene_screne = SCENE_TITLE;
 }
-int life = 5;
 
 void apply_damage(int damage)
 {

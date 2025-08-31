@@ -52,6 +52,10 @@ typedef struct _enemy {
 
 } enemy_t;
 
+
+inline const enemy_t* get_enemy_list(void);
+
+
 /**
  * 디버깅용 적을 위한 리스트 초기화
  */

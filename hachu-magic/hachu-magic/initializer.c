@@ -13,6 +13,7 @@
 #include "enemy.h"
 #include "fx.h"
 #include "initializer.h"
+#include "game_manager.h"
 #include "game_system.h"
 #include "sprites.h"
 #include "utils.h"
@@ -32,16 +33,20 @@ void init_addons(void)
 	// 기하체 그리기 위한 primitives addon 추가
 	must_init(al_init_primitives_addon(), "primitives addon init");  
 
-	//font addon initialize
+	// font addon initialize
 	must_init(al_init_font_addon(), "font addon init");
 	must_init(al_init_ttf_addon(), "ttf font addon init");
 
+	// audios
+	must_init(al_init_acodec_addon(), "audio codecs");
+	must_init(al_reserve_samples(32), "reserve samples");  //샘플의 키홀드값
 }
 
 void install_driver(void)
 {
 	must_init(al_install_keyboard(), "keyboard");
 	must_init(al_install_mouse(), "mouse");
+	must_init(al_install_audio(), "audio");
 }
 
 ALLEGRO_DISPLAY* init_display(const int width, const int height)
@@ -51,19 +56,6 @@ ALLEGRO_DISPLAY* init_display(const int width, const int height)
 
 	return temp;
 }
-//폰트 추가1
-
-/*
-ALLEGRO_FONT* init_builtin_font(void)
-{
-	ALLEGRO_FONT* font = al_create_builtin_font();
-	must_init(font, "font");
-
-	return font;
-}
-*/
-//폰트 추가2
-
 
 ALLEGRO_TIMER* init_timer(const double speed_secs)
 {
@@ -82,23 +74,16 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void)
 void init_data(void)
 {
 	memset(g_key, 0, sizeof(g_key));
-	init_sprites();
-	init_sample();
 
-#ifdef DEBUG_MODE
-	DEBUG_clear_cat();
-	DEBUG_clear_enemy();
-	DEBUG_clear_magic();
-	clear_explosion();
-#else
-	clear_cat();
-	clear_enemy();
-	clear_magic();
-	clear_explosion();
-#endif	
+	load_sprites();
+	load_audios();
+	load_fonts();
+
+	load_rankings();
+	textbox_init(&g_name_box, start_button.x, start_button.y, start_button.w, start_button.h, MAX_NAME_LEN);
 }
 
-void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen)
+void textbox_init(text_box_t* tb, float x, float y, float w, float h, int maxlen)
 {
 	tb->x = x; tb->y = y; tb->w = w; tb->h = h;
 	tb->focused = false;

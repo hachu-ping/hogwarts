@@ -140,6 +140,8 @@
     <ClCompile Include="game_system.c" />
     <ClCompile Include="initializer.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="scene_manager.c" />
+    <ClCompile Include="screen.c" />
     <ClCompile Include="sprites.c" />
     <ClCompile Include="utils.c" />
     <ClCompile Include="magic.c" />
@@ -156,6 +158,8 @@
     <ClInclude Include="game_manager.h" />
     <ClInclude Include="game_system.h" />
     <ClInclude Include="initializer.h" />
+    <ClInclude Include="scene_manager.h" />
+    <ClInclude Include="screen.h" />
     <ClInclude Include="sprites.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="magic.h" />
