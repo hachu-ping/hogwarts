@@ -18,8 +18,6 @@
 #include "magic.h"
 #include "sprites.h"
 #include "utils.h"
-#include "magic.h"
-#include "game_manager.h"
 
 ALLEGRO_FONT* font_hud;
 ALLEGRO_FONT* font_stage;
