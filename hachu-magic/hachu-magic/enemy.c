@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "audio.h"
 #include "cat.h"
 #include "game_manager.h"
 #include "utils.h"
@@ -111,7 +112,7 @@ void spawn_wave(void)
         gm_state.current_stage += 1;
     }
     
-    if (MAX_STAGE_NUMBER >= gm_state.current_stage)
+    if (MAX_STAGE_NUMBER <= gm_state.current_stage)
     {
         is_game_clear(&gm_state);
         return;

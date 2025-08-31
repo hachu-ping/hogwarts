@@ -170,6 +170,19 @@
     <Font Include="assets\fonts\DotGothic16-Regular.ttf" />
     <Font Include="NanumGothic.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\audio\bgm.wav" />
+    <Media Include="assets\audio\cat_damaged.mp3" />
+    <Media Include="assets\audio\enemy_0_damaged.mp3" />
+    <Media Include="assets\audio\enemy_0_die.mp3" />
+    <Media Include="assets\audio\enemy_1_damaged.mp3" />
+    <Media Include="assets\audio\enemy_1_die.mp3" />
+    <Media Include="assets\audio\enemy_2_damaged.mp3" />
+    <Media Include="assets\audio\enemy_2_die.mp3" />
+    <Media Include="assets\audio\enemy_3_damaged.mp3" />
+    <Media Include="assets\audio\enemy_3_die.mp3" />
+    <Media Include="assets\audio\magic.mp3" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\AllegroDeps.1.15.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.15.0\build\native\AllegroDeps.targets')" />

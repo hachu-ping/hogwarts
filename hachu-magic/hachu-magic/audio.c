@@ -23,27 +23,27 @@ static ALLEGRO_SAMPLE* load_sample(char* filename)
 
 void init_sample(void)
 {
-#if 0
-    g_samples.background[0] = al_load_sample('samples/');
-    g_samples.background[1] = al_load_sample('samples/');
-    g_samples.background[2] = al_load_sample('samples/');
+#if 1
+    g_samples.background[0] = al_load_sample("assets/audio/bgm.wav");
+    //g_samples.background[1] = al_load_sample("");
+    //g_samples.background[2] = al_load_sample("assets/audio/");
 
-    g_samples.cat_damaged = al_load_sample('samples/');
+    g_samples.cat_damaged = al_load_sample("assets/audio/cat_damaged.mp3");
 
-    g_samples.enemy_damaged[0] = al_load_sample('samples/');
-    g_samples.enemy_damaged[1] = al_load_sample('samples/');
-    g_samples.enemy_damaged[2] = al_load_sample('samples/');
-    g_samples.enemy_damaged[3] = al_load_sample('samples/');
+    g_samples.enemy_damaged[0] = al_load_sample("assets/audio/enemy_0_damaged");
+    g_samples.enemy_damaged[1] = al_load_sample("assets/audio/enemy_1_damaged");
+    g_samples.enemy_damaged[2] = al_load_sample("assets/audio/enemy_2_damaged");
+    g_samples.enemy_damaged[3] = al_load_sample("assets/audio/enemy_3_damaged");
     
-    g_samples.enemy_die[0] = al_load_sample('samples/');
-    g_samples.enemy_die[1] = al_load_sample('samples/');
-    g_samples.enemy_die[2] = al_load_sample('samples/');
-    g_samples.enemy_die[3] = al_load_sample('samples/');
+    g_samples.enemy_die[0] = al_load_sample("assets/audio/enemy_0_die");
+    g_samples.enemy_die[1] = al_load_sample("assets/audio/enemy_1_die");
+    g_samples.enemy_die[2] = al_load_sample("assets/audio/enemy_2_die");
+    g_samples.enemy_die[3] = al_load_sample("assets/audio/enemy_3_die");
 
-    g_samples.magic_attack[0] = al_load_sample('samples/');
-    g_samples.magic_attack[1] = al_load_sample('samples/');
-    g_samples.magic_attack[2] = al_load_sample('samples/');
-    g_samples.magic_attack[3] = al_load_sample('samples/');
+    g_samples.magic_attack[1] = al_load_sample("assets/audio/magic.mp3");
+    g_samples.magic_attack[2] = al_load_sample("assets/audio/magic.mp3");
+    g_samples.magic_attack[3] = al_load_sample("assets/audio/magic.mp3");
+    g_samples.magic_attack[4] = al_load_sample("assets/audio/magic.mp3");
 #endif
 }
 
@@ -106,7 +106,7 @@ void play_sound(game_sound_t type, ...)
         break;
     }
 
-
+    DEBUG_PRINT("출력 %d\n", type);
     al_play_sample(play_target, 1, 0, 1, play_mode, sample_id);
 }
 

@@ -2,7 +2,7 @@
 #define __DEBUG_H__
 
 // 디버그 모드를 비활성화를 원한다면 아래라인을 주석처리 해주세요.
-//#define DEBUG_MODE
+#define DEBUG_MODE
 // 디버그 모드를 활성화를 원한다면 위라인을 주석처리 해주세요.
 
 #ifdef DEBUG_MODE
