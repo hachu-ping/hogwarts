@@ -1,4 +1,4 @@
-#ifndef __FX_H__
+﻿#ifndef __FX_H__
 #define __FX_H__
 
 #include <stdbool.h>

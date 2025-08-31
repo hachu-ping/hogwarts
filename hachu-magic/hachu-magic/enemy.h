@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #define ENEMY_MAX_NUMBER 15
+#define MAX_PATTERN_LENGTH 15
 
 static const int ENEMY_WIDTH[] = { 140, 180, 220, 320 };
 static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };

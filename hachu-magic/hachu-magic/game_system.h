@@ -1,4 +1,4 @@
-#ifndef __GAME_SYSTEM_H__
+﻿#ifndef __GAME_SYSTEM_H__
 #define __GAME_SYSTEM_H__
 
 #include <allegro5/allegro5.h>
