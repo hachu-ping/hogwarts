@@ -83,7 +83,7 @@ void spawn_enemy() {
         gm_state.current_stage += 1;
         // 스테이지가 증가했을 때 알림 띄우기
         wait_time = 4.0;
-        draw_stage_announce(font_stage, &gm_state);
+        draw_stage_announce();
     }
 
     double now = al_get_time();

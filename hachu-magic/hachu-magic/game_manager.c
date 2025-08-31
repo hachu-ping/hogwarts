@@ -20,10 +20,6 @@
 #include "sprites.h"
 #include "game_system.h"
 
-#define MAX_RANK 10
-#define MAX_NAME_LEN 20
-#define RANK_FILE "ranking.txt"
-
 
 int max_stage_number = 4;
 int current_stage = 0;
@@ -79,125 +75,6 @@ void is_game_clear(game_state_t* gm_state) {
     }
 }
 
-void load_rankings(void) {
-    printf("debug - load_rankings\n");
-    FILE* fp = fopen(RANK_FILE, "r");
-    if (!fp) return;   // 해당 파일 존재하지 않음
-    rank_count = 0;
-    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // 이름 문자열 + 시간(float) 두 개가 모두 성공적으로 읽어진 경우 처리
-        rank_count++;
-        if (rank_count >= MAX_RANK) break;
-    }
-    fclose(fp);
-
-}
-/*
-ranking.txt 형식
-
-플레이어 이름 시간 읽어 배열에 저장
-
-최대 10개까지 저장
-
-파일 열고 닫기*/
-
-void save_rankings(void) {
-    printf("debug - save_rankings\n");
-    FILE* fp = fopen(RANK_FILE, "w");
-    if (!fp) return;
-    for (int i = 0; i < rank_count; i++) {
-        fprintf(fp, "%s %.2f\n", rankings[i].name, rankings[i].time);
-    }
-    fclose(fp);
-
-}
-
-int compare_scores(const void* a, const void* b) {
-    const rank_entry_t* ra = a;
-    const rank_entry_t* rb = b;
-
-    if (ra->time < 0 && rb->time < 0) return 0;
-    if (ra->time < 0) return 1;
-    if (rb->time < 0) return -1;
-    return (ra->time > rb->time) - (ra->time < rb->time);
-}
-/*
-게임을 실패 (time == -1) 한 랭킹 은 자료 맨뒤로 보내 주기
-
-게임을 완료한것만 짧은 시간 순서로 정렬
-*/
-
-void add_score(const char* name, float time) {
-    // 자리 여유 있으면 그냥 추가
-    if (rank_count < MAX_RANK) {
-        strncpy(rankings[rank_count].name, name, MAX_NAME_LEN);
-        rankings[rank_count].time = time;
-        rank_count++;
-    }
-    else {
-        // 가득 찬 경우: 실패 기록이 있는지 먼저 찾기
-        int fail_index = -1;
-        for (int i = 0; i < MAX_RANK; i++) {
-            if (rankings[i].time < 0) {
-                fail_index = i;
-                break;
-            }
-        }
-
-        if (fail_index != -1) {
-            // 실패 기록이 있다면, 이것을 교체함
-            strncpy(rankings[fail_index].name, name, MAX_NAME_LEN);
-            rankings[fail_index].time = time;
-        }
-        else {
-            // 모두 다 성공함, 주어진 점수 비교해 보기
-            int worst_index = MAX_RANK - 1;
-            float worst_time = rankings[worst_index].time;
-
-            if (time < 0) return; // 게임을 실패한 경우
-            if (time >= worst_time) return; // 더 느린 점수이면 무시
-
-            // 교체함
-            strncpy(rankings[worst_index].name, name, MAX_NAME_LEN);
-            rankings[worst_index].time = time;
-        }
-    }
-
-    // 정렬
-    qsort(rankings, rank_count, sizeof(rank_entry_t), compare_scores);
-}
-
-
-// 화면에 랭킹 출력하는 함수
-
-void print_rankings_screen(ALLEGRO_FONT* font, game_state_t* gm_state) {
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-
-    if (gm_state->game_clear) {
-        al_draw_text(font, al_map_rgb(0, 255, 0), 695, 180, 0, "Game Clear!");
-    }
-    else if (gm_state->game_over) {
-        al_draw_text(font, al_map_rgb(255, 0, 0), 695, 180, 0, "Game Over!");
-    }
-
-    al_draw_textf(font, al_map_rgb(255, 255, 255), 600, 230, 0, "======== RANKINGS ========");
-
-    for (int i = 0; i < rank_count; i++) {
-        if (rankings[i].time < 0) {
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
-                "%2d. %-10s  --초", i + 1, rankings[i].name);
-        }
-        else {
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
-                "%2d. %-10s  %.2f초", i + 1, rankings[i].name, rankings[i].time);
-        }
-    }
-
-    al_flip_display();
-}
-
-
-
-
 
 int g_frames = 0;
 
@@ -239,7 +116,7 @@ void play_game(void)
 
     init_game(&gm_state);
 
-    draw_stage_announce(font_stage, &gm_state);
+    draw_stage_announce();
 
     bool redraw = true;   // 첫 프레임 무조건 그리기
 
@@ -281,7 +158,7 @@ void play_game(void)
         if (redraw && al_is_event_queue_empty(queue)) {
             redraw = false;
             refresh_game_screen();
-            draw_hud(font_hud, &gm_state);
+            draw_hud();
             al_flip_display();
         }
     }
@@ -322,34 +199,4 @@ void apply_damage(int damage)
         is_game_over(&gm_state);
         DEBUG_PRINT("게임 종료\n");
     }
-}
-
-void draw_hud(ALLEGRO_FONT* font, game_state_t* gm_state) {
-   
-    double now = al_get_time();                  // 현재 시간 (초 단위)
-    double elapsed = now - gm_state->gm_start_time; // 게임 시작 후 경과 시간
-
-    al_draw_textf(font_hud, al_map_rgb(255, 255, 255), 760, 30, 20,
-        "Stage: %d   Life: %d   Time: %.1f s",
-        gm_state->current_stage + 1, gm_state->g_cat_life, elapsed);
-    
-    // al_flip_display();
-}
-void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state) {
-    al_clear_to_color(al_map_rgb(0, 0, 0));  // 화면 잠깐 비우기
-
-    if (gm_state->current_stage == 0) {
-        al_draw_textf(font_stage, al_map_rgb(255, 200, 200), 700, 350, ALLEGRO_ALIGN_CENTER,
-            "Stage %d", 1);
-    }
-    if (gm_state->current_stage <= 2) {
-        al_draw_textf(font_stage, al_map_rgb(255, 200, 200), 700, 350, ALLEGRO_ALIGN_CENTER,
-            "Stage %d", gm_state->current_stage + 1);
-    }
-    if (gm_state->current_stage == 3) {
-        al_draw_text(font_stage, al_map_rgb(255, 100, 100), 700, 350, ALLEGRO_ALIGN_CENTER,
-            "Final Stage!");
-    }
-    al_flip_display();
-    al_rest(2); // 2초 동안 표시
 }

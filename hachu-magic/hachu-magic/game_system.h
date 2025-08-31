@@ -13,6 +13,9 @@
 #define SCREEN_WIDTH 1400
 #define SCREEN_HEIGHT 800
 
+#define MAX_RANK 10
+#define MAX_NAME_LEN 20
+
 extern unsigned char key[ALLEGRO_KEY_MAX];
 
 typedef enum _magic_type {
@@ -66,6 +69,21 @@ bool textbox_handle_event(text_box_t* tb, const ALLEGRO_EVENT* ev); // 변경 �
 void keyboard_update(ALLEGRO_EVENT* event);
 void textbox_clear(text_box_t* tb);
 void prepare_game_start(void);
+
+// 랭킹 엔트리
+typedef struct _rank_entry {
+    char name[MAX_NAME_LEN];
+    float time;  // -1은 실패 표시
+} rank_entry_t;
+
+// 랭킹 관련 함수들
+void load_rankings(void);
+void save_rankings(void);
+int compare_scores(const void*, const void*);
+void add_score(const char*, float);
+
+extern inline const rank_entry_t* get_rankings(void);
+
 
 #endif /* __GAME_SYSTEM_H__ */
 

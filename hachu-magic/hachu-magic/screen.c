@@ -1,6 +1,6 @@
 ﻿#include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-
+#include <allegro5/bitmap.h>
 #include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
@@ -69,7 +69,7 @@ void refresh_magics(void)
         magic_t* magic = magic_list + i;
         if (magic->is_spawned)
         {
-
+            draw_magic(magic->pos_x, magic->pos_y, magic->size_w, magic->size_h, magic->type);
         }
     }
 }
@@ -98,6 +98,7 @@ void refresh_scene(void)
     case SCENE_PLAY:
 
     case SCENE_RANK:
+        draw_ranking_screen();
         break;
     }
 
@@ -115,4 +116,63 @@ void draw_title_screen(void)
     draw_button(&rank_button, al_map_rgb(80, 180, 120), al_map_rgb(255, 255, 255), 2.0f);
 
     draw_text(700, 560, "Enter: start   R: rank   ESC: end");
+}
+
+
+void draw_hud(void)
+{
+
+    double now = al_get_time();                  // 현재 시간 (초 단위)
+    double elapsed = now - get_game_state()->gm_start_time; // 게임 시작 후 경과 시간
+
+    char hud_buffer[256];
+    snprintf(hud_buffer, sizeof(hud_buffer),
+        "Stage: %d   Life: %d   Time: %.1f s",
+        get_game_state()->current_stage + 1, get_game_state()->g_cat_life, elapsed);
+
+    draw_hud_text(760, 30, hud_buffer);
+}
+
+void draw_stage_announce(void) 
+{
+    al_clear_to_color(al_map_rgb(0, 0, 0));  // 화면 잠깐 비우기
+
+    char hud_buffer[256];
+
+    if (get_game_state()->current_stage <= 2) {
+        snprintf(hud_buffer, sizeof(hud_buffer), "Stage %d", get_game_state()->current_stage + 1);
+        
+    }
+    else {
+        memcpy(hud_buffer, "Final Stage!", 13);
+    }
+    draw_stage_text(700, 350, hud_buffer);
+    al_flip_display();
+    al_rest(2); // 2초 동안 표시
+}
+
+void draw_ranking_screen(void)
+{
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+
+    if (get_game_state()->game_clear) {
+        draw_text_color(695, 180, "Game Clear!", al_map_rgb(0, 255, 0));
+    }
+    else if (get_game_state()->game_over) {
+        draw_text_color(695, 180, "Game Over!", al_map_rgb(255, 0, 0));
+    }
+
+    draw_text(600, 230,  "======== RANKINGS ========");
+
+    char hud_buffer[256];
+    for (int i = 0; i < get_rank_count(); i++) {
+        if ((get_rankings()[i]).time < 0) {
+            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  --초", i + 1, (get_rankings()[i]).name);
+            draw_text(610, 300 + i * 30, hud_buffer);
+        }
+        else {
+            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f초", i + 1, (get_rankings()[i]).name);
+            draw_text(610, 300 + i * 30, hud_buffer);
+        }
+    }
 }

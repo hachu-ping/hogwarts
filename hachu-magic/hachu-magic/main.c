@@ -21,18 +21,14 @@
 #include "utils.h"
 #include "scene_manager.h"
 
-ALLEGRO_FONT* font_hud;
-ALLEGRO_FONT* font_stage;
-extern int rank_count;
-extern rank_entry_t rankings[];
 
 int main() {
     // 알레그로 초기화
     init_allegro();
 
     // 알레그로 초기 설정
-    init_addons();
     install_driver();
+    init_addons();
 
     // 데이터 초기화
     init_data();
@@ -127,7 +123,6 @@ int main() {
         }
     }
 
-    al_destroy_font(font_hud);
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
     return 0;

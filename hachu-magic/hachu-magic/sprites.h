@@ -111,13 +111,16 @@ void draw_background(int current_stage);
  * 현재 활성화된 마법을 화면에 그립니다.
  * 마법은 g_magics 배열 중에서 is_spawned 인 것만 그립니다.
  */
-void draw_magics(double pos_x, double pos_y, int size_w, int size_h, int type);
+void draw_magic(double pos_x, double pos_y, int size_w, int size_h, int type);
 
 /**
  * 현재 활성화된 적을 화면에 그립니다.
  * 
  */
 void draw_enemy(double pos_x, double pos_y, int size_w, int size_h, int type);
+
+
+void draw_enemy_arrow(double pos_x, double pos_y, int size_w, int size_h, int type, const char* pattern, int max_life, int damaged_amount);
 
 /**
  * 화면 효과를 화면에 그립니다.
@@ -128,5 +131,10 @@ void draw_title_screen(void);
 void draw_textbox(const text_box_t* tb);
 void draw_button(button_t* btn, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px);
 void draw_text(float pos_x, float pos_y, const char* string);
+
+void draw_hud_text(float pos_x, float pos_y, const char* string);
+void draw_stage_text(float pos_x, float pos_y, const char* string);
+void draw_text_color(float pos_x, float pos_y, const char* string, ALLEGRO_COLOR color);
+
 
 #endif /* __SPRITES_H__ */

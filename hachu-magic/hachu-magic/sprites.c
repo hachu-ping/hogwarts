@@ -61,11 +61,11 @@ static ALLEGRO_FONT* load_font(const char* file_name, int size)
 
 void load_sprites(void)
 {
-    sprites.background[0] = load_bitmap("stage01.jpg");
-    sprites.background[1] = load_bitmap("stage02.jpg");
-    sprites.background[2] = load_bitmap("stage03.jpg");
-    sprites.background[3] = load_bitmap("stage04.jpg");
-    sprites.background[4] = load_bitmap("back.png");
+    sprites.background[0] = load_bitmap("assets/sprites/stage01.jpg");
+    sprites.background[1] = load_bitmap("assets/sprites/stage02.jpg");
+    sprites.background[2] = load_bitmap("assets/sprites/stage03.jpg");
+    sprites.background[3] = load_bitmap("assets/sprites/stage04.jpg");
+    sprites.background[4] = load_bitmap("assets/sprites/back.png");
 
     sprites._cat_sheet = load_bitmap("assets/sprites/cat_sprite.png");
     sprites.cat[0] = sprite_grab(sprites._cat_sheet, SPRITE_CAT_WIDTH * 0, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
@@ -156,20 +156,20 @@ void draw_enemy(double pos_x, double pos_y, int size_w, int size_h, int type)
 
 void draw_enemy_arrow(double pos_x, double pos_y, int size_w, int size_h, int type, const char* pattern, int max_life, int damaged_amount)
 {
-    double arrow_pos_x_offset = 0.5 * size_w + (-0.5 * (max_life - damaged_amount)) * SPRITE_ARROW_WIDTH + (-damaged_amount) * SPRITE_ARROW_WIDTH;
-    double arrow_pos_y_offset = (size_h - SPRITE_ENEMY_HEIGHT[type]) * 0.5 - (SPRITE_ARROW_HEIGHT * 0.8);
 
     for (int i = damaged_amount; i < max_life; ++i) {
+    double arrow_pos_x_offset = 0.5 * size_w + (-0.5 * (max_life - damaged_amount)) * SPRITE_ARROW_WIDTH + (i-damaged_amount) * SPRITE_ARROW_WIDTH;
+    double arrow_pos_y_offset = (size_h - SPRITE_ENEMY_HEIGHT[type]) * 0.5 - (SPRITE_ARROW_HEIGHT * 0.8);
         al_draw_bitmap(
             sprites.arrows[pattern[i]],
-            pos_x + arrow_pos_x_offset + i * SPRITE_ARROW_WIDTH,
+            pos_x + arrow_pos_x_offset,// + i * SPRITE_ARROW_WIDTH,
             pos_y + arrow_pos_y_offset,
             0
         );
     }
 }
 
-void draw_magics(double pos_x, double pos_y, int size_w, int size_h, int type)
+void draw_magic(double pos_x, double pos_y, int size_w, int size_h, int type)
 {
     al_draw_bitmap(
         sprites.magics[type][g_frames / 16 % SPRITE_MAGIC_FRAME_NUMBER],
@@ -250,5 +250,20 @@ void draw_button(button_t* btn, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float b
 void draw_text(float pos_x, float pos_y, const char* string)
 {
     al_draw_text(fonts.font, al_map_rgb(255, 255, 255), pos_x, pos_y, ALLEGRO_ALIGN_CENTRE, string);
+}
 
+void draw_text_color(float pos_x, float pos_y, const char* string, ALLEGRO_COLOR color)
+{
+    al_draw_text(fonts.font, color, pos_x, pos_y, ALLEGRO_ALIGN_CENTRE, string);
+}
+
+void draw_hud_text(float pos_x, float pos_y, const char* string)
+{
+    al_draw_text(fonts.font_hud, al_map_rgb(255, 255, 255), pos_x, pos_y, 20, string);
+}
+
+void draw_stage_text(float pos_x, float pos_y, const char* string)
+{
+    al_clear_to_color(al_map_rgb(0, 0, 0));  // 화면 잠깐 비우기
+    al_draw_textf(fonts.font_stage, al_map_rgb(255, 200, 200), 700, 350, ALLEGRO_ALIGN_CENTER,string);
 }
