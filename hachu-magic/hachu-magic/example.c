@@ -907,29 +907,29 @@ int main()
 
     audio_init();
 
-    must_init(al_init_image_addon(), "image"); //png¶û jpeg¸¦ »ç¿ëÇÒ ¼ö ÀÖ°ÔÇÏ´Â È®ÀåÀÚ?
+    must_init(al_init_image_addon(), "image"); //pngì™€ jpegë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆê²Œë©ë‹ˆë‹¤ í™•ì¥ì?
     sprites_init();
 
     hud_init();
 
-    must_init(al_init_primitives_addon(), "primitives");  //¼±±×¸®±â? ƒˆÀº°Å °°À½
+    must_init(al_init_primitives_addon(), "primitives");  //ê¸°ë³¸ê·¸ë¦¬ê¸°? ë„êµ¬ë“¤ ì‚¬ìš©
 
     must_init(al_install_audio(), "audio");
     must_init(al_init_acodec_addon(), "audio codecs");
-    must_init(al_reserve_samples(16), "reserve samples");  //¿Àµğ¿À Å°´Â°Í
+    must_init(al_reserve_samples(16), "reserve samples");  //ìƒ˜í”Œì˜ í‚¤í™€ë“œê°’
 
-    al_register_event_source(queue, al_get_keyboard_event_source());  //Å°º¸µå ÀÔ·ÂÀ» ³Ö°Ú´Ù
-    al_register_event_source(queue, al_get_display_event_source(disp));  //Ã¢´İ±â¸¦ ³Ö°Ú´Ù
+    al_register_event_source(queue, al_get_keyboard_event_source());  //í‚¤ë³´ë“œ ì…ë ¥ì„ ë„£ê² ë‹¤
+    al_register_event_source(queue, al_get_display_event_source(disp));  //ì°½ë‹«ê¸°ë¥¼ ë„£ê² ë‹¤
     al_register_event_source(queue, al_get_timer_event_source(timer));    //
 
-    keyboard_init();    //initÀÌ ´Ù ÃÊ±âÈ­ÀÓ. 
+    keyboard_init();    //initë“¤ ì „ ì´ˆê¸°í™”í•¨. 
     fx_init();
     shots_init();
     ship_init();
     aliens_init();
     stars_init();
 
-    frames = 0;      //ÇÁ·¹ÀÓ ¸î¹ÙÄû µ¹¾Ò´ÂÁö
+    frames = 0;      //í”„ë ˆì„ ì¹´ìš´í„° ë³€ìˆ˜ëˆ„ë¦„
     score = 0;
 
     bool done = false;

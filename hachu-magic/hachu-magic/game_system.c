@@ -1,4 +1,3 @@
-
 #include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
@@ -23,14 +22,14 @@ void keyboard_update(ALLEGRO_EVENT* event)
 
     case ALLEGRO_EVENT_KEY_DOWN:
 
-        //printf("DEBUG -- Key ����: %d\n", event->keyboard.keycode);  // �� � Ű���� ���
+        //printf("DEBUG -- Key 누름: %d\n", event->keyboard.keycode);  // 어떤 키 누르는지 확인
         g_key[event->keyboard.keycode] = KEY_SEEN | KEY_DOWN;
-        //printf("DEBUG -- Key ����: %d\n", event->keyboard.keycode);  // �� � Ű���� ���
+        //printf("DEBUG -- Key 누름: %d\n", event->keyboard.keycode);  // 어떤 키 누르는지 확인
         break;
     case ALLEGRO_EVENT_KEY_UP:
-        // printf("DEBUG -- Key ����: %d\n", event->keyboard.keycode);  // �� � Ű���� ���
+        // printf("DEBUG -- Key 뗌: %d\n", event->keyboard.keycode);  // 어떤 키 뗐는지 확인
         g_key[event->keyboard.keycode] &= ~KEY_DOWN;
-        //printf("DEBUG -- Key ����: %d\n", event->keyboard.keycode);  // �� � Ű���� ���
+        //printf("DEBUG -- Key 뗌: %d\n", event->keyboard.keycode);  // 어떤 키 뗐는지 확인
         break;
     }
 }

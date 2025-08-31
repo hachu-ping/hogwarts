@@ -1,4 +1,4 @@
-#ifndef __GAME_SYSTEM_H__
+ï»¿#ifndef __GAME_SYSTEM_H__
 #define __GAME_SYSTEM_H__
 
 #include <allegro5/allegro5.h>
@@ -73,8 +73,8 @@ extern Button g_btn_start;
 extern Button g_btn_rank;
 
 /**
- * Å°º¸µå ÀÔ·Â¿¡ µû¶ó Àü¿ªº¯¼ö g__key[]¿¡ ÇöÀç °¢ ±âÈ£¿¡ ´ëÇÑ Å°º¸µåÀÇ ÀÔ·Â ¿©ºÎ¸¦ ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
- * @param event: ALLEGRO_EVENT* ¸¦ ÅëÇØ ÀÌº¥Æ® ÀÔ·ÂÀ» °¨ÁöÇÕ´Ï´Ù.
+ * í‚¤ë³´ë“œ ì…ë ¥ì— ë”°ë¼ ì „ì—­ë³€ìˆ˜ g__key[]ì— í•´ë‹¹ í‚¤ ë²ˆí˜¸ì— ë”°ë¥¸ í‚¤ë³´ë“œ ì…ë ¥ ìƒíƒœë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
+ * @param event: ALLEGRO_EVENT* ë¥¼ ë§¤ê°œ ì´ë²¤íŠ¸ ì…ë ¥ì„ ë°›ìŠµë‹ˆë‹¤.
  */
 void keyboard_update(ALLEGRO_EVENT* event);
 

@@ -1,4 +1,4 @@
-
+﻿
 
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -10,6 +10,7 @@
 #include "cat.h"
 #include "debug.h"
 #include "enemy.h"
+#include "fx.h"
 #include "initializer.h"
 #include "game_system.h"
 #include "sprites.h"
@@ -24,10 +25,10 @@ void init_allegro(void)
 
 void init_addons(void)
 {
-	// PNG �̹����� ����ϱ� ���� image addon �߰�
+	// PNG 이미지를 사용하기 위한 image addon 추가
 	must_init(al_init_image_addon(), "image addon init");
 
-	// ������ �׸��� ���� primitives addon �߰�
+	// 기하체 그리기 위한 primitives addon 추가
 	must_init(al_init_primitives_addon(), "primitives addon init");  
 
 	//font addon initialize
@@ -80,8 +81,19 @@ ALLEGRO_EVENT_QUEUE* init_event_queue(void)
 void init_data(void)
 {
 	memset(g_key, 0, sizeof(g_key));
-
 	init_sprites();
+
+#ifdef DEBUG_MODE
+	DEBUG_clear_cat();
+	DEBUG_clear_enemy();
+	DEBUG_clear_magic();
+	clear_explosion();
+#else
+	clear_cat();
+	clear_enemy();
+	clear_magic();
+	clear_explosion();
+#endif	
 }
 
 void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen)

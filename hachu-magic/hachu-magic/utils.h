@@ -6,27 +6,27 @@
 #include "game_system.h"
 
 /**
- * Ã¹ ¹øÂ° ÀÎÀÚ·Î Àü´ŞµÈ °ªÀÇ À¯È¿¼ºÀ» °Ë»çÇÕ´Ï´Ù. 
- * ¸¸¾à ÇØ´ç °ªÀÌ false (0) ÀÌ¶ó¸é description À» Ãâ·ÂÇÏ°í ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.
- * @param test: À¯È¿¼º °Ë»ç ´ë»ó
- * @param description : ´ë»óÀÇ °ªÀÌ À¯È¿ÇÏÁö ¾Ê´Ù¸é (0ÀÌ¶ó¸é) ÇØ´ç ¸Ş½ÃÁö¸¦ Ãâ·Â
- * @return void / °ªÀÌ 0ÀÌ¶ó¸é ÇÁ·Î±×·¥ Á¾·á
+ * ì²« ë²ˆì§¸ ì¸ìë¡œ ì „ë‹¬ëœ ê°’ì˜ ìœ íš¨ì„±ì„ ê²€ì‚¬í•©ë‹ˆë‹¤. 
+ * ë§Œì•½ í•´ë‹¹ ê°’ì´ false (0) ì´ë¼ë©´ description ì„ ì¶œë ¥í•˜ê³  í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.
+ * @param test: ìœ íš¨ì„± ê²€ì‚¬ ì¡°ê±´
+ * @param description : í…ŒìŠ¤íŠ¸ ê°’ì´ ìœ íš¨í•˜ì§€ ì•Šë‹¤ë©´ (0ì´ë¼ë©´) í•´ë‹¹ ë©”ì‹œì§€ë¥¼ ì¶œë ¥
+ * @return void / ê°’ì´ 0ì´ë¼ë©´ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
  */
 void must_init(bool test, const char* description);
 
 /**
- * ÀÔ·Â¹ŞÀº Å° ÄÚµå¸¦ ¹æÇâ °ªÀ¸·Î º¯È¯ÇÕ´Ï´Ù. 
- * ¹æÇâÅ° ÀÌ¿ÜÀÇ °ªÀº DIRECTION_NONE À¸·Î ¹İÈ¯ÇÕ´Ï´Ù.
- * @param keycode: ÀÔ·Â¹ŞÀº Å°ÀÇ allegro ÄÚµå°ª
- * @return direction_t: ¹æÇâ¿¡ ´ëÇÑ enum
+ * ì…ë ¥ë°›ì€ í‚¤ ì½”ë“œë¥¼ ë°©í–¥ ì—´ê±°í˜•ìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤. 
+ * ë°©í–¥í‚¤ ì´ì™¸ì˜ ê²½ìš° DIRECTION_NONE ê°’ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
+ * @param keycode: ì…ë ¥ë°›ì€ í‚¤ì˜ allegro ì½”ë“œê°’
+ * @return direction_t: ë°©í–¥ì— ëŒ€í•œ enum
  */
 direction_t keycode_to_direction(char keycode);
 
 /**
- * ÀÔ·Â¹ŞÀº ¹æÇâ °ªÀ» ¸¶¹ı Å¸ÀÔ °ªÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
- * ¹æÇâ ÀÌ¿ÜÀÇ °ªÀº MAGIC_TYPE_NONE À¸·Î ¹İÈ¯ÇÕ´Ï´Ù.
- * @param direction: ¹æÇâ enum °ª
- * @return magic_type_t: ¸¶¹ı Å¸ÀÔ¿¡ ´ëÇÑ enum
+ * ì…ë ¥ë°›ì€ ë°©í–¥ ê°’ì„ ë§ˆë²• íƒ€ì… ì—´ê±°í˜•ìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
+ * ë°©í–¥ ì´ì™¸ì˜ ê²½ìš° MAGIC_TYPE_NONE ê°’ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
+ * @param direction: ë°©í–¥ enum ê°’
+ * @return magic_type_t: ë§ˆë²• íƒ€ì…ì— ëŒ€í•œ enum
  */
 magic_type_t direction_to_magic_type(direction_t direction);
 

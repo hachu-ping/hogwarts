@@ -12,68 +12,68 @@
 #define MAGIC_HEIGHT 100
 
 typedef struct _magic {
-	// ÇöÀç ¸¶¹ýÀÌ À¯È¿ÇÑ°¡
+	// ë§ˆë²• ê°ì²´ê°€ ìœ íš¨í•œê°€
 	char is_spawned;
 
-	// ¸¶¹ýÀÇ Á¾·ù
+	// ë§ˆë²•ì˜ ì¢…ë¥˜
 	magic_type_t type;
 
-	// ÇöÀç x ÁÂÇ¥ (ÁÂÃø»ó´Ü ±âÁØ)
+	// ë§ˆë²• x ì¢Œí‘œ (ì¤‘ì‹¬ì  ê¸°ì¤€)
 	double pos_x;
 
-	// ÇöÀç y ÁÂÇ¥ (ÁÂÃø»ó´Ü ±âÁØ)
+	// ë§ˆë²• y ì¢Œí‘œ (ì¤‘ì‹¬ì  ê¸°ì¤€)
 	double pos_y;
 
-	// °¡·Î ±æÀÌ
+	// ë§ˆë²• ë„ˆë¹„
 	int size_w;
 
-	// ¼¼·Î ±æÀÌ
+	// ë§ˆë²• ë†’ì´
 	int size_h;
 
-	// ´ÜÀ§ ÀÌµ¿ ¼Óµµ
+	// ë§ˆë²• ì´ë™ ì†ë„
 	double velocity;
 
-	// ¸¶¹ýÀÌ ÇâÇØ ³¯¾Æ°¡´Â Àû¿¡ ´ëÇÑ Æ÷ÀÎÅÍ.
-	// »ç¿ëÇÒ ¶§ (enemy_t*)·Î Ä³½ºÆÃÇÏ¿© »ç¿ë.
+	// ë§ˆë²•ì´ í–¥í•  ëŒ€ìƒê°ì²´ í¬ì¸í„° ì£¼ì†Œ ì €ìž¥ê°’.
+	// ì‚¬ìš©ì‹œ ì  (enemy_t*)ë¡œ ìºìŠ¤íŒ…í•˜ì—¬ ì‚¬ìš©.
 	void* target_ptr;
 
 } magic_t;
 
 /**
- * µð¹ö±ë ¿ëÀ¸·Î ¸¶¹ýÀ» ¸ÕÀú ¼ÒÈ¯ÇÒ ¶§ »ç¿ë
+ * ë””ë²„ê¹…ìš© ë§ˆë²•ì„ ìƒì„±í•  ë•Œ ì‚¬ìš©í•  í•¨ìˆ˜
  */
 void DEBUG_clear_magic(void);
 
 /**
- * magic ¹è¿­ÀÇ is_spawned °ªÀ» ÃÊ±âÈ­ÇÕ´Ï´Ù.
+ * magic ë°°ì—´ì˜ is_spawned ê°’ë“¤ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
  */
 void clear_magic(void);
 
 /**
- * ºñ¾îÀÖ´Â magic ½½·Ô¿¡ ¸¶¹ýÀÇ ÃÊ±â°ªÀ» ³Ö½À´Ï´Ù.
- * @param pos_x: ¸¶¹ýÀ» »ý¼ºÇÏ°íÀÚ ÇÏ´Â xÁÂÇ¥
- * @param pos_y: ¸¶¹ýÀ» »ý¼ºÇÏ°íÀÚ ÇÏ´Â xÁÂÇ¥
- * @param type: ¸¶¹ýÀÇ °ø°Ý Å¸ÀÔ
- * @param target: ¸¶¹ýÀÇ ¸ñÇ¥(Àû)¿¡ ´ëÇÑ Æ÷ÀÎÅÍ
+ * ì‚¬ìš©ê°€ëŠ¥í•œ magic ìŠ¬ë¡¯ì— ë§ˆë²•ì˜ ì´ˆê¸°ê°’ì„ ë„£ìŠµë‹ˆë‹¤.
+ * @param pos_x: ë§ˆë²•ì„ ìƒì„±í•˜ê³ ìž í•˜ëŠ” xì¢Œí‘œ
+ * @param pos_y: ë§ˆë²•ì„ ìƒì„±í•˜ê³ ìž í•˜ëŠ” yì¢Œí‘œ
+ * @param type: ë§ˆë²•ì˜ ì†ì„± íƒ€ìž…
+ * @param target: ë§ˆë²•ì˜ ëª©í‘œ(ì )ì— ëŒ€í•œ í¬ì¸í„°
  */
 void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target);
 
 /**
- * Å¸°Ù°úÀÇ Ãæµ¹¿¡ ´ëÇØ °Ë»çÇÕ´Ï´Ù.
- * Ãæµ¹ ´ë»óÀº ¸¶¹ýÀÌ °¡Áö°í ÀÖ´Â target(enemy_t*) ÀÇ Á¤º¸¸¦ È°¿ëÇÕ´Ï´Ù.
- * @param magic_ptr: ¸¶¹ý ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò°ª
- * @return Ãæµ¹¿©ºÎ boolean
+ * íƒ€ê²Ÿê³¼ì˜ ì¶©ëŒì„ ì²´í¬ ê²€ì‚¬í•©ë‹ˆë‹¤.
+ * ì¶©ëŒ ë°œìƒì‹œ ë§ˆë²•ì„ ê°€ì§€ê³  ìžˆëŠ” target(enemy_t*) ì— ë°ë¯¸ì§€ í™œì„±í™”í•©ë‹ˆë‹¤.
+ * @param magic_ptr: ë§ˆë²• êµ¬ì¡°ì²´ì˜ ì£¼ì†Œê°’
+ * @return ì¶©ëŒì—¬ë¶€ boolean
  */
 bool is_collided_with_target(magic_t* magic_ptr);
 
 /**
- * ÇöÀç ¼ÒÈ¯µÈ ¸ðµç ¸¶¹ýÀÇ Ãæµ¹À» °Ë»çÇÏ°í, 
- * Å¸°Ù Àû°úÀÇ Ãæµ¹½Ã Ãæµ¹¿¡ ´ëÇÑ Ã³¸®¸¦ ¼öÇàÇÕ´Ï´Ù.
+ * ëª¨ë“  ìƒì„±ëœ ë§ˆë²• ê°ì²´ë“¤ ì¶©ëŒì„ ê²€ì‚¬í•˜ê³ , 
+ * íƒ€ê²Ÿ ê°ì²´ì™€ ì¶©ëŒì‹œ ì¶©ëŒì— ëŒ€í•œ ì²˜ë¦¬ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
  */
 void handle_magic_collision(void);
 
 /**
- * ´ÜÀ§ ÇÁ·¹ÀÓ¿¡ ´ëÇØ È°¼ºÈ­µÈ ¸ðµç ¸¶¹ýÀ» ÀÌµ¿½ÃÅµ´Ï´Ù.
+ * ë§ˆë²• í”„ë ˆìž„ë§ˆë‹¤ ëª¨ë“  í™œì„±í™”ëœ ë§ˆë²• ê°ì²´ë“¤ì„ ì´ë™ì‹œí‚µë‹ˆë‹¤.
  */
 void move_magic(void);
 
