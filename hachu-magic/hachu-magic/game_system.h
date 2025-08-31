@@ -39,8 +39,6 @@ typedef enum _direction {
 #endif
 
 
-
-
 static inline bool is_pointed_in_button(float mx, float my, button_t* b) {
     return (mx >= b->x && mx <= b->x + b->w && my >= b->y && my <= b->y + b->h);
 }

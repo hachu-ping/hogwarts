@@ -17,7 +17,6 @@ enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 //int life_by_stage[] = { 3, 5, 7 };
 int life_by_stage[] = { 3,4,5,7 };
 
-extern cat_t g_cat;
 extern int stage_wave_max_number[];
 
 extern int stage_wave_create_enemy_number[];
@@ -192,8 +191,8 @@ void move_enemy()
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
         if (!g_enemy_list[i].is_spawned) continue;
 
-        double dx = g_cat.pos_x - g_enemy_list[i].pos_x;
-        double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
+        double dx = get_cat()->pos_x - g_enemy_list[i].pos_x;
+        double dy = get_cat()->pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
         if (dist == 0) {
@@ -227,10 +226,10 @@ bool is_collided_with_cat(enemy_t* enemy_ptr)
     double ay1 = (enemy_ptr->pos_y);
     double ax2 = (enemy_ptr->pos_x) + (enemy_ptr->size_w);
     double ay2 = (enemy_ptr->pos_y) + (enemy_ptr->size_h);
-    double bx1 = (g_cat.pos_x);
-    double by1 = (g_cat.pos_y);
-    double bx2 = (g_cat.pos_x) + (g_cat.size_w);
-    double by2 = (g_cat.pos_y) + (g_cat.size_h);
+    double bx1 = (get_cat()->pos_x);
+    double by1 = (get_cat()->pos_y);
+    double bx2 = (get_cat()->pos_x) + (get_cat()->size_w);
+    double by2 = (get_cat()->pos_y) + (get_cat()->size_h);
 
     if (ax1 > bx2) return false;
     if (ax2 < bx1) return false;
@@ -250,7 +249,7 @@ void handle_enemy_collision(void)
             continue;
         }
 
-        cat_t* target = (cat_t*)&g_cat;
+        cat_t* target = (cat_t*)get_cat();
         if (is_collided_with_cat(enemy_ptr)) {
             // 충돌 시 적객체 소멸
             enemy_ptr->is_spawned = 0;

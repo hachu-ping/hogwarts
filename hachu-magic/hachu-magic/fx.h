@@ -22,9 +22,7 @@ typedef struct _explosion {
 	int current_frame;
 } explosion_t;
 
-const explosion_t* get_explosion_list(void);
-
-extern explosion_t g_explosion_list[EXPLOSION_MAX_NUMBER];
+extern inline const explosion_t* get_explosion_list(void);
 
 /**
  * explosions 배열의 is_spawned 상태 초기화합니다.

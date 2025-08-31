@@ -16,9 +16,9 @@
 extern unsigned char g_key[ALLEGRO_KEY_MAX];
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
-cat_t g_cat;
+static cat_t g_cat;
 
-inline const cat_t* get_cat()
+const cat_t* get_cat()
 {
     return &g_cat;
 }

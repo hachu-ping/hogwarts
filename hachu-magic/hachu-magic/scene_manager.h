@@ -3,15 +3,16 @@
 
 #include <allegro5/allegro5.h>
 
-#include "game_system.h"
+typedef struct _text_box text_box_t;
 
 typedef struct _button {
 	float x, y, w, h;
 	const char* label;
 } button_t;
 
-button_t start_button = { 550, 380, 300, 60, "start" };
-button_t rank_button = { 550, 460, 300, 60, "rank" };
+extern button_t start_button;
+extern button_t rank_button;
+
 
 typedef enum _scene {
 	SCENE_TITLE,
@@ -21,11 +22,11 @@ typedef enum _scene {
 
 typedef struct _scene_manager {
 	scene_t current_scene;
-	text_box_t textbox;
+	//text_box_t textbox;
 } scene_manager_t;
 
-inline const scene_manager_t* get_scene_manager();
+extern inline const scene_manager_t* get_scene_manager();
 
-const change_scene(scene_t next);
+void change_scene(scene_t next);
 
 #endif /* __SCENE_MANAGER_H__ */

@@ -27,7 +27,7 @@ typedef struct _cat {
 	double attack_cooldown_time;
 } cat_t;
 
-inline const cat_t* get_cat();
+extern inline const cat_t* get_cat();
 
 /*
  * 디버깅용 고양이 생성을 위한 초기화.

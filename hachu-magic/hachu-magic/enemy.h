@@ -53,7 +53,7 @@ typedef struct _enemy {
 } enemy_t;
 
 
-inline const enemy_t* get_enemy_list(void);
+extern inline const enemy_t* get_enemy_list(void);
 
 
 /**

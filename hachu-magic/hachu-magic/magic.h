@@ -39,7 +39,7 @@ typedef struct _magic {
 
 } magic_t;
 
-inline const magic_t* get_magic_list(void);
+extern inline const magic_t* get_magic_list(void);
 
 /**
  * 디버깅용 마법을 생성할 때 사용할 함수

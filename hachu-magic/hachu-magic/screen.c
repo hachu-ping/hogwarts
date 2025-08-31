@@ -16,7 +16,6 @@
 #include "screen.h"
 #include "scene_manager.h"
 
-extern game_state_t gm_state;
 
 void refresh_game_screen(void)
 {
@@ -31,7 +30,7 @@ void refresh_game_screen(void)
 
 void refresh_background(void)
 {
-    int current_stage = gm_state.current_stage;
+    int current_stage = get_game_state()->current_stage;
     draw_background(current_stage);
 }
 
@@ -77,7 +76,7 @@ void refresh_magics(void)
 
 void refresh_fxs(void)
 {
-    const explosion_t* explosion_list = get_magic_list();
+    const explosion_t* explosion_list = get_explosion_list();
 
     for (int i = 0; i < EXPLOSION_MAX_NUMBER; i++) {
         explosion_t* explosion = explosion_list + i;
@@ -99,7 +98,7 @@ void refresh_scene(void)
     case SCENE_PLAY:
 
     case SCENE_RANK:
-
+        break;
     }
 
     al_flip_display();

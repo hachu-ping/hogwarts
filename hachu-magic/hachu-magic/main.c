@@ -25,7 +25,6 @@ ALLEGRO_FONT* font_hud;
 ALLEGRO_FONT* font_stage;
 extern int rank_count;
 extern rank_entry_t rankings[];
-extern game_state_t gm_state;
 
 int main() {
     // 알레그로 초기화

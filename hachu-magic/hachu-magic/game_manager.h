@@ -26,7 +26,7 @@ typedef struct _game_state {
     double time_taken;
 } game_state_t;
 
-inline const game_state_t* get_game_state(void);
+extern inline const game_state_t* get_game_state(void);
 
 
 // 랭킹 엔트리
