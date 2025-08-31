@@ -51,7 +51,7 @@ ALLEGRO_DISPLAY* init_display(const int width, const int height)
 
 	return temp;
 }
-//?���? 추�??1
+//폰트 추가1
 
 /*
 ALLEGRO_FONT* init_builtin_font(void)
@@ -62,7 +62,7 @@ ALLEGRO_FONT* init_builtin_font(void)
 	return font;
 }
 */
-//?���? 추�??2
+//폰트 추가2
 
 
 ALLEGRO_TIMER* init_timer(const double speed_secs)

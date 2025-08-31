@@ -132,9 +132,9 @@ void create_enemy(void)
             float dx = g_enemy_list[i].pos_x - temp_enemy.pos_x;          
             float dy = g_enemy_list[i].pos_y - temp_enemy.pos_x;
 
-            //������Լ�
+            //거리함수
             float dist = sqrtf(dx * dx + dy * dy);      
-            //??�� ????
+            //너무 가까움
             if (dist < 40.0f) {
                 //vaildPosition ????? ????????
                 is_valid_position = false;                 
@@ -160,7 +160,7 @@ void create_enemy(void)
     temp_enemy.type = gm_state.current_stage;
 
 
-  /*  temp_enemy.life = 4; ---> 2025-08-29 ���⸦ �ٲ���� �ؿ� life �κ����� �ٲ�! */
+  /*  temp_enemy.life = 4; ---> 2025-08-29 여기를 바꿈으로 해서 life 부분들도 바꿔! */
     temp_enemy.life = life_by_stage[gm_state.current_stage];
     temp_enemy.received_attack_count = 0;
 
@@ -173,7 +173,7 @@ void create_enemy(void)
     for (int i = 0; i < life_by_stage[gm_state.current_stage]; i++) {
         temp_enemy.pattern[i] = (direction_t)(1 + rand() % 4);
     }
-    temp_enemy.current_pattern = temp_enemy.pattern[0];  // ���� ù �������� ����
+    temp_enemy.current_pattern = temp_enemy.pattern[0];  // 처음 첫 패턴으로 설정
 
     temp_enemy.velocity = 1;
    

@@ -47,27 +47,27 @@ static inline bool point_in_button(float mx, float my, Button* b) {
     return (mx >= b->x && mx <= b->x + b->w && my >= b->y && my <= b->y + b->h);
 }
 
-// �ؽ�Ʈ �ڽ�
+// 텍스트 박스
 typedef struct {
     float x, y, w, h;
     bool  focused;
     int   maxlen;
     int   len;
-    char  text[64];   // �ִ� 63�� + '\0' (���ϸ� ũ�� �ø�����)
+    char  text[64];   // 최대 63자 + '\0' (필요시 크기 조절가능)
 } TextBox;
 
-extern TextBox g_name_box;        // ���� �ؽ�Ʈ�ڽ�
-extern char    g_player_name[64]; // ���� �� �����ص� �÷��̾� �̸�
+extern TextBox g_name_box;        // 이름 텍스트박스
+extern char    g_player_name[64]; // 나중에 저장해둘 플레이어 이름
 
-// �Լ� ����
+// 함수 선언
 void textbox_init(TextBox* tb, float x, float y, float w, float h, int maxlen);
 void textbox_draw(const TextBox* tb, ALLEGRO_FONT* font);
-bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev); // ���� ������ true
+bool textbox_handle_event(TextBox* tb, const ALLEGRO_EVENT* ev); // 변경 있으면 true
 
 
-//�ܺ� ���� ����
+//외부 변수 선언
 extern Scene g_scene_screne;
-extern ALLEGRO_FONT* g_font;  // ���� ��Ʈ(���� TTF ����)
+extern ALLEGRO_FONT* g_font;  // 메인 폰트(작은 TTF 사이즈)
 extern ALLEGRO_FONT* g_font_btn;
 extern Button g_btn_start;
 extern Button g_btn_rank;
