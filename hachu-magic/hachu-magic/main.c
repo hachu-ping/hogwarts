@@ -101,6 +101,9 @@ int main() {
                     handle_start_from_title(queue);  // 플 이름 설정(빈 값은 guset) + 초기화 + 시작
                     printf("%s\n", g_player_name);
                     start_play_stage(queue);
+
+                    g_scene_screne = SCENE_RANK;
+
                     changed = true;                  // 타이틀 재그리기
                 }
                 else if (point_in_button(mx, my, &g_btn_rank)) {

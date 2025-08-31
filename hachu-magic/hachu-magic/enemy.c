@@ -1,4 +1,4 @@
-
+﻿
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "cat.h"
+#include "game_manager.h"
 #include "utils.h"
 #include "enemy.h"
 #include "game_system.h"
@@ -16,12 +17,12 @@ enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 int life_by_stage[] = { 3,4,5,7 };
 
 extern cat_t g_cat;
-extern int max_stage_number;
-extern int current_stage;
 extern int stage_wave_max_number[];
-extern int current_wave;
+
 extern int stage_wave_spawn_enemy_number[];
 extern int life;
+extern game_state_t gm_state;
+
 
 void DEBUG_clear_enemy(void) {
     for (int i = 0; i < 5; i++) {
@@ -105,26 +106,21 @@ void spawn_wave(void)
     }
 
 
-    if (stage_wave_max_number[current_stage] == current_wave) {
-        current_wave = 0;
-        current_stage += 1;
+    if (stage_wave_max_number[gm_state.current_stage] == gm_state.current_wave) {
+        gm_state.current_wave = 0;
+        gm_state.current_stage += 1;
     }
- 
- 
-   
-
     
-    if (max_stage_number == current_stage)
+    if (MAX_STAGE_NUMBER >= gm_state.current_stage)
     {
-        // ???? ????
-        printf("Game Over\n");
+        is_game_clear(&gm_state);
         return;
     }
 
-    for (int i = 0; i < stage_wave_spawn_enemy_number[current_stage]; i++) {
+    for (int i = 0; i < stage_wave_spawn_enemy_number[gm_state.current_stage]; i++) {
         spawn_enemy();
     }
-    current_wave += 1;
+    gm_state.current_wave += 1;
 }
 
 
@@ -193,11 +189,11 @@ void spawn_enemy(void)
     }
 
   /*  temp_enemy.type = 0;*/
-    temp_enemy.type = current_stage;
+    temp_enemy.type = gm_state.current_stage;
 
 
   /*  temp_enemy.life = 4; ---> 2025-08-29 ���⸦ �ٲ���� �ؿ� life �κ����� �ٲ�! */
-    temp_enemy.life = life_by_stage[current_stage];
+    temp_enemy.life = life_by_stage[gm_state.current_stage];
     temp_enemy.received_attack_count = 0;
 
     temp_enemy.size_w = ENEMY_WIDTH[temp_enemy.type];
@@ -206,7 +202,7 @@ void spawn_enemy(void)
     //char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
     //memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
     //temp_enemy.current_pattern = DIR_UP;
-    for (int i = 0; i < life_by_stage[current_stage]; i++) {
+    for (int i = 0; i < life_by_stage[gm_state.current_stage]; i++) {
         temp_enemy.pattern[i] = (direction_t)(1 + rand() % 4);
     }
     temp_enemy.current_pattern = temp_enemy.pattern[0];  // ���� ù �������� ����

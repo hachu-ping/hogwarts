@@ -1,4 +1,4 @@
-#ifndef __GAME_MANAGER_H__
+﻿#ifndef __GAME_MANAGER_H__
 #define __GAME_MANAGER_H__
 
 #include <allegro5/allegro_font.h>
@@ -7,10 +7,13 @@
 #define MAX_RANK 10
 #define MAX_NAME_LEN 20
 
+#define MAX_STAGE_NUMBER 4
+
 
 // 게임 상태 구조체
 typedef struct _game_state{
     int current_stage;
+    int current_wave;
     int g_cat_life;
     double gm_start_time;
     double gm_end_time;
@@ -29,7 +32,7 @@ typedef struct _rank_entry{
 void init_game(game_state_t*);
 
 // 게임 종료 여부 판정
-void is_game_over(game_state_t*);
+bool is_game_over(game_state_t*);
 
 // 게임 종료 처리 (시간 계산 및 클리어 여부 설정)
 void is_game_clear(game_state_t*);
