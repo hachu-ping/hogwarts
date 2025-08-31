@@ -61,7 +61,7 @@ bool is_game_over(game_state_t* gm_state) {
 
 void is_game_clear(game_state_t* gm_state) {
     gm_state->gm_end_time = al_get_time();
-    if (gm_state->g_cat_life > 0 && gm_state->current_stage >= 2) {
+    if (gm_state->g_cat_life > 0 && gm_state->current_stage >= MAX_STAGE_NUMBER) {
         printf("debug - is game clear - true \n");
         gm_state->game_clear = true;
         gm_state->time_taken = (float)(gm_state->gm_end_time - gm_state->gm_start_time);
