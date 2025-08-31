@@ -1,4 +1,4 @@
-﻿#ifndef __GAME_SYSTEM_H__
+#ifndef __GAME_SYSTEM_H__
 #define __GAME_SYSTEM_H__
 
 #include <allegro5/allegro5.h>
@@ -78,8 +78,9 @@ extern Button g_btn_rank;
  */
 void keyboard_update(ALLEGRO_EVENT* event);
 
-void draw_title_screen(void);
-void draw_rank_screen(void);
+static void draw_button(Button* btn, ALLEGRO_FONT* font, ALLEGRO_COLOR fill, ALLEGRO_COLOR textc, float border_px);
+void draw_title_screen(ALLEGRO_FONT* font, ALLEGRO_FONT* font_title);
+void draw_rank_screen(ALLEGRO_FONT* font);
 void textbox_clear(TextBox* tb);
 void handle_start_from_title(ALLEGRO_EVENT_QUEUE* main_queue);
 

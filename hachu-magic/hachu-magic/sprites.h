@@ -1,7 +1,8 @@
-#ifndef __SPRITES_H__
+﻿#ifndef __SPRITES_H__
 #define __SPRITES_H__
 
 #include <allegro5/bitmap.h>
+#include "game_manager.h"
 
 #define SPRITE_CAT_FRAME_NUMBER 3
 #define SPRITE_CAT_ACTION_NUMBER 2
@@ -32,7 +33,7 @@ static const int SPRITE_ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 #define SPRITE_EXPLOSION_FRAME_NUMBER 4
 
 
-#define BACKGROUND_NUMBER 3
+#define BACKGROUND_NUMBER 4
 
 typedef struct _sprites
 {
@@ -63,6 +64,13 @@ typedef struct _sprites
 
 } sprites_t;
 
+typedef enum _background_type {
+    BACKGROUND_TYPE_ST1   = 0,
+    BACKGROUND_TYPE_ST2   = 1,
+    BACKGROUND_TYPE_ST3   = 2,
+    BACKGROUND_TYPE_START = 3
+} background_type_t;
+
 /**
  * 스프라이트 이미지를 불러와 저장합니다.
  * 이미지 로드 또는 스프라이트 생성에 실패할 경우 프로그램을 종료합니다.
@@ -75,7 +83,7 @@ void init_sprites(void);
  * 
  * background -> enemy -> cat -> magic -> FX
  */
-void refresh_screen(void);
+void refresh_game_screen(void);
 
 
 /**
@@ -88,7 +96,8 @@ void draw_cat(void);
  * 배경을 화면에 그립니다.
  * 배경은 Stage에 따라 달라집니다. 
  */
-void draw_background(void);
+//void draw_background(void);
+void draw_background(game_state_t* );
 
 /**
  * 현재 활성화된 마법을 화면에 그립니다.

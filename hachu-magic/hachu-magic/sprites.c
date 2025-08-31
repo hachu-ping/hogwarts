@@ -1,4 +1,4 @@
-#include <allegro5/allegro.h>
+﻿#include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 
 #include <allegro5/allegro5.h>
@@ -14,9 +14,12 @@
 #include "sprites.h"
 #include "utils.h"
 
+#include "game_manager.h"
+
 extern cat_t g_cat;
 extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 extern magic_t g_magic_list[MAGIC_MAX_NUMBER];
+extern game_state_t gm_state;
 
 extern int g_frames;
 
@@ -54,7 +57,11 @@ static ALLEGRO_BITMAP* sprite_grab(ALLEGRO_BITMAP* sheet, int x, int y, int w, i
 
 void init_sprites(void)
 {
-    g_sprites.background[0] = load_bitmap("placeholder.jpeg");
+    
+    g_sprites.background[BACKGROUND_TYPE_ST1] = load_bitmap("back_ex.jpeg");
+    g_sprites.background[BACKGROUND_TYPE_ST2] = load_bitmap("back_ex.jpeg");
+    g_sprites.background[BACKGROUND_TYPE_ST3] = load_bitmap("back_ex.jpeg");
+    g_sprites.background[BACKGROUND_TYPE_START] = load_bitmap("back.png");
 
     g_sprites._cat_sheet = load_bitmap("assets/sprites/cat_sprite.png");
     g_sprites.cat[0] = sprite_grab(g_sprites._cat_sheet, SPRITE_CAT_WIDTH * 0, 0, SPRITE_CAT_WIDTH, SPRITE_CAT_HEIGHT);
@@ -95,9 +102,11 @@ void init_sprites(void)
     g_sprites.explosion[3] = sprite_grab(g_sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
 }
 
-void refresh_screen(void)
+// TODO: refresh_game_scrren 같은 이름으로 바꾸기
+void refresh_game_screen(void)
 {
-    draw_background();
+    //draw_background();
+    draw_background(&gm_state);
     draw_enemies();
     draw_cat();
     draw_magics();
@@ -106,10 +115,16 @@ void refresh_screen(void)
     al_flip_display();
 }
 
-
-void draw_background(void)
+/*
+void draw_background_save(void)
 {
     al_draw_scaled_bitmap(g_sprites.background[0], 0, 0, 640, 437, 0, 0, 1400, 800, 0);
+}
+*/
+void draw_background(game_state_t* state)
+{
+	int st_save = state->current_stage;
+    al_draw_scaled_bitmap(g_sprites.background[st_save], 0, 0, 1536, 1024, 0, 0, 1400, 800, 0);
 }
 
 void draw_cat(void)
