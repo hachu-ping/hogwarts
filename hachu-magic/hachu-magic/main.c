@@ -1,5 +1,4 @@
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -13,6 +12,7 @@
 
 #include "cat.h"
 #include "enemy.h"
+#include "fx.h"
 #include "initializer.h"
 #include "sprites.h"
 #include "utils.h"
@@ -28,40 +28,38 @@ extern RankEntry rankings[];
 extern GameState gm_state;
 
 int main() {
-    // ¾Ë·¹±×·Î ÃÊ±âÈ­
+    // ì•Œë ˆê·¸ë¡œ ì´ˆê¸°í™”
     init_allegro();
 
-    // ±Û²Ã ¾Öµå¿Â ÃÊ±âÈ­
     al_init_font_addon();
     al_init_ttf_addon();
-
-    // ¿¡µå¿Â ÃÊ±âÈ­
+    // ì• ë“œì˜¨ ì´ˆê¸°í™”
     init_addons();
     install_driver();
 
-    // µ¥ÀÌÅÍ ÃÊ±âÈ­
+    // ë°ì´í„° ì´ˆê¸°í™”
     init_data();
 
     ALLEGRO_FONT* font = al_load_ttf_font("NanumGothic.ttf", 24, 0);
-    // ALLEGRO_FONT* font = al_create_builtin_font();  // ³»Àå ±âº» ÆùÆ® »ç¿ë  
+    // ALLEGRO_FONT* font = al_create_builtin_font();  // ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½Æ® ï¿½ï¿½ï¿½  
     if (!font) {
-        fprintf(stderr, "ÆùÆ® ·Îµå ½ÇÆĞ!\n");
+        fprintf(stderr, "ï¿½ï¿½Æ® ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½!\n");
         return -1;
     }
 
-    // ¸®¼Ò½º ÃÊ±âÈ­
+    // ë¦¬ì†ŒìŠ¤ ì´ˆê¸°í™”
     ALLEGRO_TIMER* timer = init_timer(1.0 / 60.0);
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
 
-    // ÀÌº¥Æ® Å¥ µî·Ï
+    // ì´ë²¤íŠ¸ í ë“±ë¡
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
    
-    // °ÔÀÓ ½ÃÀÛ
+    // íƒ€ì´ë¨¸ ì‹œì‘
     al_start_timer(timer);
 
     bool is_done = false;
@@ -74,42 +72,38 @@ int main() {
 
         al_wait_for_event(queue, &event);
 
-        keyboard_update(&event);  // Å° »óÅÂ °»½Å
+        keyboard_update(&event);  // í‚¤ ì…ë ¥ ì²˜ë¦¬
 
         switch (event.type) {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
-            // Ã¢ Á¾·á
+            // ì°½ ë‹«ê¸°
             is_done = true;
             break;
 
         case ALLEGRO_EVENT_TIMER:
-            // ¸Å ÇÁ·¹ÀÓ¸¶´Ù Ã³¸®ÇÕ´Ï´Ù.
+            // ê²Œì„ ë¡œì§ë§ˆë‹¤ ì²˜ë¦¬í•©ë‹ˆë‹¤.
 
-            // *** °ÔÀÓ »óÅÂ ¾÷µ¥ÀÌÆ®
-            // - °í¾çÀÌ ¾×¼Ç (ÀÔ·Â Ã³¸®)
+            // *** ê²Œì„ ë¡œì§ ì—…ë°ì´íŠ¸
+            // - í”Œë ˆì´ì–´ ì•¡ì…˜ (ì…ë ¥ ì²˜ë¦¬)
             update_cat();
 
-            // - Àû »ı¼º
+            // - ì  ìƒì„±
             spawn_wave();
 
-            // - ¸¶¹ı ÅºÈ¯ ÀÌµ¿
+            // - ë§ˆë²• íƒ„í™˜ ì´ë™
             move_magic();
 
-            // - Àû ÀÌµ¿
+            // - ì  ì´ë™
             move_enemy();
 
-            // - Àû-¸¶¹ı Ãæµ¹ Ã³¸®
+            // - ì -ë§ˆë²• ì¶©ëŒ ì²˜ë¦¬
             handle_magic_collision();
 
-            // - Àû-°í¾çÀÌ Ãæµ¹ Ã³¸®
+            // - ì -í”Œë ˆì´ì–´ ì¶©ëŒ ì²˜ë¦¬
+            handle_enemy_collision();
 
-            is_game_clear(&gm_state);
-            is_game_over(&gm_state);
-
-            // 2. °ÔÀÓ Å¬¸®¾î Á¶°Ç È®ÀÎ (µğ¹ö±ë¿ë)
-            gm_state.current_stage = 2;     // ÃÖÁ¾ ½ºÅ×ÀÌÁö ¿Ï·áÇß´Ù°í °¡Á¤
-            gm_state.g_cat_life = 3;        // »ı¸í ÀÖÀ½
+            update_explosion();
 
             should_redraw = true;
             break;
@@ -119,8 +113,8 @@ int main() {
 
         }
  
-        // *** °ÔÀÓ È­¸é ¾÷µ¥ÀÌÆ®
-        // °ª ¼öÁ¤ »çÇ×ÀÌ ÀÖÀ» ¶§ + event Ã³¸®°¡ ¿Ï·áµÇ¾úÀ» ¶§ °ÔÀÓ È­¸é ¾÷µ¥ÀÌÆ®
+        // *** í™”ë©´ ê·¸ë¦¬ê¸° ì—…ë°ì´íŠ¸
+        // ê²Œì„ ë¡œì§ ì—…ë°ì´íŠ¸ ì™„ë£Œ í›„ + event ì²˜ë¦¬ê°€ ì™„ë£Œë˜ì—ˆì„ ë•Œ í™”ë©´ ê·¸ë¦¬ê¸° ì—…ë°ì´íŠ¸
         if (should_redraw && al_is_event_queue_empty(queue)) {
 
             refresh_screen();
@@ -135,7 +129,7 @@ int main() {
     add_score("test", gm_state.time_taken);
     save_rankings();
 
-    // ·©Å· È­¸é Ãâ·Â
+    // ï¿½ï¿½Å· È­ï¿½ï¿½ ï¿½ï¿½ï¿½
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     print_rankings_screen(font, &gm_state);
@@ -151,5 +145,4 @@ int main() {
 
     return 0;
 }
-
 

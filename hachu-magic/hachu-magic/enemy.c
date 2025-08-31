@@ -1,5 +1,4 @@
-
-
+ï»¿
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -10,8 +9,11 @@
 #include "utils.h"
 #include "enemy.h"
 #include "game_system.h"
+#include "game_manager.h"
 
 enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
+//int life_by_stage[] = { 3, 5, 7 };
+int life_by_stage[] = { 3,4,5,7 };
 
 extern cat_t g_cat;
 extern int max_stage_number;
@@ -19,59 +21,73 @@ extern int current_stage;
 extern int stage_wave_max_number[];
 extern int current_wave;
 extern int stage_wave_spawn_enemy_number[];
+extern int life;
 
 void DEBUG_init_enemy(void) {
     for (int i = 0; i < 5; i++) {
         g_enemy_list[i].type = 0;
         g_enemy_list[i].pos_x = rand() % 1400;
-        g_enemy_list[i].pos_y = rand() % 800;
-        g_enemy_list[i].size_w = 180;
-        g_enemy_list[i].size_h = 180;
-
-        // ?? ?????? ??? ???? ????
-        switch (i) {
-        case 0: {
-            char pattern[] = { DIRECTION_LEFT, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP }; // 1 1 2 3
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 1: {
-            char pattern[] = { DIRECTION_RIGHT, DIRECTION_UP, DIRECTION_RIGHT, DIRECTION_RIGHT }; // 2 3 2 2
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 2: {
-            char pattern[] = { DIRECTION_UP, DIRECTION_LEFT, DIRECTION_DOWN, DIRECTION_RIGHT }; // 3 1 4 2
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 3: {
-            char pattern[] = { DIRECTION_UP, DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_UP }; // 3 1 2 3
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        case 4: {
-            char pattern[] = { DIRECTION_DOWN, DIRECTION_RIGHT, DIRECTION_LEFT, DIRECTION_UP }; // 4 2 1 3
-            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
-            g_enemy_list[i].life = sizeof(pattern);
-            break;
-        }
-        }
-
-        g_enemy_list[i].is_invincible = 0;
-        g_enemy_list[i].received_attack_count = 0;
-        g_enemy_list[i].is_spawned= 1;
-        g_enemy_list[i].velocity = 1.0;
-
-        // ???? ??? ???? ??????? (??????)
-        g_enemy_list[i].current_pattern = g_enemy_list[i].pattern[0];
-
+        g_enemy_list[i].pos_y = 0;
+        g_enemy_list[i].size_w = ENEMY_WIDTH[2];
+        g_enemy_list[i].size_h = ENEMY_HEIGHT[2];
     }
 }
+
+//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½ï¿½ enemy
+//void DEBUG_init_enemy(void) {
+//    for (int i = 0; i < 5; i++) {
+//        g_enemy_list[i].type = 0;
+//        g_enemy_list[i].pos_x = 0;
+//        g_enemy_list[i].pos_y = 0;
+//        g_enemy_list[i].size_w = 50;
+//        g_enemy_list[i].size_h = 50;
+//
+//        // ?? ?????? ??? ???? ????
+//        switch (i) {
+//        case 0: {
+//            char pattern[] = { DIR_LEFT, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 1 1 2 3
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 1: {
+//            char pattern[] = { DIR_RIGHT, DIR_UP, DIR_RIGHT, DIR_RIGHT }; // 2 3 2 2
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 2: {
+//            char pattern[] = { DIR_UP, DIR_LEFT, DIR_DOWN, DIR_RIGHT }; // 3 1 4 2
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 3: {
+//            char pattern[] = { DIR_UP, DIR_LEFT, DIR_RIGHT, DIR_UP }; // 3 1 2 3
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        case 4: {
+//            char pattern[] = { DIR_DOWN, DIR_RIGHT, DIR_LEFT, DIR_UP }; // 4 2 1 3
+//            memcpy(g_enemy_list[i].pattern, pattern, sizeof(pattern));
+//            g_enemy_list[i].life = sizeof(pattern);
+//            break;
+//        }
+//        }
+//
+//        g_enemy_list[i].is_invincible = 0;
+//        g_enemy_list[i].received_attack_count = 0;
+//        g_enemy_list[i].is_spawned= 1;
+//        g_enemy_list[i].velocity = 1.0;
+//
+//        // ???? ??? ???? ??????? (??????)
+//        g_enemy_list[i].current_pattern = g_enemy_list[i].pattern[0];
+//
+//    }
+//}
+
+
 
 void init_enemy(void) {
 	for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
@@ -81,29 +97,34 @@ void init_enemy(void) {
 
 void spawn_wave(void)
 {
+    
     bool is_cleared = is_enemy_cleared();
 
     if (!is_cleared) {
         return;
     }
-    current_wave += 1;
+
 
     if (stage_wave_max_number[current_stage] == current_wave) {
         current_wave = 0;
         current_stage += 1;
     }
+ 
+ 
+   
 
+    
     if (max_stage_number == current_stage)
     {
         // ???? ????
-        printf("??? ??? ???\n");
+        printf("Game Over\n");
         return;
     }
 
     for (int i = 0; i < stage_wave_spawn_enemy_number[current_stage]; i++) {
-        printf("%d %d\n", i, stage_wave_spawn_enemy_number[current_stage]);
         spawn_enemy();
     }
+    current_wave += 1;
 }
 
 
@@ -118,22 +139,22 @@ void spawn_enemy(void)
         int side = rand() % 4;
         switch (side) {
         case 0: 
-            //??? ???? ????? (x = -50)???? y ????? 0 ~ SCREEN_H ???? ?????? ????       
+            // From outside the left side of the screen (x = -50), y position is random within the range 0 to SCREEN_H       
             temp_enemy.pos_x = -50.0;     
             temp_enemy.pos_y = rand() % SCREEN_HEIGHT;
             break;
         case 1: 
-            //??? ?????? ??? (x = SCREEN_W + 50)????, Y?? ????? y ????? 0 ~ SCREEN_H
+            // From outside the right side of the screen (x = SCREEN_W + 50), the y position is random within the range 0 to SCREEN_H
             temp_enemy.pos_x = SCREEN_WIDTH + 50;   
             temp_enemy.pos_y = rand() % SCREEN_HEIGHT;
             break;
         case 2: 
-            //??? ???? ??? (y = -50) ???? ,X ?? ????? 0 ~ SCREEN_W
+            // From above the top of the screen (y = -50), the x position is random within the range 0 to SCREEN_W
             temp_enemy.pos_x = rand() % SCREEN_WIDTH;  
             temp_enemy.pos_y = -50.0;
             break;
         case 3: 
-            //??? ?????? ??? (x = SCREEN_W + 50) ???? y ?? ????? 0 ~ SCREEN_H
+            // From outside the right side of the screen (x = SCREEN_W + 50), the y position is random within the range 0 to SCREEN_H
             temp_enemy.pos_x = rand() % SCREEN_WIDTH;  
             temp_enemy.pos_y = SCREEN_HEIGHT + 50;
             break;
@@ -143,13 +164,13 @@ void spawn_enemy(void)
         for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
             if (!g_enemy_list[i].is_spawned) continue;
 
-            //???? ?????? ?? ????? ??? ???? ??? (??? ???)
+            //calculate the distance between ememy and new enemy.
             float dx = g_enemy_list[i].pos_x - temp_enemy.pos_x;          
             float dy = g_enemy_list[i].pos_y - temp_enemy.pos_x;
 
-            //?? ??? ????l ????? ?????? ????? ????, sqrtf ?????? ????? ???
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½
             float dist = sqrtf(dx * dx + dy * dy);      
-            //??©¤ ????
+            //??ï¿½ï¿½ ????
             if (dist < 40.0f) {
                 //vaildPosition ????? ????????
                 is_valid_position = false;                 
@@ -161,25 +182,34 @@ void spawn_enemy(void)
     int index = 0;
     while (index < ENEMY_MAX_NUMBER) {
         if (!g_enemy_list[index].is_spawned) {
-            break;;
+            break;
         }
         index += 1;
     }
 
-    // ENEMY_MAX_NUMBER?? ??? ?????? ???
+    // ENEMY_MAX_NUMBER
     if (index >= ENEMY_MAX_NUMBER) {
         return;
     }
 
-    temp_enemy.type = 0;
-    temp_enemy.life = 4;
+  /*  temp_enemy.type = 0;*/
+    temp_enemy.type = current_stage;
+
+
+  /*  temp_enemy.life = 4; ---> 2025-08-29 ï¿½ï¿½ï¿½â¸¦ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¿ï¿½ life ï¿½Îºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½! */
+    temp_enemy.life = life_by_stage[current_stage];
     temp_enemy.received_attack_count = 0;
 
-    temp_enemy.size_w = 180;
-    temp_enemy.size_h = 180;
-    char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
-    memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
-    temp_enemy.current_pattern = temp_enemy.pattern[0];
+    temp_enemy.size_w = ENEMY_WIDTH[temp_enemy.type];
+    temp_enemy.size_h = ENEMY_HEIGHT[temp_enemy.type];
+
+    //char pattern[] = { rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1, rand() % 4 + 1 };
+    //memcpy(temp_enemy.pattern, pattern, sizeof(char) * 4);
+    //temp_enemy.current_pattern = DIR_UP;
+    for (int i = 0; i < life_by_stage[current_stage]; i++) {
+        temp_enemy.pattern[i] = (direction_t)(1 + rand() % 4);
+    }
+    temp_enemy.current_pattern = temp_enemy.pattern[0];  // ï¿½ï¿½ï¿½ï¿½ Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     temp_enemy.velocity = 1;
    
@@ -197,21 +227,12 @@ void move_enemy()
         double dy = g_cat.pos_y - g_enemy_list[i].pos_y;
         double dist = sqrt(dx * dx + dy * dy);
 
-        //printf("Enemy %d: dx=%.6f, dy=%.6f, dist=%.6f\n", i, dx, dy, dist);
-
-
         if (dist == 0) {
             continue;
         }
 
         g_enemy_list[i].pos_x += (dx / dist) * g_enemy_list[i].velocity;
         g_enemy_list[i].pos_y += (dy / dist) * g_enemy_list[i].velocity;
-
-        if (dist < 10.0) {
-            // TODO: µð¹ö±ëÀ» À§ÇÑ ÄÚµåÀÓ. 
-            // ÀÌÈÄ Ãæµ¹ ±¸Çö ½Ã Á¦°ÅÇÏ±â
-            g_enemy_list[i].is_spawned = false;
-        }
     }
 }
 
@@ -224,4 +245,48 @@ bool is_enemy_cleared(void)
     }
 
     return is_cleared;
+}
+
+// í”Œë ˆì´ì–´ì™€ ì¶©ëŒ ê²€ì‚¬
+bool is_collided_with_cat(enemy_t* enemy_ptr)
+{
+    if (enemy_ptr == NULL) {
+        return false;
+    }
+
+    double ax1 = (enemy_ptr->pos_x);
+    double ay1 = (enemy_ptr->pos_y);
+    double ax2 = (enemy_ptr->pos_x) + (enemy_ptr->size_w);
+    double ay2 = (enemy_ptr->pos_y) + (enemy_ptr->size_h);
+    double bx1 = (g_cat.pos_x);
+    double by1 = (g_cat.pos_y);
+    double bx2 = (g_cat.pos_x) + (g_cat.size_w);
+    double by2 = (g_cat.pos_y) + (g_cat.size_h);
+
+    if (ax1 > bx2) return false;
+    if (ax2 < bx1) return false;
+    if (ay1 > by2) return false;
+    if (ay2 < by1) return false;
+
+    return true;
+}
+
+// ì¶©ëŒ ì²˜ë¦¬ í•¨ìˆ˜
+void handle_enemy_collision(void)
+{
+    enemy_t* enemy_ptr = g_enemy_list;
+
+    for (int i = 0; i < ENEMY_MAX_NUMBER; ++i, ++enemy_ptr) {
+        if (!(enemy_ptr->is_spawned)) {
+            continue;
+        }
+
+        cat_t* target = (cat_t*)&g_cat;
+        if (is_collided_with_cat(enemy_ptr)) {
+            // ì¶©ëŒ ì‹œ ì ê°ì²´ ì†Œë©¸
+            enemy_ptr->is_spawned = 0;
+
+            apply_damage(1);
+        }
+    }
 }

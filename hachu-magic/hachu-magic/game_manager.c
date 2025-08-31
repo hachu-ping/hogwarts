@@ -16,13 +16,14 @@
 
 // ---------------------------------------------------
 int max_stage_number = 2;
+#include "debug.h"
 int current_stage = 0;
 
-int stage_wave_max_number[] = { 2, 3, 4 };
+//int stage_wave_max_number[] = { 2, 3, 4 };
+int stage_wave_max_number[] = { 4,4,3,2 };
 int current_wave = 0;
 
-int stage_wave_spawn_enemy_number[] = { 5, 6, 7 };
-// ----------------------------------------------------
+int stage_wave_spawn_enemy_number[] = { 6,5,4,2 };
 
 RankEntry rankings[MAX_RANK];
 int rank_count = 0;
@@ -42,7 +43,7 @@ void is_game_over(GameState* gm_state) {
     if (gm_state->g_cat_life <= 0) {
         gm_state->game_over = true;
         // printf("debug - game over: life depleted\n");
-        return true;  // °í¾çÀÌ ¸ñ¼ûÀÌ 0ÀÌ¸é ¿À¹ö
+        return true;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
     return false;
 }
@@ -65,9 +66,9 @@ void is_game_clear(GameState* gm_state) {
 void load_rankings(void) {
     printf("debug - load_rankings\n");
     FILE* fp = fopen(RANK_FILE, "r");
-    if (!fp) return;   // ÇØ´ç ÆÄÀÏ ¾øÀ¸¸é ¹«½Ã
+    if (!fp) return;   // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     rank_count = 0;
-    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // ÀÌ¸§ ¹®ÀÚ¿­ + ±â·Ï(float) µÎ °³¸¦ ¸ðµÎ ¼º°øÀûÀ¸·Î ÀÐ¾úÀ» ¶§¸¸ Ã³¸®
+    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ + ï¿½ï¿½ï¿½(float) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
         rank_count++;
         if (rank_count >= MAX_RANK) break;
     }
@@ -75,13 +76,13 @@ void load_rankings(void) {
 
 }
 /*
-ranking.txt ¿­±â
+ranking.txt ï¿½ï¿½ï¿½ï¿½
 
-ÁÙ¸¶´Ù ÀÌ¸§ ½Ã°£ ÀÐ¾î¼­ ¹è¿­¿¡ ÀúÀå
+ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½Ã°ï¿½ ï¿½Ð¾î¼­ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-ÃÖ´ë 10°³±îÁö ÀúÀå
+ï¿½Ö´ï¿½ 10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-ÆÄÀÏ ´Ý°í ³¡*/
+ï¿½ï¿½ï¿½ï¿½ ï¿½Ý°ï¿½ ï¿½ï¿½*/
 
 void save_rankings(void) {
     printf("debug - save_rankings\n");
@@ -104,20 +105,20 @@ int compare_scores(const void* a, const void* b) {
     return (ra->time > rb->time) - (ra->time < rb->time);
 }
 /*
-½ÇÆÐÇÑ ±â·Ï (time == -1) Àº ·©Å· ¸Ç µÚ·Î °¡°Ô ÇÔ
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (time == -1) ï¿½ï¿½ ï¿½ï¿½Å· ï¿½ï¿½ ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
-¼º°øÇÑ ±â·Ï³¢¸®´Â ºü¸¥ ½Ã°£ ¼ø¼­·Î Á¤·Ä
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï³ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 */
 
 void add_score(const char* name, float time) {
-    // ÀÚ¸® ³²¾Æ ÀÖÀ¸¸é ±×³É Ãß°¡
+    // ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½ ï¿½ß°ï¿½
     if (rank_count < MAX_RANK) {
         strncpy(rankings[rank_count].name, name, MAX_NAME_LEN);
         rankings[rank_count].time = time;
         rank_count++;
     }
     else {
-        // ²Ë Âù °æ¿ì: ½ÇÆÐ ±â·ÏÀÌ ÀÖ´ÂÁö ¸ÕÀú Ã£±â
+        // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
         int fail_index = -1;
         for (int i = 0; i < MAX_RANK; i++) {
             if (rankings[i].time < 0) {
@@ -127,30 +128,30 @@ void add_score(const char* name, float time) {
         }
 
         if (fail_index != -1) {
-            // ½ÇÆÐ ±â·ÏÀÌ ÀÖ´Ù¸é, ¹«Á¶°Ç µ¤¾î¾²±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½
             strncpy(rankings[fail_index].name, name, MAX_NAME_LEN);
             rankings[fail_index].time = time;
         }
         else {
-            // ½ÇÆÐ ±â·Ï ¾øÀ¸¸é, ÃÖ¾ÇÀÇ ¼º°ø ±â·Ï°ú ºñ±³
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½
             int worst_index = MAX_RANK - 1;
             float worst_time = rankings[worst_index].time;
 
-            if (time < 0) return; // ½ÇÆÐÇÑ ±â·ÏÀº ¹«½Ã
-            if (time >= worst_time) return; // ´õ ´À¸° ±â·ÏÀÌ¸é ¹«½Ã
+            if (time < 0) return; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            if (time >= worst_time) return; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-            // µ¤¾î¾²±â
+            // ï¿½ï¿½ï¿½î¾²ï¿½ï¿½
             strncpy(rankings[worst_index].name, name, MAX_NAME_LEN);
             rankings[worst_index].time = time;
         }
     }
 
-    // Á¤·Ä
+    // ï¿½ï¿½ï¿½ï¿½
     qsort(rankings, rank_count, sizeof(RankEntry), compare_scores);
 }
 
 
-// È­¸é¿¡ ·©Å· Ãâ·ÂÇÏ´Â ÇÔ¼ö
+// È­ï¿½é¿¡ ï¿½ï¿½Å· ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
 
 void print_rankings_screen(ALLEGRO_FONT* font, GameState* gm_state) {
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -167,11 +168,11 @@ void print_rankings_screen(ALLEGRO_FONT* font, GameState* gm_state) {
     for (int i = 0; i < rank_count; i++) {
         if (rankings[i].time < 0) {
             al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
-                "%2d. %-10s  --ÃÊ", i + 1, rankings[i].name);
+                "%2d. %-10s  --ï¿½ï¿½", i + 1, rankings[i].name);
         }
         else {
             al_draw_textf(font, al_map_rgb(255, 255, 255), 610, 300 + i * 30, 0,
-                "%2d. %-10s  %.2fÃÊ", i + 1, rankings[i].name, rankings[i].time);
+                "%2d. %-10s  %.2fï¿½ï¿½", i + 1, rankings[i].name, rankings[i].time);
         }
     }
 
@@ -181,3 +182,17 @@ void print_rankings_screen(ALLEGRO_FONT* font, GameState* gm_state) {
 
 
 
+
+int life = 5;
+
+void apply_damage(int damage)
+{
+	life -= damage;
+
+	DEBUG_PRINT("ì¶©ëŒ ë°œìƒ life -> %d\n", life);
+
+	if (life <= 0) {
+		// TODO: ê²Œìž„ì˜¤ë²„ ì²˜ë¦¬í•˜ê¸°
+		DEBUG_PRINT("ê²Œìž„ ì¢…ë£Œ\n");
+	}
+}

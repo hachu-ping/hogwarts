@@ -131,9 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="audio.c" />
     <ClCompile Include="cat.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="example.c" />
+    <ClCompile Include="fx.c" />
     <ClCompile Include="game_manager.c" />
     <ClCompile Include="game_system.c" />
     <ClCompile Include="initializer.c" />
@@ -152,9 +154,11 @@
     <Image Include="placeholder.jpeg" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio.h" />
     <ClInclude Include="cat.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="fx.h" />
     <ClInclude Include="game_manager.h" />
     <ClInclude Include="game_system.h" />
     <ClInclude Include="initializer.h" />

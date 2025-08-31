@@ -3,52 +3,52 @@
 
 #include "enemy.h"
 
-#define CAT_SIZE_W 200
-#define CAT_SIZE_H 200
+#define CAT_SIZE_W 130
+#define CAT_SIZE_H 130
 #define DEFAULT_ATTACK_COOLDOWN_TIME 0.2
 
 typedef struct _cat {
-	// ÇöÀç x ÁÂÇ¥ (ÁÂÃø»ó´Ü ±âÁØ)
+	// ê³ ì–‘ì´ x ì¢Œí‘œ (ì¤‘ì‹¬ì  ê¸°ì¤€)
 	double pos_x;
 
-	// ÇöÀç y ÁÂÇ¥ (ÁÂÃø»ó´Ü ±âÁØ)
+	// ê³ ì–‘ì´ y ì¢Œí‘œ (ì¤‘ì‹¬ì  ê¸°ì¤€)
 	double pos_y;
 
-	// °¡·Î ±æÀÌ
+	// ê³ ì–‘ì´ ë„ˆë¹„
 	int size_w;
 
-	// ¼¼·Î ±æÀÌ
+	// ê³ ì–‘ì´ ë†’ì´
 	int size_h;
 
-	// °¡Àå ÃÖ±Ù¿¡ °ø°ÝÀ» ÇÑ ½Ã°£
+	// ê³ ì–‘ì´ ìµœê·¼ì— ê³µê²©í•œ ë§ˆì§€ë§‰ ì‹œê°„
 	double last_attack_time;
 
-	// ´ÙÀ½ °ø°Ý±îÁö °É¸®´Â ÃÖ¼Ò ½Ã°£
+	// ê³ ì–‘ì´ ê³µê²©ê°„ê²© ê¸°ë‹¤ë ¤ì•¼ í•˜ëŠ” ìµœì†Œ ì‹œê°„
 	double attack_cooldown_time;
 } cat_t;
 
 /*
- * µð¹ö±ëÀ» À§ÇÑ °í¾çÀÌ °ª ÃÊ±âÈ­.
+ * ë””ë²„ê¹…ìš© ê³ ì–‘ì´ ìƒì„±ì„ ìœ„í•œ ì´ˆê¸°í™”.
  */
 void DEBUG_init_cat(void);
 
 /**
- * °í¾çÀÌÀÇ °ªÀ» ÃÊ±âÈ­ÇÕ´Ï´Ù.
+ * ê³ ì–‘ì´ë¥¼ ì´ˆê¸° ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
  */
 void init_cat(void);
 
 /**
- * °í¾çÀÌÀÇ ÇÁ·¹ÀÓ º° µ¿ÀÛÀ» Á¤ÀÇÇÕ´Ï´Ù.
- * °ø°ÝÀÌ °¡´ÉÇÒ ¶§ Å° ÀÔ·ÂÀÌ ÀÖ´Ù¸é ÀûÀ» ÇâÇØ ¸¶¹ýÀ» »ç¿ëÇÕ´Ï´Ù.
+ * ê³ ì–‘ì´ê°€ ë§¤í”„ë ˆìž„ í•  ìˆ˜ ìžˆëŠ” ë‚´ìš©ë“¤ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
+ * í”Œë ˆì´ì–´ ì´ë™ê¸°ëŠ¥ ë° í‚¤ ìž…ë ¥ì´ ìžˆë‹¤ë©´ ê³ ì–‘ì´ ìœ„ì¹˜ ì—…ë°ì´íŠ¸ ì²˜ë¦¬ì™€ ê³µê²© í–‰ë™ ê°€ëŠ¥ì„±ì„ ì²˜ë¦¬í•©ë‹ˆë‹¤.
  */
 void update_cat();
 
 
 /**
- * ÇöÀç ÀÔ·Â¿¡ ´ëÇØ, 
- * ÀÌ ÀÔ·Â ¹æÇâÀÌ ³²Àº ÆÐÅÏ Áß °¡Àå ¾Õ¿¡ ÀÖ´Â À¯È¿ÇÑ ÀûµéÀ» ´ë»óÀ¸·Î
- * ¸¶¹ýÀ» »ý¼ºÇÕ´Ï´Ù.
- * @param magic_type ÀÔ·Â¿¡ µû¸¥ ¹æÇâÀ» ÀÔ·Â¹Þ½À´Ï´Ù.
+ * ë°©í–¥ ìž…ë ¥ì— ë”°ë¼, 
+ * í•´ë‹¹ ìž…ë ¥ ë°©í–¥ì— ë§žëŠ” ë§ˆë²• ì¢…ë¥˜ ì¤‘ ê°€ìž¥ ì•žì— ìžˆëŠ” ìœ íš¨í•œ ì ì—ê²Œ ë§ˆë²•ì„ ë°œì‚¬í•˜ëŠ”
+ * ì¸í„°íŽ˜ì´ìŠ¤ í•¨ìˆ˜ë¥¼ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+ * @param magic_type ìž…ë ¥ì— ë”°ë¥¸ ë§ˆë²•ì„ ìž…ë ¥ë°›ìŠµë‹ˆë‹¤.
  */
 void cast_magic(direction);
 

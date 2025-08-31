@@ -1,4 +1,4 @@
-
+ï»¿
 
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
@@ -9,6 +9,7 @@
 #include "cat.h"
 #include "debug.h"
 #include "enemy.h"
+#include "fx.h"
 #include "initializer.h"
 #include "magic.h"
 #include "sprites.h"
@@ -23,10 +24,10 @@ void init_allegro(void)
 
 void init_addons(void) 
 {
-	// PNG ÀÌ¹ÌÁö¸¦ »ç¿ëÇÏ±â À§ÇÑ image addon Ãß°¡
+	// PNG ì´ë¯¸ì§€ë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•œ image addon ì¶”ê°€
 	must_init(al_init_image_addon(), "image addon init");
 
-	// µµÇüÀ» ±×¸®±â À§ÇÑ primitives addon Ãß°¡
+	// ê¸°í•˜ì²´ ê·¸ë¦¬ê¸° ìœ„í•œ primitives addon ì¶”ê°€
 	must_init(al_init_primitives_addon(), "primitives addon init");  
 }
 
@@ -72,10 +73,12 @@ void init_data(void)
 	DEBUG_init_cat();
 	DEBUG_init_enemy();
 	DEBUG_init_magic();
+	clear_explosion();
 #else
 	init_cat();
 	init_enemy();
 	init_magic();
+	clear_explosion();
 #endif	
 }
 

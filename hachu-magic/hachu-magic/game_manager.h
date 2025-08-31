@@ -1,11 +1,14 @@
-#ifndef __GAME_MANAGER_H__
+ï»¿#ifndef __GAME_MANAGER_H__
 #define __GAME_MANAGER_H__
+
+#include <allegro5/allegro_font.h>
 #include <stdbool.h>
+
 #define MAX_RANK 10
 #define MAX_NAME_LEN 20
 
 
-// °ÔÀÓ »óÅÂ ±¸Á¶Ã¼
+// ê²Œì„ ìƒíƒœ êµ¬ì¡°ì²´
 typedef struct {
     int current_stage;
     int g_cat_life;
@@ -18,22 +21,22 @@ typedef struct {
 
 
 
-// ·©Å· ¿£Æ®¸®
+// ë­í‚¹ ì—”íŠ¸ë¦¬
 typedef struct {
     char name[MAX_NAME_LEN];
-    float time;  // -1Àº ½ÇÆĞ Ç¥½Ã
+    float time;  // -1ì€ ì‹¤íŒ¨ í‘œì‹œ
 } RankEntry;
 
-// °ÔÀÓ »óÅÂ ÃÊ±âÈ­
+// ê²Œì„ ìƒíƒœ ì´ˆê¸°í™”
 void init_game(GameState*);
 
-// °ÔÀÓ Á¾·á ¿©ºÎ ÆÇÁ¤
+// ê²Œì„ ì¢…ë£Œ ì—¬ë¶€ íŒì •
 void is_game_over(GameState*);
 
-// °ÔÀÓ Á¾·á Ã³¸® (½Ã°£ °è»ê ¹× Å¬¸®¾î ¿©ºÎ ¼³Á¤)
+// ê²Œì„ ì¢…ë£Œ ì²˜ë¦¬ (ì‹œê°„ ê³„ì‚° ë° í´ë¦¬ì–´ ì—¬ë¶€ ì„¤ì •)
 void is_game_clear(GameState*);
 
-// ·©Å· °ü·Ã ÇÔ¼öµé
+// ë­í‚¹ ê´€ë ¨ í•¨ìˆ˜ë“¤
 void load_rankings(void);
 void save_rankings(void);
 int compare_scores(const void*, const void*);
@@ -44,7 +47,12 @@ void print_rankings_screen(ALLEGRO_FONT*, GameState*);
 
 
 
-
+/**
+ * A brief description. A more elaborate class description
+ * ?ëš®ì …?ëŒë¼±åª›Â€ ?ê³•?ï§Â€ç‘œ?è«›ì†ë’¿?ëˆë–.
+ * @params damage: ?ëš®ì …?ëŒë¼±åª›Â€ è«›ì†ì“£ ?ê³•?ï§Â€ ?ì„íŠ‚
+ */
+void apply_damage(int damage);
 
 #endif /* __GAME_MANAGER_H__ */
 
