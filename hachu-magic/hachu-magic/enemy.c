@@ -47,19 +47,6 @@ void clear_enemy(void) {
 
 void spawn_wave(void)
 {
-   
-    bool is_cleared = is_enemy_cleared();
-
-    if (!is_cleared) {
-        return;
-    }
-
-
-    if (stage_wave_max_number[gm_state.current_stage] == gm_state.current_wave) {
-        gm_state.current_wave = 0;
-        gm_state.current_stage += 1;
-    }
-    
     if (MAX_STAGE_NUMBER <= gm_state.current_stage)
     {
         is_game_clear(&gm_state);
@@ -75,6 +62,7 @@ void spawn_wave(void)
 //여기 2025-08-31 오늘 추가함
 
 void spawn_enemy() {
+    double wait_time = 2.0;
     if (!is_enemy_cleared()) {
         wave_ready_to_spawn = false;  // 적이 남아있으면 딜레이 타이머 리셋
         return;
@@ -83,10 +71,19 @@ void spawn_enemy() {
     if (!wave_ready_to_spawn) {
         last_wave_clear_time = al_get_time();  // 마지막 적이 클리어된 시간 기록
         wave_ready_to_spawn = true;
+        wait_time = 2.0;
+    }
+
+    if (stage_wave_max_number[gm_state.current_stage] == gm_state.current_wave) {
+        gm_state.current_wave = 0;
+        gm_state.current_stage += 1;
+        // 스테이지가 증가했을 때 알림 띄우기
+        wait_time = 4.0;
+        draw_stage_announce(font_stage, &gm_state);
     }
 
     double now = al_get_time();
-    if (wave_ready_to_spawn && now - last_wave_clear_time >= 2.0) {
+    if (wave_ready_to_spawn && now - last_wave_clear_time >= wait_time) {
         spawn_wave();           // 2초 딜레이 후 웨이브 호출
         wave_ready_to_spawn = false;
     }

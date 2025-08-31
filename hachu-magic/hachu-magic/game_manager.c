@@ -3,6 +3,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +24,7 @@
 #define RANK_FILE "ranking.txt"
 
 
+
 // ---------------------------------------------------
 int max_stage_number = 4;
 int current_stage = 0;
@@ -35,6 +38,7 @@ rank_entry_t rankings[MAX_RANK];
 int rank_count = 0;
 
 game_state_t gm_state;
+extern ALLEGRO_FONT* font_hud;
 
 void init_game(game_state_t* gm_state) {
     gm_state->current_stage = 0;
@@ -239,6 +243,7 @@ void play_game(void)
     while (!gm_state.game_over && !gm_state.game_clear) {
         g_frames++;
 
+
         ALLEGRO_EVENT ev;
         al_wait_for_event(queue, &ev);
         keyboard_update(&ev);
@@ -256,6 +261,7 @@ void play_game(void)
 
         case ALLEGRO_EVENT_TIMER:
             // === 업데이트 ===
+        
             update_cat();
             spawn_enemy();
             move_magic();
@@ -272,6 +278,7 @@ void play_game(void)
         if (redraw && al_is_event_queue_empty(queue)) {
             redraw = false;
             refresh_screen();
+            draw_hud(font_hud, &gm_state);
         }
     }
 
@@ -318,4 +325,26 @@ void apply_damage(int damage)
         is_game_over(&gm_state);
         DEBUG_PRINT("게임 종료\n");
     }
+}
+
+void draw_hud(ALLEGRO_FONT* font, game_state_t* gm_state) {
+    double now = al_get_time();                  // 현재 시간 (초 단위)
+    double elapsed = now - gm_state->gm_start_time; // 게임 시작 후 경과 시간
+
+    al_draw_textf(font_hud, al_map_rgb(255, 255, 255), 700, 50, 20,
+        "Stage: %d   Life: %d   Time: %.1f s",
+        gm_state->current_stage + 1, gm_state->g_cat_life, elapsed);
+    
+    al_flip_display();
+}
+void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state) {
+    al_clear_to_color(al_map_rgb(0, 0, 0));  // 화면 잠깐 비우기
+    if (gm_state->current_stage < 4)
+        al_draw_textf(font_stage, al_map_rgb(255, 200, 200), 700, 400, ALLEGRO_ALIGN_CENTER,
+            "Stage %d", gm_state->current_stage + 1);
+    else
+        al_draw_text(font_stage, al_map_rgb(255, 100, 100), 700, 400, ALLEGRO_ALIGN_CENTER,
+            "Final Stage!");
+    al_flip_display();
+    al_rest(1.0); // 2초 동안 표시
 }

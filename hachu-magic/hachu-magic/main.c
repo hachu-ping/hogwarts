@@ -20,7 +20,8 @@
 #include "magic.h"
 #include "game_manager.h"
 
-
+ALLEGRO_FONT* font_hud;
+ALLEGRO_FONT* font_stage;
 extern int rank_count;
 extern rank_entry_t rankings[];
 extern game_state_t gm_state;
@@ -38,9 +39,20 @@ int main() {
     // 데이터 초기화
     init_data();
 
-    ALLEGRO_FONT* font = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
+    ALLEGRO_FONT* font = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0); 
     // ALLEGRO_FONT* font = al_create_builtin_font();  // 기본 내장 폰트 사용  
     if (!font) {
+        fprintf(stderr, "폰트 로드 실패!\n");
+        return -1;
+    }
+
+     font_hud = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 35, 0);
+    if (!font_hud) {
+        fprintf(stderr, "폰트 로드 실패!\n");
+        return -1;
+    }
+    font_stage = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 55, 0);
+    if (!font_stage) {
         fprintf(stderr, "폰트 로드 실패!\n");
         return -1;
     }
@@ -53,6 +65,8 @@ int main() {
 
     g_font = al_create_builtin_font();
     g_font_btn = al_create_builtin_font();
+
+
 
     // 이벤트 큐 등록
     al_register_event_source(queue, al_get_display_event_source(disp));
@@ -154,6 +168,7 @@ int main() {
 
     if (g_font)     al_destroy_font(g_font);
     if (g_font_btn) al_destroy_font(g_font_btn);
+    al_destroy_font(font_hud);
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
     return 0;
