@@ -1,4 +1,4 @@
-#define	_CRT_SECURE_NO_WARNINGS  // using scanf
+﻿#define	_CRT_SECURE_NO_WARNINGS  // using scanf
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
