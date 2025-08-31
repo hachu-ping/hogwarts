@@ -12,6 +12,7 @@
 
 extern ALLEGRO_FONT* font_hud;
 extern ALLEGRO_FONT* font_stage;
+
 // 게임 상태 구조체
 typedef struct _game_state {
     int current_stage;

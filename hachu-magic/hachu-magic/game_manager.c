@@ -1,4 +1,4 @@
-﻿#define	_CRT_SECURE_NO_WARNINGS  // using scanf
+#define	_CRT_SECURE_NO_WARNINGS  // using scanf
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -20,7 +20,7 @@
 #include "sprites.h"
 #include "game_system.h"
 
-#define MAX_RANK 5
+#define MAX_RANK 10
 #define MAX_NAME_LEN 20
 #define RANK_FILE "ranking.txt"
 
@@ -37,7 +37,6 @@ rank_entry_t rankings[MAX_RANK];
 int rank_count = 0;
 
 game_state_t gm_state;
-extern ALLEGRO_FONT* font_hud;
 
 void init_game(game_state_t* gm_state) {
     gm_state->current_stage = 0;
@@ -169,13 +168,13 @@ void print_rankings_screen(ALLEGRO_FONT* font, game_state_t* gm_state) {
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     if (gm_state->game_clear) {
-        al_draw_text(font, al_map_rgb(0, 255, 0), 650, 160, 0, "Game Clear!");
+        al_draw_text(font, al_map_rgb(0, 255, 0), 695, 180, 0, "Game Clear!");
     }
     else if (gm_state->game_over) {
-        al_draw_text(font, al_map_rgb(255, 0, 0), 650, 160, 0, "Game Over!");
+        al_draw_text(font, al_map_rgb(255, 0, 0), 695, 180, 0, "Game Over!");
     }
 
-    al_draw_textf(font, al_map_rgb(255, 255, 255), 600, 230, 0, "=== RANKINGS ===");
+    al_draw_textf(font, al_map_rgb(255, 255, 255), 600, 230, 0, "======== RANKINGS ========");
 
     for (int i = 0; i < rank_count; i++) {
         if (rankings[i].time < 0) {
@@ -235,6 +234,8 @@ void play_game(void)
 
     init_game(&gm_state);
 
+    draw_stage_announce(font_stage, &gm_state);
+
     bool redraw = true;   // 첫 프레임 무조건 그리기
 
     while (!gm_state.game_over && !gm_state.game_clear) {
@@ -276,12 +277,13 @@ void play_game(void)
             redraw = false;
             refresh_game_screen();
             draw_hud(font_hud, &gm_state);
+            al_flip_display();
         }
     }
 
     if (gm_state.game_clear) {
         load_rankings();
-        add_score("test", gm_state.time_taken);
+        add_score("test", gm_state.time_taken);  // 수정 필요
         save_rankings();
     }
 
@@ -326,23 +328,31 @@ void apply_damage(int damage)
 }
 
 void draw_hud(ALLEGRO_FONT* font, game_state_t* gm_state) {
+   
     double now = al_get_time();                  // 현재 시간 (초 단위)
     double elapsed = now - gm_state->gm_start_time; // 게임 시작 후 경과 시간
 
-    al_draw_textf(font_hud, al_map_rgb(255, 255, 255), 700, 50, 20,
+    al_draw_textf(font_hud, al_map_rgb(255, 255, 255), 760, 30, 20,
         "Stage: %d   Life: %d   Time: %.1f s",
         gm_state->current_stage + 1, gm_state->g_cat_life, elapsed);
-
-    al_flip_display();
+    
+    // al_flip_display();
 }
 void draw_stage_announce(ALLEGRO_FONT* font, game_state_t* gm_state) {
     al_clear_to_color(al_map_rgb(0, 0, 0));  // 화면 잠깐 비우기
-    if (gm_state->current_stage < 4)
-        al_draw_textf(font_stage, al_map_rgb(255, 200, 200), 700, 400, ALLEGRO_ALIGN_CENTER,
+
+    if (gm_state->current_stage == 0) {
+        al_draw_textf(font_stage, al_map_rgb(255, 200, 200), 700, 350, ALLEGRO_ALIGN_CENTER,
+            "Stage %d", 1);
+    }
+    if (gm_state->current_stage <= 2) {
+        al_draw_textf(font_stage, al_map_rgb(255, 200, 200), 700, 350, ALLEGRO_ALIGN_CENTER,
             "Stage %d", gm_state->current_stage + 1);
-    else
-        al_draw_text(font_stage, al_map_rgb(255, 100, 100), 700, 400, ALLEGRO_ALIGN_CENTER,
+    }
+    if (gm_state->current_stage == 3) {
+        al_draw_text(font_stage, al_map_rgb(255, 100, 100), 700, 350, ALLEGRO_ALIGN_CENTER,
             "Final Stage!");
+    }
     al_flip_display();
-    al_rest(1.0); // 2초 동안 표시
+    al_rest(2); // 2초 동안 표시
 }
