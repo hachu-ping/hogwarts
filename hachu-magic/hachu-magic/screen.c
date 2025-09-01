@@ -111,19 +111,18 @@ void draw_title_screen(void)
 {
     draw_background(BACKGROUND_TYPE_START);
 
-    draw_textbox(get_text_box());
     draw_text(700, 250, "CAT vs MICE");
 
     draw_button(&start_button, al_map_rgb(60, 120, 250), al_map_rgb(255, 255, 255), 2.0f);
     draw_button(&rank_button, al_map_rgb(80, 180, 120), al_map_rgb(255, 255, 255), 2.0f);
 
     draw_text(700, 560, "Enter: start   R: rank   ESC: end");
+    draw_textbox(get_name_box());
 }
 
 
 void refresh_hud(void)
 {
-
     double now = al_get_time();                  // 현재 시간 (초 단위)
     double elapsed = now - get_game_state()->gm_start_time; // 게임 시작 후 경과 시간
 
@@ -143,12 +142,11 @@ void draw_stage_announce(void)
 
     if (get_game_state()->current_stage <= 2) {
         snprintf(hud_buffer, sizeof(hud_buffer), "Stage %d", get_game_state()->current_stage + 1);
-        
     } else if (get_game_state()->current_stage == MAX_STAGE_NUMBER - 1) {
         memcpy(hud_buffer, "Final Stage!", 13);
     }
     else {
-        memcpy(hud_buffer, "CLEAR!", 13);
+        memcpy(hud_buffer, "CLEAR!", 7);
     }
     
     draw_stage_text(700, 350, hud_buffer);
@@ -176,8 +174,8 @@ void draw_ranking_screen(void)
             draw_text(720, 300 + i * 30, hud_buffer);
         }
         else {
-            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f초", i + 1, (get_rankings()[i]).name);
-            draw_text(720, 300 + i * 30, hud_buffer);
+            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f초", i + 1, (get_rankings()[i]).name, (get_rankings()[i]).time);
+            draw_text(610, 300 + i * 30, hud_buffer);
         }
     }
 }

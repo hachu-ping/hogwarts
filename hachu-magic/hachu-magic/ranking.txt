@@ -1,4 +1,6 @@
-guset 94.98
+12321 77.31
+hekkos 78.18
+hekko 79.70
 guset 104.99
 test 111.03
 test 117.95

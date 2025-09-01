@@ -80,7 +80,7 @@ void update_cat()
 void cast_magic(direction_t direction)
 {
     for (int i = 0; i < ENEMY_MAX_NUMBER; i++) {
-        enemy_t* e = &g_enemy_list[i];
+        enemy_t* e = get_enemy_list()+i;
 
         DEBUG_PRINT("[DEBUG] enemy[%d] used: %d, invincible: %d, received_attack_count: %d, life: %d\n",
             i, e->is_spawned, e->is_invincible, e->received_attack_count, e->life);

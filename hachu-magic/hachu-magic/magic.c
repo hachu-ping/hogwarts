@@ -4,8 +4,6 @@
 #include "fx.h"
 #include "magic.h"
 
-extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
-
 magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
 inline const magic_t* get_magic_list(void)
@@ -32,7 +30,7 @@ void DEBUG_clear_magic(void) {
 		g_magic_list[i].pos_y = 540;
 		g_magic_list[i].size_w = 20;
 		g_magic_list[i].size_h = 20;
-		g_magic_list[i].target_ptr = &g_enemy_list[0];
+		g_magic_list[i].target_ptr = get_enemy_list() + 0;
 	}
 
 	g_magic_list[0].velocity = 4.0;

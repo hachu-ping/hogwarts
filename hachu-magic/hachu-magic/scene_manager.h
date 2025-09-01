@@ -10,6 +10,7 @@ typedef struct _button {
 	const char* label;
 } button_t;
 
+extern button_t name_box;
 extern button_t start_button;
 extern button_t rank_button;
 

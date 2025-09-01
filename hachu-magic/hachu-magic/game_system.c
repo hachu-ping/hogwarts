@@ -41,7 +41,7 @@ void keyboard_update(ALLEGRO_EVENT* event)
 
 static text_box_t g_name_box;
 
-const text_box_t* get_text_box()
+const text_box_t* get_name_box()
 {
     return &g_name_box;
 }
@@ -96,14 +96,6 @@ void textbox_clear(text_box_t* tb)
     tb->focused = false;
 }
 
-void prepare_game_start() {
-    if (g_name_box.len > 0) STRCPY_SAFE(get_game_state()->player_name, g_name_box.text);
-    else                    STRCPY_SAFE(get_game_state()->player_name, "guest");
-    g_player_name[sizeof(get_game_state()->player_name) - 1] = '\0';
-
-    textbox_clear(&g_name_box);
-}
-
 const rank_entry_t* get_rankings(void)
 {
     return rankings;
@@ -120,7 +112,7 @@ void load_rankings(void) {
     FILE* fp = fopen(RANK_FILE, "r");
     if (!fp) return;   // 해당 파일 존재하지 않음
     rank_count = 0;
-    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // 이름 문자열 + 시간(float) 두 개가 모두 성공적으로 읽어진 경우 처리
+    while (fscanf(fp, "%s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // 이름 문자열 + 시간(float) 두 개가 모두 성공적으로 읽어진 경우 처리
         rank_count++;
         if (rank_count >= MAX_RANK) break;
     }
