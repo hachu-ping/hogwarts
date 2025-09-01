@@ -116,7 +116,9 @@ int main() {
                 }
                 break;
             case ALLEGRO_KEY_R:
-                change_scene(SCENE_RANK);
+                if (!get_name_box()->focused) {
+                    change_scene(SCENE_RANK);
+                }
                 break;
             default: 
                 break;
