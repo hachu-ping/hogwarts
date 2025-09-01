@@ -1,7 +1,9 @@
+guest 24.75
 guest 27.82
 guest 30.12
 guest 30.92
 12321 77.31
 hekkos 78.18
 hekko 79.70
+guest 102.41
 guset 104.99

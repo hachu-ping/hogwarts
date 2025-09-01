@@ -152,9 +152,7 @@ void draw_stage_announce(void)
     draw_stage_text(700, 350, hud_buffer);
     al_flip_display();
 
-    if (get_game_state()->current_stage < MAX_STAGE_NUMBER) {
-        al_rest(1); // 1초 동안 표시
-    }
+    al_rest(1); // 1초 동안 표시
 }
 
 void draw_ranking_screen(void)
