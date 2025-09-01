@@ -50,6 +50,8 @@ void clear_enemy(void) {
 
 void spawn_enemy() {
     double wait_time = 2.0;
+    double now = al_get_time();
+
     if (!is_enemy_cleared()) {
         wave_ready_to_spawn = false;  // 적이 남아있으면 딜레이 타이머 리셋
         return;
@@ -57,6 +59,7 @@ void spawn_enemy() {
 
     if (!wave_ready_to_spawn) {
         wave_ready_to_spawn = true;
+        last_wave_clear_time = now;
         wait_time = 2.0;
     }
 
@@ -66,7 +69,7 @@ void spawn_enemy() {
         wait_time = 4.0;
     }
 
-    double now = al_get_time();
+    //double now = al_get_time();
     if (wave_ready_to_spawn && now - last_wave_clear_time >= wait_time) {
         spawn_wave();           // 2초 딜레이 후 웨이브 호출
         wave_ready_to_spawn = false;
