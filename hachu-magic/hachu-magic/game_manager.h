@@ -29,13 +29,14 @@ extern inline const game_state_t* get_game_state(void);
 void play_game(void);
 
 // 게임 상태 초기화
-void init_game();
+void init_game(void);
+void wrap_up_game(void);
 
 // 게임 종료 여부 판정
-bool is_game_over();
+bool is_game_over(void);
 
 // 게임 종료 처리 (시간 계산 및 클리어 여부 설정)
-void is_game_clear();
+void is_game_clear(void);
 
 
 void start_play_stage(ALLEGRO_EVENT_QUEUE* main_queue);

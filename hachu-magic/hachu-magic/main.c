@@ -82,8 +82,8 @@ int main() {
 
                 if (is_pointed_in_button(mx, my, &start_button)) {
                     prepare_game_start();  // 플 이름 설정(빈 값은 guset) + 초기화 + 시작
-
                     DEBUG_PRINT("%s\n", get_game_state()->player_name);
+
                     start_play_stage(queue);
 
                     change_scene(SCENE_RANK);
@@ -91,6 +91,8 @@ int main() {
                 else if (is_pointed_in_button(mx, my, &rank_button)) {
                     change_scene(SCENE_RANK);
                 }
+                wrap_up_game();
+
             }
             // 3) 키보드입력: 엔터로 시작
             else { // ALLEGRO_EVENT_KEY_CHAR
@@ -99,7 +101,9 @@ int main() {
                     prepare_game_start();  // 플 시작 처리
                     DEBUG_PRINT("%s\n", get_game_state()->player_name);
                     start_play_stage(queue);
-                    changed = true;
+
+                    change_scene(SCENE_RANK);
+                    wrap_up_game();
                 }
             }
 

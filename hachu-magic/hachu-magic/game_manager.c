@@ -118,6 +118,10 @@ void init_game() {
     clear_data();
 }
 
+void wrap_up_game() {
+    gm_state.game_clear = false;
+    gm_state.game_over = false;
+}
 
 bool is_game_over() {
     if (gm_state.g_cat_life <= 0) {
