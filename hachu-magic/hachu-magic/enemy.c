@@ -13,7 +13,7 @@
 #include "game_system.h"
 #include "game_manager.h"
 
-enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
+static enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 //int life_by_stage[] = { 3, 5, 7 };
 int life_by_stage[] = { 3,4,5,7 };
 

@@ -6,11 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 
-#include "cat.h"
-#include "debug.h"
-#include "enemy.h"
-#include "fx.h"
-#include "magic.h"
+
 #include "sprites.h"
 #include "utils.h"
 
@@ -88,18 +84,18 @@ void load_sprites(void)
     sprites.arrows[3] = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 2, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
     sprites.arrows[4] = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 3, SPRITE_ARROW_WIDTH, SPRITE_ARROW_HEIGHT);
     sprites.life = sprite_grab(sprites._effect_sheet, 0, SPRITE_ARROW_HEIGHT * 4, SPRITE_LIFE_WIDTH, SPRITE_LIFE_HEIGHT);
-    sprites.magics[1][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[1][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[1][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[2][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[2][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[2][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[3][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[3][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[3][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[4][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 0, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[4][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 1, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
-    sprites.magics[4][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 2, MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[1][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 0, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[1][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 1, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[1][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 2, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[2][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 0, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[2][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 1, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[2][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 2, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[3][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 0, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[3][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 1, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[3][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 2, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[4][0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 0, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[4][1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 1, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
+    sprites.magics[4][2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_MAGIC_WIDTH * 3, SPRITE_MAGIC_HEIGHT * 2, SPRITE_MAGIC_WIDTH, SPRITE_MAGIC_HEIGHT);
     sprites.explosion[0] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 0, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
     sprites.explosion[1] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 1, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);
     sprites.explosion[2] = sprite_grab(sprites._effect_sheet, SPRITE_ARROW_WIDTH + SPRITE_EXPLOSION_WIDTH * 2, SPRITE_MAGIC_HEIGHT * 3, SPRITE_EXPLOSION_WIDTH, SPRITE_EXPLOSION_HEIGHT);

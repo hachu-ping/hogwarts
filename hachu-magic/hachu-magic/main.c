@@ -38,9 +38,6 @@ int main() {
     ALLEGRO_DISPLAY* disp = init_display(1400, 800);
     ALLEGRO_EVENT_QUEUE* queue = init_event_queue();
 
-
-
-
     // 이벤트 큐 등록
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -73,7 +70,11 @@ int main() {
             bool changed = false;
 
             // 1) 텍스트박스에 대한 이벤트 처리(포커스/문자 입력)
-            changed |= textbox_handle_event(get_text_box(), &event);
+            changed |= textbox_handle_event(get_name_box(), &event);
+
+            if (changed) {
+                change_scene(SCENE_TITLE);
+            }
 
             // 2) 마우스 클릭이면 버튼 처리
             if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
@@ -96,11 +97,12 @@ int main() {
                 int key = event.keyboard.keycode;
                 if (key == ALLEGRO_KEY_ENTER || key == ALLEGRO_KEY_PAD_ENTER) {
                     prepare_game_start();  // 플 시작 처리
-                    printf("%s\n", g_player_name);
+                    DEBUG_PRINT("%s\n", get_game_state()->player_name);
                     start_play_stage(queue);
                     changed = true;
                 }
             }
+
         } break;
 
 
@@ -112,6 +114,9 @@ int main() {
                 } else {
                     change_scene(SCENE_TITLE);
                 }
+                break;
+            case ALLEGRO_KEY_R:
+                change_scene(SCENE_RANK);
                 break;
             default: 
                 break;

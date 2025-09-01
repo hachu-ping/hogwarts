@@ -55,8 +55,6 @@ typedef struct _text_box{
     char  text[64];   // 최대 63자 + '\0' (필요시 크기 조절가능)
 } text_box_t;
 
-extern text_box_t g_name_box;        // 이름 텍스트박스
-extern char    g_player_name[64]; // 나중에 저장해둘 플레이어 이름
 
 // 함수 선언
 void textbox_init(text_box_t* tb, float x, float y, float w, float h, int maxlen);
@@ -84,7 +82,7 @@ void add_score(const char*, float);
 
 extern inline const rank_entry_t* get_rankings(void);
 
-extern inline const text_box_t* get_text_box(void);
+extern inline const text_box_t* get_name_box(void);
 
 
 

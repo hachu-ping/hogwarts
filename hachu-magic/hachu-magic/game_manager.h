@@ -51,6 +51,7 @@ void apply_damage(int damage);
 void clear_data(void);
 void move_to_next_wave(void);
 void move_to_next_stage(void);
+void update_player_name(char* name, int size);
 
 #endif /* __GAME_MANAGER_H__ */
 

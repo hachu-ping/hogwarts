@@ -80,7 +80,7 @@ void init_data(void)
 	load_fonts();
 
 	load_rankings();
-	textbox_init(get_text_box(), start_button.x, start_button.y, start_button.w, start_button.h, MAX_NAME_LEN);
+	textbox_init(get_name_box(), name_box.x, name_box.y, name_box.w, name_box.h, MAX_NAME_LEN);
 }
 
 void textbox_init(text_box_t* tb, float x, float y, float w, float h, int maxlen)

@@ -158,9 +158,12 @@ void move_to_next_stage(void)
 }
 
 
+void prepare_game_start(void) 
+{
+    update_player_name(get_name_box()->text, get_name_box()->len);
 
-char g_player_name[64] = { 0 };
-
+    textbox_clear(get_name_box());
+}
 
 //함수 별 초기화
 void clear_data(void)
@@ -196,4 +199,11 @@ void apply_damage(int damage)
     DEBUG_PRINT("충돌 발생 life -> %d %d\n", damage, gm_state.g_cat_life);
 
     is_game_over();
+}
+
+void update_player_name(char* name, int size)
+{
+    if (size > 0)   STRCPY_SAFE(gm_state.player_name, name);
+    else            STRCPY_SAFE(gm_state.player_name, "guest");
+    gm_state.player_name[size] = '\0';
 }
