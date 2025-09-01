@@ -1,4 +1,4 @@
-﻿#include <allegro5/allegro.h>
+#include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/bitmap.h>
 #include <allegro5/allegro5.h>
@@ -174,8 +174,8 @@ void draw_ranking_screen(void)
             draw_text(720, 300 + i * 30, hud_buffer);
         }
         else {
-            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f초", i + 1, (get_rankings()[i]).name);
-            draw_text(720, 300 + i * 30, hud_buffer);
+            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f초", i + 1, (get_rankings()[i]).name, (get_rankings()[i]).time);
+            draw_text(610, 300 + i * 30, hud_buffer);
         }
     }
 }

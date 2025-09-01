@@ -117,7 +117,7 @@ void load_rankings(void) {
     FILE* fp = fopen(RANK_FILE, "r");
     if (!fp) return;   // 해당 파일 존재하지 않음
     rank_count = 0;
-    while (fscanf(fp, "%19s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // 이름 문자열 + 시간(float) 두 개가 모두 성공적으로 읽어진 경우 처리
+    while (fscanf(fp, "%s %f", rankings[rank_count].name, &rankings[rank_count].time) == 2) { // 이름 문자열 + 시간(float) 두 개가 모두 성공적으로 읽어진 경우 처리
         rank_count++;
         if (rank_count >= MAX_RANK) break;
     }

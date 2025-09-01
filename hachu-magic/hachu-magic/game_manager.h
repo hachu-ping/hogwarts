@@ -30,7 +30,7 @@ extern inline const game_state_t* get_game_state(void);
 void play_game(void);
 
 // 게임 상태 초기화
-void init_game(game_state_t*);
+void init_game();
 
 // 게임 종료 여부 판정
 bool is_game_over();

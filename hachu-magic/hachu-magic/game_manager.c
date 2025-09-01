@@ -49,7 +49,7 @@ void play_game(void)
 
     al_start_timer(timer);
 
-    init_game(&gm_state);
+    init_game();
 
     draw_stage_announce();
 
