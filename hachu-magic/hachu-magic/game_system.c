@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <ctype.h> 
 
+#include "debug.h"
 #include "game_system.h"
 #include "sprites.h"
 
@@ -108,7 +109,7 @@ int get_rank_count(void)
 
 
 void load_rankings(void) {
-    printf("debug - load_rankings\n");
+    DEBUG_PRINT("debug - load_rankings\n");
     FILE* fp = fopen(RANK_FILE, "r");
     if (!fp) return;   // 해당 파일 존재하지 않음
     rank_count = 0;
@@ -130,7 +131,7 @@ ranking.txt 형식
 
 
 void save_rankings(void) {
-    printf("debug - save_rankings\n");
+    DEBUG_PRINT("debug - save_rankings\n");
     FILE* fp = fopen(RANK_FILE, "w");
     if (!fp) return;
     for (int i = 0; i < rank_count; i++) {
@@ -176,7 +177,7 @@ void add_score(const char* name, float time) {
             // 실패 기록이 있다면, 이것을 교체함
             strncpy(rankings[fail_index].name, name, MAX_NAME_LEN);
             rankings[fail_index].time = time;
-            printf("debug: %f\n", time);
+            DEBUG_PRINT("debug: %f\n", time);
         }
         else {
             // 모두 다 성공함, 주어진 점수 비교해 보기
@@ -189,7 +190,7 @@ void add_score(const char* name, float time) {
             // 교체함
             strncpy(rankings[worst_index].name, name, MAX_NAME_LEN);
             rankings[worst_index].time = time;
-            printf("debug: %f\n", time);
+            DEBUG_PRINT("debug: %f\n", time);
         }
     }
 

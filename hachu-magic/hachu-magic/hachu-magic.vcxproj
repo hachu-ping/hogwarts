@@ -134,7 +134,6 @@
     <ClCompile Include="audio.c" />
     <ClCompile Include="cat.c" />
     <ClCompile Include="enemy.c" />
-    <ClCompile Include="example.c" />
     <ClCompile Include="fx.c" />
     <ClCompile Include="game_manager.c" />
     <ClCompile Include="game_system.c" />

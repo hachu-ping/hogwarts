@@ -1,8 +1,5 @@
+guest 30.12
 12321 77.31
 hekkos 78.18
 hekko 79.70
 guset 104.99
- 109.05
-test 111.03
-test 117.95
-test 120.36
