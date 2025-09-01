@@ -1,4 +1,6 @@
+guest 27.82
 guest 30.12
+guest 30.92
 12321 77.31
 hekkos 78.18
 hekko 79.70
