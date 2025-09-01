@@ -7,7 +7,6 @@
 
 #include "game_system.h"
 
-
 #define MAX_STAGE_NUMBER 4
 
 // 게임 상태 구조체

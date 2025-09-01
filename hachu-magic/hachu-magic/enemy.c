@@ -3,15 +3,13 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "audio.h"
 #include "cat.h"
-#include "game_manager.h"
-#include "utils.h"
 #include "enemy.h"
-#include "game_system.h"
 #include "game_manager.h"
+#include "game_system.h"
+#include "utils.h"
 
 static enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 //int life_by_stage[] = { 3, 5, 7 };
@@ -52,6 +50,11 @@ void spawn_enemy() {
     double wait_time = 2.0;
     double now = al_get_time();
 
+    if (MAX_STAGE_NUMBER <= get_game_state()->current_stage) {
+        is_game_clear();
+        return;
+    }
+
     if (!is_enemy_cleared()) {
         wave_ready_to_spawn = false;  // 적이 남아있으면 딜레이 타이머 리셋
         return;
@@ -80,12 +83,6 @@ void spawn_enemy() {
 
 void spawn_wave(void)
 {
-    if (MAX_STAGE_NUMBER <= get_game_state()->current_stage)
-    {
-        is_game_clear();
-        return;
-    }
-
     for (int i = 0; i < stage_wave_create_enemy_number[get_game_state()->current_stage]; i++) {
         create_enemy();
     }

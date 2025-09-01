@@ -140,7 +140,7 @@ void draw_stage_announce(void)
 
     char hud_buffer[256];
 
-    if (get_game_state()->current_stage <= 2) {
+    if (get_game_state()->current_stage <= MAX_STAGE_NUMBER - 2) {
         snprintf(hud_buffer, sizeof(hud_buffer), "Stage %d", get_game_state()->current_stage + 1);
     } else if (get_game_state()->current_stage == MAX_STAGE_NUMBER - 1) {
         memcpy(hud_buffer, "Final Stage!", 13);
@@ -151,6 +151,7 @@ void draw_stage_announce(void)
     
     draw_stage_text(700, 350, hud_buffer);
     al_flip_display();
+
     al_rest(1); // 1초 동안 표시
 }
 
