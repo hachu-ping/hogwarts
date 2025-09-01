@@ -98,7 +98,8 @@ void refresh_scene(void)
         draw_title_screen();
         break;
     case SCENE_PLAY:
-
+        // game_manager로 진입
+        break;
     case SCENE_RANK:
         draw_ranking_screen();
         break;
