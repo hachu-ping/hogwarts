@@ -133,8 +133,7 @@ void create_enemy(void)
             //거리함수
             float dist = sqrtf(dx * dx + dy * dy);      
             //너무 가까움
-            if (dist < 40.0f) {
-                //vaildPosition ????? ????????
+            if (dist < ENEMY_WIDTH[g_enemy_list[i].type]) {
                 is_valid_position = false;                 
                 break;
             }
