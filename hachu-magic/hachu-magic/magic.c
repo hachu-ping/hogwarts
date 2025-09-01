@@ -4,9 +4,9 @@
 #include "fx.h"
 #include "magic.h"
 
-magic_t g_magic_list[MAGIC_MAX_NUMBER];
+static magic_t g_magic_list[MAGIC_MAX_NUMBER];
 
-inline const magic_t* get_magic_list(void)
+const magic_t* get_magic_list(void)
 {
 	return &g_magic_list;
 }

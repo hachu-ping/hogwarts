@@ -49,23 +49,15 @@ ALLEGRO_TIMER* init_timer(const double speed_secs);
  */
 ALLEGRO_EVENT_QUEUE* init_event_queue(void);
 
-/**
- * 키보드 입력을 위한 key 배열 상태변수들 관련 초기화합니다.
- */
-void init_keyboard(void);
-
-/**
- * 프로그램 실행에 필요한 폰트를 설정합니다.
- * 해당 폰트를 사용하여 ttf 파일 등을 생성합니다.
- * 폰트 초기화 완료 후 프로그램을 실행합니다.
-*/
-ALLEGRO_FONT* init_builtin_font(void);
-
 
 /**
  * 프로그램 실행에 필요한 기본 데이터를 초기화합니다.
  */
 void init_data(void);
+
+/**
+ * 입력받는 텍스트박스를 초기화합니다.
+ */
 void textbox_init(text_box_t* tb, float x, float y, float w, float h, int maxlen);
 
 #endif /* __initializer_H__ */

@@ -66,7 +66,10 @@ bool textbox_handle_event(text_box_t* tb, const ALLEGRO_EVENT* ev); // 변경 �
  */
 void keyboard_update(ALLEGRO_EVENT* event);
 void textbox_clear(text_box_t* tb);
-void prepare_game_start(void);
+
+
+extern inline const rank_entry_t* get_rankings(void);
+extern inline const text_box_t* get_name_box(void);
 
 // 랭킹 엔트리
 typedef struct _rank_entry {
@@ -74,15 +77,31 @@ typedef struct _rank_entry {
     float time;  // -1은 실패 표시
 } rank_entry_t;
 
+
+void prepare_game_start(void);
+
 // 랭킹 관련 함수들
+
+/**
+ * 저장된 랭킹 정보를 파일에서 불러옵니다.
+ */
 void load_rankings(void);
+
+/**
+ * 랭킹 정보를 파일에 저장합니다.
+ */
 void save_rankings(void);
+
+/**
+ * 점수 구조체를 비교합니다.
+ */
 int compare_scores(const void*, const void*);
+
+/**
+ * 랭킹 목록에 점수를 추가합니다.
+ */
 void add_score(const char*, float);
 
-extern inline const rank_entry_t* get_rankings(void);
-
-extern inline const text_box_t* get_name_box(void);
 
 
 

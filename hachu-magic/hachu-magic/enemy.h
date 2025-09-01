@@ -67,10 +67,13 @@ extern inline const enemy_t* get_enemy_list(void);
 void clear_enemy(void);
 
 /**
- * 랜덤 위치에서 적을 사방에 생성하고 적을 초기화합니다. 
+ * 랜덤 위치에서 적을 하나 생성합니다.
  */
 void create_enemy(void);
 
+/**
+ * 하나의 적 무리를 생성합니다.
+ */
 void spawn_wave(void);
 
 /**

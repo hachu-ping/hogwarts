@@ -28,6 +28,10 @@ typedef struct _scene_manager {
 
 extern inline const scene_manager_t* get_scene_manager();
 
+/**
+ * 메인화면을 변경합니다.
+ * @param next: scene_t의 다음 보여줄 화면 지정
+ */
 void change_scene(scene_t next);
 
 #endif /* __SCENE_MANAGER_H__ */

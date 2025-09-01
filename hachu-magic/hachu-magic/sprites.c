@@ -1,16 +1,13 @@
 ﻿#include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-
 #include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 
-
+#include "game_manager.h"
 #include "sprites.h"
 #include "utils.h"
-
-#include "game_manager.h"
 
 extern int g_frames;
 

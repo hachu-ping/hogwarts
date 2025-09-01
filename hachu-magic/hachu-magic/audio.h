@@ -2,7 +2,6 @@
 #define __AUDIO_H__
 
 #include <allegro5/allegro_audio.h>
-//#include <stdarg.h>
 
 #define BGM_TYPE_NUMBER 3
 #define ENEMY_TYPE_NUMBER 4

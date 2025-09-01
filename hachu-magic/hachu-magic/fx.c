@@ -2,7 +2,7 @@
 #include "enemy.h"
 #include "fx.h"
 
-explosion_t g_explosion_list[EXPLOSION_MAX_NUMBER];
+static explosion_t g_explosion_list[EXPLOSION_MAX_NUMBER];
 
 const explosion_t* get_explosion_list(void)
 {

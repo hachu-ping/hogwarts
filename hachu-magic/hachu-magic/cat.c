@@ -14,7 +14,6 @@
 #define KEY_DOWN     2
 
 extern unsigned char g_key[ALLEGRO_KEY_MAX];
-extern enemy_t g_enemy_list[ENEMY_MAX_NUMBER];
 
 static cat_t g_cat;
 

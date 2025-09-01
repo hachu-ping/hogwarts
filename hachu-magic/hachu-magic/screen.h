@@ -51,11 +51,29 @@ void refresh_enemies(void);
  */
 void refresh_fxs(void);
 
-
+/**
+ * 메인 화면을 새로고침 합니다.
+ */
 void refresh_scene(void);
+
+/**
+ * hud를 새로고침 합니다.
+ */
 void refresh_hud(void);
+
+/**
+ * 스테이지 변경을 알리는 UI를 그립니다.
+ */
 void draw_stage_announce(void);
+
+/**
+ * 타이틀 화면을 그립니다.
+ */
 void draw_title_screen(void);
+
+/**
+ * 랭킹 화면을 그립니다.
+ */
 void draw_ranking_screen(void);
 
 

@@ -23,10 +23,9 @@
 
 int max_stage_number = 4;
 int stage_wave_max_number[] = { 4,4,3,2 };
-
 int stage_wave_create_enemy_number[] = { 6,5,4,2 };
-
 int g_frames = 0;
+
 static game_state_t gm_state;
 
 inline const game_state_t* get_game_state(void)
