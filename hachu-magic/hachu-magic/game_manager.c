@@ -203,7 +203,13 @@ void apply_damage(int damage)
 
 void update_player_name(char* name, int size)
 {
-    if (size > 0)   STRCPY_SAFE(gm_state.player_name, name);
-    else            STRCPY_SAFE(gm_state.player_name, "guest");
-    gm_state.player_name[size] = '\0';
+    if (size > 0) { 
+        STRCPY_SAFE(gm_state.player_name, name); 
+        gm_state.player_name[size] = '\0';
+    } else { 
+        STRCPY_SAFE(gm_state.player_name, "guest"); 
+        gm_state.player_name[5] = '\0';
+
+    }
+
 }
