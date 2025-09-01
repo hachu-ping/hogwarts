@@ -94,7 +94,7 @@ void play_game(void)
         }
     }
 
-    if (gm_state.game_clear) {
+    if (gm_state.game_clear || gm_state.game_over) {
         load_rankings();
         add_score(gm_state.player_name, gm_state.time_taken);  // 수정 필요
         save_rankings();
@@ -126,6 +126,7 @@ void wrap_up_game() {
 bool is_game_over() {
     if (gm_state.g_cat_life <= 0) {
         gm_state.game_over = true;
+        gm_state.time_taken = -1.0f;
 
         return true;  // 체력이 0 이하이면 종료
     }

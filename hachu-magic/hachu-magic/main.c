@@ -7,7 +7,6 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
 
-
 #include "audio.h"
 #include "cat.h"
 #include "debug.h"

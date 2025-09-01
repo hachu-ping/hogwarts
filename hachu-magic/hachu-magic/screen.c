@@ -171,12 +171,12 @@ void draw_ranking_screen(void)
     char hud_buffer[256];
     for (int i = 0; i < get_rank_count(); i++) {
         if ((get_rankings()[i]).time < 0) {
-            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  --초", i + 1, (get_rankings()[i]).name);
+            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s    --  s", i + 1, (get_rankings()[i]).name);
             draw_text(720, 300 + i * 30, hud_buffer);
         }
         else {
-            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f초", i + 1, (get_rankings()[i]).name, (get_rankings()[i]).time);
-            draw_text(610, 300 + i * 30, hud_buffer);
+            snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f s", i + 1, (get_rankings()[i]).name, (get_rankings()[i]).time);
+            draw_text(720, 300 + i * 30, hud_buffer);
         }
     }
 }
