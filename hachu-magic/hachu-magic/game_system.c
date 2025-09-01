@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include <allegro5/allegro5.h>
 #include <allegro5/keycodes.h>
 #include <allegro5/allegro_primitives.h>
@@ -95,11 +95,6 @@ void textbox_clear(text_box_t* tb)
     tb->text[0] = '\0';
     tb->focused = false;
 }
-
-void prepare_game_start() {
-    if (g_name_box.len > 0) STRCPY_SAFE(get_game_state()->player_name, g_name_box.text);
-    else                    STRCPY_SAFE(get_game_state()->player_name, "guest");
-    g_player_name[sizeof(get_game_state()->player_name) - 1] = '\0';
 
 const rank_entry_t* get_rankings(void)
 {
