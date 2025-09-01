@@ -133,7 +133,7 @@ void is_game_clear() {
     if (get_game_state()->g_cat_life > 0 && gm_state.current_stage >= MAX_STAGE_NUMBER) {
         printf("debug - is game clear - true \n");
         gm_state.game_clear = true;
-        gm_state.time_taken = (float)(gm_state.gm_end_time - gm_state.gm_start_time);
+        gm_state.time_taken = (double)(gm_state.gm_end_time - gm_state.gm_start_time);
 
     }
     else {

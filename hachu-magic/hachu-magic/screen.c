@@ -153,7 +153,7 @@ void draw_stage_announce(void)
     
     draw_stage_text(700, 350, hud_buffer);
     al_flip_display();
-    al_rest(1); // 2초 동안 표시
+    al_rest(1); // 1초 동안 표시
 }
 
 void draw_ranking_screen(void)
@@ -161,23 +161,23 @@ void draw_ranking_screen(void)
     al_clear_to_color(al_map_rgb(0, 0, 0));
 
     if (get_game_state()->game_clear) {
-        draw_text_color(695, 180, "Game Clear!", al_map_rgb(0, 255, 0));
+        draw_text_color(740, 180, "Game Clear!", al_map_rgb(0, 255, 0));
     }
     else if (get_game_state()->game_over) {
-        draw_text_color(695, 180, "Game Over!", al_map_rgb(255, 0, 0));
+        draw_text_color(740, 180, "Game Over!", al_map_rgb(255, 0, 0));
     }
 
-    draw_text(600, 230,  "======== RANKINGS ========");
+    draw_text(730, 230,  "======== RANKINGS ========");
 
     char hud_buffer[256];
     for (int i = 0; i < get_rank_count(); i++) {
         if ((get_rankings()[i]).time < 0) {
             snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  --초", i + 1, (get_rankings()[i]).name);
-            draw_text(610, 300 + i * 30, hud_buffer);
+            draw_text(720, 300 + i * 30, hud_buffer);
         }
         else {
             snprintf(hud_buffer, sizeof(hud_buffer), "%2d. %-10s  %.2f초", i + 1, (get_rankings()[i]).name);
-            draw_text(610, 300 + i * 30, hud_buffer);
+            draw_text(720, 300 + i * 30, hud_buffer);
         }
     }
 }

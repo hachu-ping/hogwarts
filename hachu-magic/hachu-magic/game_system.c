@@ -98,7 +98,7 @@ void textbox_clear(text_box_t* tb)
 
 void prepare_game_start() {
     if (g_name_box.len > 0) STRCPY_SAFE(get_game_state()->player_name, g_name_box.text);
-    else                    STRCPY_SAFE(get_game_state()->player_name, "guset");
+    else                    STRCPY_SAFE(get_game_state()->player_name, "guest");
     g_player_name[sizeof(get_game_state()->player_name) - 1] = '\0';
 
     textbox_clear(&g_name_box);
@@ -184,6 +184,7 @@ void add_score(const char* name, float time) {
             // 실패 기록이 있다면, 이것을 교체함
             strncpy(rankings[fail_index].name, name, MAX_NAME_LEN);
             rankings[fail_index].time = time;
+            printf("debug: %f\n", time);
         }
         else {
             // 모두 다 성공함, 주어진 점수 비교해 보기
@@ -196,6 +197,7 @@ void add_score(const char* name, float time) {
             // 교체함
             strncpy(rankings[worst_index].name, name, MAX_NAME_LEN);
             rankings[worst_index].time = time;
+            printf("debug: %f\n", time);
         }
     }
 

@@ -26,8 +26,8 @@ const cat_t* get_cat()
 void clear_cat()
 {
     // 고양이의 위치
-    g_cat.pos_x = (SCREEN_WIDTH - CAT_SIZE_W) / 2;
-    g_cat.pos_y = (SCREEN_HEIGHT - CAT_SIZE_H) / 2;
+    g_cat.pos_x = ((SCREEN_WIDTH - CAT_SIZE_W) / 2) + 50;
+    g_cat.pos_y = ((SCREEN_HEIGHT - CAT_SIZE_H) / 2) + 50;
 
     // 고양이의 너비와 높이
     g_cat.size_w = CAT_SIZE_W;
