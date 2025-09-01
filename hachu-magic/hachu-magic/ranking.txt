@@ -7,3 +7,4 @@ hekkos 78.18
 hekko 79.70
 guest 102.41
 guset 104.99
+guest -1.00
