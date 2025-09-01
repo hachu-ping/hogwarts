@@ -7,6 +7,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
 
+#include "audio.h"
 #include "cat.h"
 #include "debug.h"
 #include "enemy.h"
@@ -50,7 +51,7 @@ ALLEGRO_DISPLAY* init_display(const int width, const int height)
 
 	return temp;
 }
-//?���? 추�??1
+//폰트 추가1
 
 /*
 ALLEGRO_FONT* init_builtin_font(void)
@@ -61,7 +62,7 @@ ALLEGRO_FONT* init_builtin_font(void)
 	return font;
 }
 */
-//?���? 추�??2
+//폰트 추가2
 
 
 ALLEGRO_TIMER* init_timer(const double speed_secs)
@@ -82,6 +83,7 @@ void init_data(void)
 {
 	memset(g_key, 0, sizeof(g_key));
 	init_sprites();
+	init_sample();
 
 #ifdef DEBUG_MODE
 	DEBUG_clear_cat();

@@ -1,4 +1,4 @@
-
+﻿
 
 #ifndef __ENEMY_H__
 #define __ENEMY_H__
@@ -14,7 +14,7 @@ static const int ENEMY_HEIGHT[] = { 140, 180, 220, 320 };
 typedef struct _enemy {
 	// TODO: change into enum (char)
 	// 적의 종류
-	int type;
+	char type;
 
 	// 적의 x좌표 (중심 좌표)
 	double pos_x;
@@ -65,7 +65,7 @@ void clear_enemy(void);
 /**
  * 랜덤 위치에서 적을 사방에 생성하고 적을 초기화합니다. 
  */
-void spawn_enemy(void);
+void create_enemy(void);
 
 /**
  * 모든 활성화된 적이 사라졌을 검사합니다. 

@@ -8,6 +8,7 @@
 #include <allegro5/allegro_primitives.h>
 
 
+#include "audio.h"
 #include "cat.h"
 #include "enemy.h"
 #include "fx.h"
@@ -20,7 +21,8 @@
 #include "magic.h"
 #include "game_manager.h"
 
-
+ALLEGRO_FONT* font_hud;
+ALLEGRO_FONT* font_stage;
 extern int rank_count;
 extern rank_entry_t rankings[];
 extern game_state_t gm_state;
@@ -35,13 +37,36 @@ int main() {
     init_addons();
     install_driver();
 
+    must_init(al_install_audio(), "audio");
+    must_init(al_init_acodec_addon(), "audio codecs");
+    must_init(al_reserve_samples(32), "reserve samples");  //샘플의 키홀드값
+
     // 데이터 초기화
     init_data();
 
     ALLEGRO_FONT* font = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
     ALLEGRO_FONT* font_title = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 24, 0);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/sj/st_back
     // ALLEGRO_FONT* font = al_create_builtin_font();  // 기본 내장 폰트 사용  
     if (!font) {
+        fprintf(stderr, "폰트 로드 실패!\n");
+        return -1;
+    }
+    if (!font_title) {
+        fprintf(stderr, "폰트 로드 실패!\n");
+        return -1;
+    }
+
+    font_hud = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 35, 0);
+    if (!font_hud) {
+        fprintf(stderr, "폰트 로드 실패!\n");
+        return -1;
+    }
+    font_stage = al_load_ttf_font("assets/fonts/DotGothic16-Regular.ttf", 55, 0);
+    if (!font_stage) {
         fprintf(stderr, "폰트 로드 실패!\n");
         return -1;
     }
@@ -68,6 +93,8 @@ int main() {
     load_rankings();
 
     bool is_done = false;
+
+    play_sound(GAME_SOUND_BACKGROUND, 0);
 
     while (!is_done) {
         ALLEGRO_EVENT event;
@@ -152,7 +179,13 @@ int main() {
         }
     }
 
+<<<<<<< HEAD
 
+=======
+    if (g_font)     al_destroy_font(g_font);
+    if (g_font_btn) al_destroy_font(g_font_btn);
+    al_destroy_font(font_hud);
+>>>>>>> origin/sj/st_back
     al_destroy_display(disp);
     al_destroy_event_queue(queue);
     return 0;

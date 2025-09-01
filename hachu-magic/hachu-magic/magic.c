@@ -1,4 +1,4 @@
-﻿
+﻿#include "audio.h"
 #include "debug.h"
 #include "enemy.h"
 #include "fx.h"
@@ -52,6 +52,9 @@ void create_magic(double pos_x, double pos_y, magic_type_t type, enemy_t* target
 			g_magic_list[i].is_spawned = true;
 
 			DEBUG_PRINT("%d번 마법 생성\n", i);
+
+
+			play_sound(GAME_SOUND_MAGIC_ATTACK, type);
 			return;
 		}
 	}
@@ -114,11 +117,13 @@ void handle_magic_collision(void)
 				target->received_attack_count += 1;
 				target->current_pattern = target->pattern[target->received_attack_count];
 
+				play_sound(GAME_SOUND_ENEMY_DAMAGED, target->type);
 				DEBUG_PRINT("%d %d\n", i, target->received_attack_count);
 			} else {
 				// TODO: Enemy 죽을 때 함수 호출하기
 				(target->is_spawned) = 0;
 
+				play_sound(GAME_SOUND_ENEMY_DIE, target->type);
 				DEBUG_PRINT("적 사망 life = %d - %d", target->received_attack_count, target->life);
 			}
 		}
